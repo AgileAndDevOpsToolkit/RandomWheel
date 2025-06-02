@@ -2,7 +2,7 @@
 
 Une application web interactive permettant de sélectionner des prénoms de manière aléatoire à l'aide d'une roue de la fortune animée.
 
-![Roue des Prénoms Demo](https://api.placeholder.com/400/320)
+![Roue des Prénoms Demo](https://agileanddevopstoolkit.github.io/RandomWheel/)
 
 ## 📋 Présentation
 
