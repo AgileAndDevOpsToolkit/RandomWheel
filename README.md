@@ -8,6 +8,17 @@ Une application web interactive permettant de sélectionner des prénoms de mani
 
 La "Roue des Prénoms" est un outil simple et ludique conçu pour faciliter les tirages au sort de prénoms. Par exemple pour déterminer un ordre de passage, ou simplement pour s'amuser, cette application offre une façon visuelle et amusante de faire un choix aléatoire.
 
+### Voir en action
+
+<div style="display: flex; gap: 20px; justify-content: center;">
+  <a href="https://youtu.be/YnaGphNTMio">
+    <img src="images/Agilité%20et%20IA%20-%20Roue%20de%20la%20fortune.jpg" alt="Agilité et IA - Roue de la fortune" width="300" style="border-radius: 8px; cursor: pointer;">
+  </a>
+  <a href="https://youtu.be/_J655DHocxk">
+    <img src="images/Agilité%20et%20IA%20-%20Roue%20des%20prénoms%20améliorée%20pour%20Calinou.jpg" alt="Agilité et IA - Roue des prénoms améliorée pour Calinou" width="300" style="border-radius: 8px; cursor: pointer;">
+  </a>
+</div>
+
 ## ✨ Fonctionnalités
 
 - Interface utilisateur intuitive et réactive
