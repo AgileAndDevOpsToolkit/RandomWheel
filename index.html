@@ -52,9 +52,14 @@
       let selectedNames = [];
       let isSpinning = false;
       let initialized = false;
-      let colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#33CC99', '#7AC142', '#00D8FF', '#FF6B6B', '#FFA07A', '#20B2AA', '#6A5ACD', '#32CD32', '#FFD700'];
+      // Variables de thème chargées depuis le CSS
+      let colors = [];
+      let nameColors = [];
+      let nameFontSize = 14; // px
+      let nameFontWeight = 'normal';
 
       createWheelBtn.addEventListener('click', () => {
+          updateThemeFromCSS();
         updateNamesFromInput();
         if (names.length < 2) {
           alert('Veuillez entrer au moins deux prénoms.');
@@ -72,7 +77,8 @@
 
       namesInput.addEventListener('input', () => {
         if (!initialized) return;
-        updateNamesFromInput();
+          updateThemeFromCSS();
+          updateNamesFromInput();
         drawWheel();
         updateNamesList();
         spinWheelBtn.disabled = selectedNames.length >= names.length;
@@ -84,6 +90,38 @@
         names = inputNames;
         selectedNames = newSelected;
       }
+
+        // Charge les couleurs et styles de la roue depuis les variables CSS
+        function updateThemeFromCSS() {
+          const style = getComputedStyle(document.documentElement);
+          // Couleurs des secteurs (jusqu'à 24 pour couvrir de nombreux cas)
+          colors = [];
+          for (let i = 1; i <= 24; i++) {
+            const v = style.getPropertyValue(`--sector-color-${i}`).trim();
+            if (v) colors.push(v);
+          }
+          // Couleurs des prénoms
+          nameColors = [];
+          for (let i = 1; i <= 24; i++) {
+            const v = style.getPropertyValue(`--name-color-${i}`).trim();
+            if (v) nameColors.push(v);
+          }
+          // Style de police pour les prénoms
+          const fs = style.getPropertyValue('--sector-name-font-size').trim();
+          if (fs) {
+            const parsed = parseFloat(fs);
+            if (!Number.isNaN(parsed)) nameFontSize = parsed;
+          }
+          const fw = style.getPropertyValue('--sector-name-font-weight').trim();
+          if (fw) nameFontWeight = fw;
+          // Valeurs de repli si aucune couleur n'est donnée
+          if (colors.length === 0) {
+            colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+          }
+          if (nameColors.length === 0) {
+            nameColors = ['#000000'];
+          }
+        }
 
       spinWheelBtn.addEventListener('click', () => {
         if (isSpinning || names.length === 0 || selectedNames.length === names.length) return;
@@ -185,17 +223,19 @@
           ctx.strokeStyle = '#FFFFFF';
           ctx.lineWidth = 2;
           ctx.stroke();
+          // Dessin du prénom avec styles provenant du CSS
           ctx.save();
           ctx.translate(centerX, centerY);
           ctx.rotate(startAngle + segmentAngle / 2);
           ctx.textAlign = 'right';
-          ctx.fillStyle = '#000000';
-          ctx.font = '14px Arial';
           const textMaxLength = radius * 0.8;
-          let fontSize = 14;
+          let fontSize = nameFontSize;
+          ctx.font = `${nameFontWeight} ${fontSize}px Arial`;
+          const textColor = selectedNames.includes(names[i]) ? '#000000' : (nameColors.length ? nameColors[i % nameColors.length] : '#000000');
+          ctx.fillStyle = textColor;
           if (ctx.measureText(names[i]).width > textMaxLength) {
             fontSize = Math.floor(fontSize * (textMaxLength / ctx.measureText(names[i]).width));
-            ctx.font = `${fontSize}px Arial`;
+            ctx.font = `${nameFontWeight} ${fontSize}px Arial`;
           }
           ctx.fillText(names[i], radius - 20, 5);
           ctx.restore();

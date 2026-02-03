@@ -1,0 +1,160 @@
+/* Chandeleur Theme - Inspiré de default.css */
+
+/* Corps de la page */
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #fff8e1; /* Fond crème léger */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255, 223, 186, 0.2)" stroke-width="5"/><path d="M50 150 L50 80 Q50 60 60 50 L40 50 Q50 60 50 80 Z" fill="rgba(255, 223, 186, 0.1)"/><rect x="70" y="70" width="60" height="60" fill="rgba(255, 223, 186, 0.1)"/></svg>');
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  padding: 20px;
+}
+
+/* Titres */
+h1 {
+  color: #d97706;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Conteneur de la roue */
+.wheel-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+/* Variables de thème pour la roue et les prénoms */
+:root {
+  /* Couleurs des secteurs (crêpe) */
+  --sector-color-1: #fcd34d; /* Crêpe dorée */
+  --sector-color-2: #fbbf24; /* Crêpe légèrement plus foncée */
+  --sector-color-3: #f59e0b; /* Crêpe caramélisée */
+  --sector-color-4: #fde68a; /* Beurre */
+  --sector-color-5: #fbbf24; /* Crêpe légèrement plus foncée */
+  --sector-color-6: #f59e0b; /* Crêpe caramélisée */
+
+  /* Style de texte des prénoms */
+  --sector-name-font-size: 20px;
+  --sector-name-font-weight: bold;
+
+  /* Couleurs des prénoms (flashy et harmonieuses avec le thème crêpe) */
+  --name-color-1: #8B4513;  /* Chocolat */
+  --name-color-2: #A0522D;  /* Caramel brun */
+  --name-color-3: #D2691E;  /* Caramel */
+  --name-color-4: #E67E22;  /* Orange soutenu */
+  --name-color-5: #F97316;  /* Orange vif */
+  --name-color-6: #FF6B00;  /* Orange très vif */
+  --name-color-7: #FF3B3B;  /* Fraise/Framboise */
+  --name-color-8: #EAB308;  /* Miel/Or */
+  --name-color-9: #B45309;  /* Sirop d'érable */
+  --name-color-10: #F59E0B; /* Ambre */
+  --name-color-11: #DC2626; /* Cerise */
+  --name-color-12: #C2410C; /* Épices cannelle */
+}
+
+.wheel {
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--sector-color-1) 0%, var(--sector-color-2) 16.6%, var(--sector-color-3) 33.3%,
+    var(--sector-color-4) 50%, var(--sector-color-5) 66.6%, var(--sector-color-6) 83.3%,
+    var(--sector-color-1) 100%
+  );
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.wheel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+    circle, 
+    rgba(139, 69, 19, 0.2) 10%, 
+    transparent 10%
+  );
+  background-size: 20px 20px; /* Points de cuisson */
+  border-radius: 50%;
+}
+
+/* Pointeur */
+.pointer {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-right: 40px solid #e74c3c;
+  z-index: 10;
+}
+
+/* Boutons */
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 5px;
+}
+
+.btn:hover {
+  background-color: #d97706;
+}
+
+/* Résultat */
+.result {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+  min-height: 40px;
+  color: #78350f;
+}
+
+/* Style des prénoms dans les secteurs */
+.wheel .sector-name {
+  font-size: 20px; /* Augmenter la taille de la police */
+  font-weight: bold; /* Texte en gras */
+  fill: var(--name-color-1); /* Couleur par défaut */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Légère ombre pour contraste */
+}
+
+/* Couleurs spécifiques pour chaque prénom */
+.wheel .sector-name:nth-child(1) {
+  fill: var(--name-color-1);
+}
+.wheel .sector-name:nth-child(2) {
+  fill: var(--name-color-2);
+}
+.wheel .sector-name:nth-child(3) {
+  fill: var(--name-color-3);
+}
+.wheel .sector-name:nth-child(4) {
+  fill: var(--name-color-4);
+}
+.wheel .sector-name:nth-child(5) {
+  fill: var(--name-color-5);
+}
+.wheel .sector-name:nth-child(6) {
+  fill: var(--name-color-6);
+}

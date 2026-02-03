@@ -1,3 +1,10 @@
+/* Variables par défaut (couleur des prénoms noire) */
+:root {
+  --sector-name-font-size: 14px;
+  --sector-name-font-weight: normal;
+  --name-color-1: #000000;
+}
+
 body {
   font-family: Arial, sans-serif;
   display: flex;
