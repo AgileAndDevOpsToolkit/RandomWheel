@@ -1,0 +1,1 @@
+- Permettre à l'utilisateur de changer le titre "Roude des prénoms" en autre chose (on peut tirer au sort autre chose que des prénoms)
