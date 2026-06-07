@@ -1,5 +1,7 @@
 # Prompt initial
 
+Conversation Claude qui a permis de générer la première version de la roue des prénoms : https://claude.ai/share/44489730-900b-4e50-8e2a-a7879a039de0
+
 ```
 Hello, je voudrais faire une petite application web en JS qui permet d'ajouter des prénoms dans une liste (vide au départ). 
 - Je voudrais ajouter tous les prénoms d’un coup dans le champ de saisie, en les séparant par des point virgules 
