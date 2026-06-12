@@ -1,1 +1,3 @@
-- Permettre à l'utilisateur de changer le titre "Roude des prénoms" en autre chose (on peut tirer au sort autre chose que des prénoms)
+- Permettre à l'utilisateur de changer le titre "Roude des prénoms" en autre chose (on peut tirer au sort autre chose que des prénoms). Dans ce cas il faut aussi le prendre en compte au niveau du titre de la liste des prénoms
+- Sauvegarder l'état de la roue dans le local storage du navigateur
+- Afficher au niveau du titre de la liste des prénoms le nombres de prénoms tirés et le nombre de prénoms restants
