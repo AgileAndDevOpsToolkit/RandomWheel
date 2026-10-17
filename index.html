@@ -1,242 +1,547 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Roue des Prénoms</title>
-  <link rel="stylesheet" href="styles/default.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    id="page-description"
+    name="description"
+    content="Tool Dashboard - Collection de liens vers des sites ou applications web"
+  >
+  <title>Tool Dashboard</title>
+
+  <style>
+    :root {
+      --background: #f6f8fa;
+      --surface: #ffffff;
+      --surface-hover: #fbfdff;
+      --text: #1f2328;
+      --text-muted: #59636e;
+      --primary: #0969da;
+      --primary-hover: #0550ae;
+      --border: #d0d7de;
+      --border-light: #eaeef2;
+      --shadow: 0 8px 24px rgba(140, 149, 159, 0.16);
+      --radius: 12px;
+      --content-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      color-scheme: light;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+        Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--background);
+    }
+
+    .page {
+      width: min(100% - 2rem, var(--content-width));
+      margin: 0 auto;
+      padding: 3rem 0 2rem;
+    }
+
+    .hero {
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .hero__eyebrow {
+      margin: 0 0 0.35rem;
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--primary);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+    }
+
+    .hero__description {
+      max-width: 760px;
+      margin: 0.9rem 0 0;
+      color: var(--text-muted);
+      font-size: 1.08rem;
+    }
+
+    .main {
+      padding: 2.25rem 0;
+    }
+
+    .categories {
+      display: flex;
+      flex-direction: column;
+      gap: 2.75rem;
+    }
+
+    .category {
+      min-width: 0;
+    }
+
+    .category:not(:last-child) {
+      padding-bottom: 2.75rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .category__header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .category__title {
+      margin: 0;
+      font-size: 1.45rem;
+      line-height: 1.3;
+    }
+
+    .category__counter {
+      flex: none;
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      white-space: nowrap;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      position: relative;
+      display: flex;
+      min-height: 245px;
+      flex-direction: column;
+      overflow: hidden;
+      color: inherit;
+      text-decoration: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        background-color 160ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      background: var(--surface-hover);
+      border-color: var(--primary);
+      box-shadow: var(--shadow);
+    }
+
+    .card:focus-visible {
+      outline: 3px solid rgba(9, 105, 218, 0.3);
+      outline-offset: 3px;
+    }
+
+    .card__image {
+      width: 100%;
+      height: 145px;
+      padding-block: 0.75rem;
+      object-fit: contain;
+      object-position: center;
+      background: #eef2f6;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .card__placeholder {
+      display: grid;
+      width: 100%;
+      height: 145px;
+      place-items: center;
+      color: var(--primary);
+      font-size: 2.5rem;
+      font-weight: 700;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(9, 105, 218, 0.10),
+          rgba(9, 105, 218, 0.02)
+        );
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .card__content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 1.25rem;
+    }
+
+    .card__title {
+      margin: 0;
+      color: var(--primary);
+      font-size: 1.2rem;
+      line-height: 1.3;
+    }
+
+    .card:hover .card__title {
+      color: var(--primary-hover);
+    }
+
+    .card__description {
+      margin: 0.75rem 0 1rem;
+      color: var(--text-muted);
+      font-size: 0.96rem;
+    }
+
+    .card__action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: auto;
+      color: var(--primary);
+      font-size: 0.92rem;
+      font-weight: 650;
+    }
+
+    .card__action::after {
+      content: "→";
+      transition: transform 160ms ease;
+    }
+
+    .card:hover .card__action::after {
+      transform: translateX(3px);
+    }
+
+    .status {
+      padding: 1.25rem;
+      color: var(--text-muted);
+      text-align: center;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+    }
+
+    .status--error {
+      color: #cf222e;
+      border-color: #ff8182;
+      background: #fff8f8;
+    }
+
+    .footer {
+      margin-top: 0.25rem;
+      padding-top: 1.25rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        width: min(100% - 1.25rem, var(--content-width));
+        padding-top: 2rem;
+      }
+
+      .category__header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .card {
+        min-height: 220px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Roue des Prénoms</h1>
-    <div class="input-section">
-      <input type="text" id="namesInput" placeholder="Entrez les prénoms séparés par des point-virgules (ex: Jean;Marie;Pierre)">
-      <div>
-        <button id="createWheel" class="btn">Créer la roue</button>
-        <button id="spinWheel" class="btn" disabled>Faire tourner la roue</button>
-        <button id="resetWheel" class="btn" disabled>Réinitialiser</button>
-        <button id="exportState" class="btn" disabled>Exporter l’état</button>
-        <input type="file" id="importFile" style="display:none;">
-        <button id="importState" class="btn">Importer un état</button>
+  <div class="page">
+    <header class="hero">
+      <p id="hero-subtitle" class="hero__eyebrow" hidden></p>
+      <h1 id="hero-title">Collection d'applications</h1>
+      <p id="hero-description" class="hero__description" hidden></p>
+    </header>
+
+    <main class="main">
+      <div id="categories" class="categories" aria-live="polite">
+        <p class="status">Chargement des applications…</p>
       </div>
-    </div>
+    </main>
 
-    <div class="wheel-container">
-      <div class="pointer"></div>
-      <canvas id="wheelCanvas" width="400" height="400"></canvas>
-    </div>
-
-    <div class="result" id="result"></div>
-
-    <div class="name-list">
-      <h3>Liste des prénoms</h3>
-      <div id="namesList"></div>
-    </div>
+    <footer class="footer">
+      <p id="footer-content">
+        <a
+          href="https://github.com/AgileAndDevOpsToolkit/tool-dashboard"
+        >Tool Dashboard</a> by Agile Toolkit
+      </p>
+    </footer>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const canvas = document.getElementById('wheelCanvas');
-      const ctx = canvas.getContext('2d');
-      const createWheelBtn = document.getElementById('createWheel');
-      const spinWheelBtn = document.getElementById('spinWheel');
-      const resetWheelBtn = document.getElementById('resetWheel');
-      const exportStateBtn = document.getElementById('exportState');
-      const importStateBtn = document.getElementById('importState');
-      const importFileInput = document.getElementById('importFile');
-      const namesInput = document.getElementById('namesInput');
-      const resultElem = document.getElementById('result');
-      const namesListElem = document.getElementById('namesList');
+    "use strict";
 
-      let names = [];
-      let selectedNames = [];
-      let isSpinning = false;
-      let initialized = false;
-      let colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#33CC99', '#7AC142', '#00D8FF', '#FF6B6B', '#FFA07A', '#20B2AA', '#6A5ACD', '#32CD32', '#FFD700'];
+    const requestedDataFile = new URLSearchParams(window.location.search).get(
+      "data"
+    );
+    const DATA_FILE = requestedDataFile?.trim() || "liens.json";
+    const categoriesContainer = document.getElementById("categories");
+    const heroTitle = document.getElementById("hero-title");
+    const heroSubtitle = document.getElementById("hero-subtitle");
+    const heroDescription = document.getElementById("hero-description");
+    const pageDescription = document.getElementById("page-description");
+    const footerContent = document.getElementById("footer-content");
+    const DEFAULT_PAGE_DESCRIPTION =
+      "Tool Dashboard - Collection de liens vers des sites ou applications web";
 
-      createWheelBtn.addEventListener('click', () => {
-        updateNamesFromInput();
-        if (names.length < 2) {
-          alert('Veuillez entrer au moins deux prénoms.');
-          return;
-        }
-        initialized = true;
-        drawWheel();
-        updateNamesList();
-        spinWheelBtn.disabled = false;
-        resetWheelBtn.disabled = false;
-        createWheelBtn.disabled = true;
-        exportStateBtn.disabled = false;
-        resultElem.textContent = '';
-      });
+    function getText(value) {
+      return typeof value === "string" ? value.trim() : "";
+    }
 
-      namesInput.addEventListener('input', () => {
-        if (!initialized) return;
-        updateNamesFromInput();
-        drawWheel();
-        updateNamesList();
-        spinWheelBtn.disabled = selectedNames.length >= names.length;
-      });
+    function renderHero(data) {
+      const title = getText(data.titre);
+      const browserTitle = getText(data.titreNavigateur) || title;
+      const browserDescription =
+        getText(data.contentNavigateur) || DEFAULT_PAGE_DESCRIPTION;
+      const subtitle = getText(data.sousTitre);
+      const description = getText(data.description);
+      const footer = getText(data.footer);
 
-      function updateNamesFromInput() {
-        const inputNames = namesInput.value.split(';').map(n => n.trim()).filter(n => n);
-        const newSelected = selectedNames.filter(n => inputNames.includes(n));
-        names = inputNames;
-        selectedNames = newSelected;
+      heroTitle.textContent = title;
+      heroSubtitle.textContent = subtitle;
+      heroSubtitle.hidden = !subtitle;
+      heroDescription.textContent = description;
+      heroDescription.hidden = !description;
+      document.title = browserTitle;
+      pageDescription.content = browserDescription;
+
+      if (footer) {
+        footerContent.textContent = footer;
+      }
+    }
+
+    function createCard(application, applicationIndex) {
+      const link = document.createElement("a");
+      link.className = "card";
+      link.href = application.lien;
+      link.setAttribute(
+        "aria-label",
+        `Ouvrir l'application ${application.titre}`
+      );
+
+      if (application.nouvelOnglet === true) {
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
       }
 
-      spinWheelBtn.addEventListener('click', () => {
-        if (isSpinning || names.length === 0 || selectedNames.length === names.length) return;
-        isSpinning = true;
-        resultElem.textContent = '';
-        spinWheelBtn.disabled = true;
+      const visual = createVisual(application, applicationIndex);
+      const content = document.createElement("div");
+      content.className = "card__content";
 
-        let randomIndex;
-        do {
-          randomIndex = Math.floor(Math.random() * names.length);
-        } while (selectedNames.includes(names[randomIndex]));
+      const title = document.createElement("h3");
+      title.className = "card__title";
+      title.textContent = application.titre;
 
-        const selectedName = names[randomIndex];
-        const segmentAngle = (2 * Math.PI) / names.length;
-        const targetAngle = -(segmentAngle * randomIndex + segmentAngle / 2) - Math.PI / 2;
-        const fullSpins = 20 + Math.floor(Math.random() * 11);
-        const finalRotation = (fullSpins * 2 * Math.PI) + targetAngle;
+      const description = document.createElement("p");
+      description.className = "card__description";
+      description.textContent = application.description;
 
-        canvas.style.transition = 'transform 8s cubic-bezier(0.17, 0.67, 0.15, 1)';
-        canvas.style.transform = `rotate(${finalRotation}rad)`;
+      const action = document.createElement("span");
+      action.className = "card__action";
+      action.textContent = "Ouvrir l'application";
 
-        setTimeout(() => {
-          isSpinning = false;
-          selectedNames.push(selectedName);
-          resultElem.textContent = `Le prénom choisi est : ${selectedName}`;
-          updateNamesList();
-          drawWheel();
-          spinWheelBtn.disabled = selectedNames.length >= names.length;
-          spinWheelBtn.textContent = spinWheelBtn.disabled ? "Tous les prénoms ont été tirés" : `Faire tourner la roue (${names.length - selectedNames.length} restant)`;
-        }, 8000);
-      });
+      content.append(title, description, action);
+      link.append(visual, content);
 
-      resetWheelBtn.addEventListener('click', () => {
-        selectedNames = [];
-        spinWheelBtn.disabled = false;
-        spinWheelBtn.textContent = "Faire tourner la roue";
-        createWheelBtn.disabled = false;
-        exportStateBtn.disabled = false;
-        initialized = false;
-        canvas.style.transform = 'rotate(0rad)';
-        drawWheel();
-        updateNamesList();
-        resultElem.textContent = '';
-      });
+      return link;
+    }
 
-      exportStateBtn.addEventListener('click', () => {
-        const data = `${names.join(';')}\nPASSED:${selectedNames.join(';')}`;
-        const blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'etat_roue.txt';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
+    function createVisual(application, applicationIndex) {
+      if (application.image) {
+        const image = document.createElement("img");
+        image.className = "card__image";
+        image.src = application.image;
+        image.alt = application.altImage || "";
+        image.loading = "lazy";
+        image.decoding = "async";
 
-      importStateBtn.addEventListener('click', () => importFileInput.click());
-
-      importFileInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const content = e.target.result.trim();
-          const lines = content.split('\n');
-          if (lines.length < 1) return;
-          names = lines[0].split(';').map(name => name.trim()).filter(name => name.length > 0);
-          selectedNames = lines[1]?.startsWith('PASSED:') ? lines[1].substring(7).split(';').map(n => n.trim()) : [];
-          namesInput.value = names.join(';');
-          initialized = true;
-          drawWheel();
-          updateNamesList();
-          spinWheelBtn.disabled = selectedNames.length >= names.length;
-          resetWheelBtn.disabled = false;
-          createWheelBtn.disabled = true;
-          exportStateBtn.disabled = false;
-          resultElem.textContent = '';
-        };
-        reader.readAsText(file);
-      });
-
-      function drawWheel() {
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const radius = Math.min(centerX, centerY) - 10;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const segmentAngle = (2 * Math.PI) / names.length;
-        const angleOffset = Math.PI / 2;
-
-        for (let i = 0; i < names.length; i++) {
-          const startAngle = i * segmentAngle + angleOffset;
-          const endAngle = (i + 1) * segmentAngle + angleOffset;
-          ctx.beginPath();
-          ctx.moveTo(centerX, centerY);
-          ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-          ctx.closePath();
-          ctx.fillStyle = selectedNames.includes(names[i]) ? '#CCCCCC' : colors[i % colors.length];
-          ctx.fill();
-          ctx.strokeStyle = '#FFFFFF';
-          ctx.lineWidth = 2;
-          ctx.stroke();
-          ctx.save();
-          ctx.translate(centerX, centerY);
-          ctx.rotate(startAngle + segmentAngle / 2);
-          ctx.textAlign = 'right';
-          ctx.fillStyle = '#000000';
-          ctx.font = '14px Arial';
-          const textMaxLength = radius * 0.8;
-          let fontSize = 14;
-          if (ctx.measureText(names[i]).width > textMaxLength) {
-            fontSize = Math.floor(fontSize * (textMaxLength / ctx.measureText(names[i]).width));
-            ctx.font = `${fontSize}px Arial`;
-          }
-          ctx.fillText(names[i], radius - 20, 5);
-          ctx.restore();
-        }
-
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, 20, 0, 2 * Math.PI);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fill();
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      }
-
-      function updateNamesList() {
-        namesListElem.innerHTML = '';
-        names.forEach(name => {
-          const div = document.createElement('div');
-          div.className = 'name-item';
-          const checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.checked = selectedNames.includes(name);
-          checkbox.addEventListener('change', () => {
-            if (checkbox.checked) {
-              if (!selectedNames.includes(name)) selectedNames.push(name);
-            } else {
-              selectedNames = selectedNames.filter(n => n !== name);
-            }
-            drawWheel();
-            updateNamesList();
-            spinWheelBtn.disabled = selectedNames.length >= names.length;
-          });
-          const label = document.createElement('label');
-          label.textContent = name;
-          if (checkbox.checked) label.classList.add('selected');
-          div.appendChild(checkbox);
-          div.appendChild(label);
-          namesListElem.appendChild(div);
+        image.addEventListener("error", () => {
+          image.replaceWith(
+            createPlaceholder(application, applicationIndex)
+          );
         });
+
+        return image;
       }
-    });
+
+      return createPlaceholder(application, applicationIndex);
+    }
+
+    function createPlaceholder(application, applicationIndex) {
+      const placeholder = document.createElement("div");
+      placeholder.className = "card__placeholder";
+      placeholder.setAttribute("aria-hidden", "true");
+      placeholder.textContent =
+        application.icone ||
+        application.titre?.trim()?.charAt(0)?.toUpperCase() ||
+        String(applicationIndex + 1);
+
+      return placeholder;
+    }
+
+    function createCategory(category, categoryIndex) {
+      const section = document.createElement("section");
+      section.className = "category";
+
+      const titleId = `category-title-${categoryIndex}`;
+      section.setAttribute("aria-labelledby", titleId);
+
+      const header = document.createElement("div");
+      header.className = "category__header";
+
+      const title = document.createElement("h2");
+      title.className = "category__title";
+      title.id = titleId;
+      title.textContent = category.titre;
+
+      const validApplications = category.applications.filter(
+        isValidApplication
+      );
+
+      const counter = document.createElement("p");
+      counter.className = "category__counter";
+      counter.textContent =
+        validApplications.length === 1
+          ? "1 application"
+          : `${validApplications.length} applications`;
+
+      header.append(title, counter);
+
+      const cards = document.createElement("div");
+      cards.className = "cards";
+
+      if (validApplications.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.className = "status";
+        emptyMessage.textContent =
+          "Aucune application n’est configurée dans cette catégorie.";
+        cards.append(emptyMessage);
+      } else {
+        cards.append(
+          ...validApplications.map((application, applicationIndex) =>
+            createCard(application, applicationIndex)
+          )
+        );
+      }
+
+      section.append(header, cards);
+      return section;
+    }
+
+    function isValidApplication(application) {
+      return (
+        application &&
+        typeof application.lien === "string" &&
+        application.lien.trim() !== "" &&
+        typeof application.titre === "string" &&
+        application.titre.trim() !== "" &&
+        typeof application.description === "string"
+      );
+    }
+
+    function isValidCategory(category) {
+      return (
+        category &&
+        typeof category.titre === "string" &&
+        category.titre.trim() !== "" &&
+        Array.isArray(category.applications)
+      );
+    }
+
+    function renderCategories(categories) {
+      const validCategories = categories.filter(isValidCategory);
+
+      if (validCategories.length === 0) {
+        categoriesContainer.innerHTML =
+          '<p class="status">Aucune catégorie n’est configurée.</p>';
+        return;
+      }
+
+      categoriesContainer.replaceChildren(
+        ...validCategories.map((category, categoryIndex) =>
+          createCategory(category, categoryIndex)
+        )
+      );
+    }
+
+    function showError(error) {
+      console.error(error);
+      const errorMessage = document.createElement("div");
+      errorMessage.className = "status status--error";
+      errorMessage.setAttribute("role", "alert");
+      errorMessage.append(
+        "Impossible de charger ",
+        document.createTextNode(DATA_FILE),
+        ". Vérifiez que le fichier existe, que sa structure est valide et que la page est servie par un serveur web."
+      );
+      categoriesContainer.replaceChildren(errorMessage);
+    }
+
+    async function loadLinks() {
+      try {
+        const response = await fetch(DATA_FILE, { cache: "no-store" });
+
+        if (!response.ok) {
+          throw new Error(
+            `Erreur HTTP ${response.status} lors du chargement de ${DATA_FILE}`
+          );
+        }
+
+        const data = await response.json();
+
+        if (
+          !data ||
+          typeof data !== "object" ||
+          !getText(data.titre) ||
+          (data.categories !== undefined && !Array.isArray(data.categories))
+        ) {
+          throw new TypeError(
+            `${DATA_FILE} doit contenir un titre et, si présent, un tableau categories.`
+          );
+        }
+
+        renderHero(data);
+        renderCategories(data.categories || []);
+      } catch (error) {
+        showError(error);
+      }
+    }
+
+    loadLinks();
   </script>
 </body>
 </html>

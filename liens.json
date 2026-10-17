@@ -1,0 +1,71 @@
+{
+  "titre": "Roues des Prénoms",
+  "sousTitre": "",
+  "description": "Roues des Prénoms - plusieurs versions thémifiées",
+  "categories": [
+    {
+      "titre": "La roue des prénoms standard",
+      "applications": [
+        {
+          "lien": "./index-standard.html",
+          "titre": "Roue des prénoms standard",
+          "description": "",
+          "icone": "🛠️",
+          "nouvelOnglet": false
+        }
+      ]
+    },
+    {
+      "titre": "Thémifiées en suivant les événements de l'année",
+      "applications": [
+        {
+          "lien": "./roues-themifiees/rentree-des-classes-des-prenoms.html",
+          "titre": "Rentrée des classes des prénoms",
+          "description": "",
+          "icone": "🎒",
+          "nouvelOnglet": false
+        },
+        {
+          "lien": "./roue-des-vacances-plage.html",
+          "titre": "Roue des vacances à la plage",
+          "description": "",
+          "icone": "🏖️",
+          "nouvelOnglet": false
+        },
+        {
+          "lien": "./roues-themifiees/roue-des-prenoms-douceur-d-automne.html",
+          "titre": "Roue des prénoms douceur d'Automne",
+          "description": "",
+          "icone": "🍂",
+          "nouvelOnglet": false
+        }
+      ]
+    },
+    {
+      "titre": "Thémifiées événements sportifs",
+      "applications": [
+        {
+          "lien": "./roue-des-prenoms-edition-roland-garros.html",
+          "titre": "Roue des prénoms édition Roland Garros",
+          "description": "",
+          "icone": "🎾",
+          "nouvelOnglet": false
+        },
+        {
+          "lien": "./roue-tour-de-france-des-prenoms.html",
+          "titre": "Tour de France des prénoms",
+          "description": "",
+          "icone": "🚴",
+          "nouvelOnglet": false
+        },
+        {
+          "lien": "./coupe-du-monde-2026-des-prenoms.html",
+          "titre": "Coupe du monde 2026 des Prénoms",
+          "description": "",
+          "icone": "⚽",
+          "nouvelOnglet": false
+        }
+      ]
+    }
+  ]
+}
