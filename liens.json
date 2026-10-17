@@ -1,10 +1,10 @@
 {
   "titre": "Roues des Prénoms",
   "sousTitre": "",
-  "description": "Roues des Prénoms - plusieurs versions thémifiées",
+  "description": "Plusieurs versions thémifiées pour chaque occasion",
   "categories": [
     {
-      "titre": "La roue des prénoms standard",
+      "titre": "La roue des Prénoms standard",
       "applications": [
         {
           "lien": "./index-standard.html",
@@ -20,7 +20,7 @@
       "applications": [
         {
           "lien": "./roues-themifiees/rentree-des-classes-des-prenoms.html",
-          "titre": "Rentrée des classes des prénoms",
+          "titre": "Rentrée des classes des Prénoms",
           "description": "",
           "icone": "🎒",
           "nouvelOnglet": false
@@ -34,7 +34,7 @@
         },
         {
           "lien": "./roues-themifiees/roue-des-prenoms-douceur-d-automne.html",
-          "titre": "Roue des prénoms douceur d'Automne",
+          "titre": "Roue des Prénoms douceur d'Automne",
           "description": "",
           "icone": "🍂",
           "nouvelOnglet": false
@@ -46,14 +46,14 @@
       "applications": [
         {
           "lien": "./roue-des-prenoms-edition-roland-garros.html",
-          "titre": "Roue des prénoms édition Roland Garros",
+          "titre": "Roue des Prénoms édition Roland Garros",
           "description": "",
           "icone": "🎾",
           "nouvelOnglet": false
         },
         {
           "lien": "./roue-tour-de-france-des-prenoms.html",
-          "titre": "Tour de France des prénoms",
+          "titre": "Tour de France des Prénoms",
           "description": "",
           "icone": "🚴",
           "nouvelOnglet": false
@@ -63,6 +63,18 @@
           "titre": "Coupe du monde 2026 des Prénoms",
           "description": "",
           "icone": "⚽",
+          "nouvelOnglet": false
+        }
+      ]
+    },
+    {
+      "titre": "Autres",
+      "applications": [
+        {
+          "lien": "./systeme-solaire-des-prenoms.html",
+          "titre": "Système Solaire des Prénoms",
+          "description": "",
+          "icone": "🪐",
           "nouvelOnglet": false
         }
       ]
