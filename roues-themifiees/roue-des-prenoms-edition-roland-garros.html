@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎾 Roue des Prénoms - Roland Garros</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --clay-light: #d97947;
+      --clay: #c0531f;
+      --clay-dark: #8b3a14;
+      --clay-deep: #5c2509;
+      --tennis-green: #2d5f3f;
+      --tennis-green-dark: #1a3d27;
+      --tennis-ball: #d4ed3a;
+      --tennis-ball-dark: #b8d128;
+      --court-line: #f8f4e8;
+      --gold: #d4af37;
+      --gold-light: #f0c75e;
+      --text-dark: #2b1810;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: var(--text-dark);
+      background-color: var(--clay);
+      background-image:
+        /* Lignes blanches du court (diagonale décorative) */
+        linear-gradient(115deg, transparent 0%, transparent 49.7%, rgba(248, 244, 232, 0.08) 49.7%, rgba(248, 244, 232, 0.08) 50.3%, transparent 50.3%),
+        /* Texture granuleuse de la terre battue */
+        radial-gradient(circle at 20% 30%, rgba(139, 58, 20, 0.4) 0%, transparent 8%),
+        radial-gradient(circle at 70% 60%, rgba(217, 121, 71, 0.5) 0%, transparent 10%),
+        radial-gradient(circle at 40% 80%, rgba(92, 37, 9, 0.3) 0%, transparent 7%),
+        radial-gradient(circle at 85% 15%, rgba(217, 121, 71, 0.4) 0%, transparent 9%),
+        radial-gradient(circle at 10% 70%, rgba(139, 58, 20, 0.35) 0%, transparent 8%),
+        /* Fond dégradé terre battue */
+        radial-gradient(ellipse at top, var(--clay-light) 0%, var(--clay) 50%, var(--clay-dark) 100%);
+      background-size: 100% 100%, 250px 250px, 300px 300px, 280px 280px, 320px 320px, 260px 260px, 100% 100%;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      color: var(--court-line);
+      text-align: center;
+      margin: 10px 0 5px 0;
+      font-size: 48px;
+      letter-spacing: 4px;
+      text-shadow:
+        2px 2px 0 var(--clay-deep),
+        4px 4px 12px rgba(0,0,0,0.4);
+      position: relative;
+    }
+
+    h1::before { content: "🎾 "; }
+    h1::after { content: " 🎾"; }
+
+    .subtitle {
+      color: var(--gold-light);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 6px;
+      font-size: 16px;
+      margin-bottom: 25px;
+      text-align: center;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 800px;
+      background: rgba(248, 244, 232, 0.95);
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow:
+        0 0 0 4px var(--court-line),
+        0 0 0 6px var(--gold),
+        0 20px 50px rgba(0,0,0,0.4);
+      position: relative;
+    }
+
+    /* Décoration coin trophée */
+    .container::before {
+      content: "🏆";
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      border: 3px solid var(--court-line);
+    }
+
+    .input-section {
+      width: 100%;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    #namesInput {
+      width: 90%;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-family: 'Montserrat', sans-serif;
+      border: 2px solid var(--clay-light);
+      border-radius: 8px;
+      margin-bottom: 18px;
+      background: white;
+      color: var(--text-dark);
+      transition: all 0.3s;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    #namesInput:focus {
+      outline: none;
+      border-color: var(--tennis-green);
+      box-shadow:
+        inset 0 2px 4px rgba(0,0,0,0.05),
+        0 0 0 3px rgba(45, 95, 63, 0.2);
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 12px 22px;
+      font-size: 14px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1.5px;
+      background: linear-gradient(180deg, var(--tennis-green) 0%, var(--tennis-green-dark) 100%);
+      color: var(--court-line);
+      border: 2px solid var(--tennis-green-dark);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      box-shadow: 0 3px 0 var(--tennis-green-dark), 0 5px 10px rgba(0,0,0,0.2);
+      position: relative;
+      top: 0;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: linear-gradient(180deg, #3a7551 0%, var(--tennis-green) 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn:active:not(:disabled) {
+      top: 3px;
+      box-shadow: 0 0 0 var(--tennis-green-dark), 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .btn:disabled {
+      background: linear-gradient(180deg, #b8a89a 0%, #968576 100%);
+      border-color: #7a6a5e;
+      box-shadow: 0 3px 0 #7a6a5e;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    /* Bouton principal "Spin" en couleur balle de tennis */
+    #spinWheel {
+      background: linear-gradient(180deg, var(--tennis-ball) 0%, var(--tennis-ball-dark) 100%);
+      color: var(--tennis-green-dark);
+      border-color: var(--tennis-ball-dark);
+      box-shadow: 0 3px 0 var(--tennis-ball-dark), 0 5px 10px rgba(0,0,0,0.2);
+      font-weight: bold;
+    }
+
+    #spinWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #e0f54a 0%, var(--tennis-ball) 100%);
+    }
+
+    /* Bouton créer en couleur or */
+    #createWheel {
+      background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 100%);
+      color: var(--clay-deep);
+      border-color: #a8862a;
+      box-shadow: 0 3px 0 #a8862a, 0 5px 10px rgba(0,0,0,0.2);
+    }
+
+    #createWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #f5d278 0%, var(--gold-light) 100%);
+    }
+
+    .wheel-container {
+      position: relative;
+      width: 420px;
+      height: 420px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0 30px 0;
+    }
+
+    /* Cercle décoratif de fond - cadre de la roue */
+    .wheel-container::before {
+      content: "";
+      position: absolute;
+      width: 440px;
+      height: 440px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--clay-dark) 0%, var(--clay-deep) 100%);
+      box-shadow:
+        inset 0 0 30px rgba(0,0,0,0.5),
+        0 10px 40px rgba(0,0,0,0.4);
+      z-index: 0;
+    }
+
+    /* Cercle décoratif - lignes blanches du court */
+    .wheel-container::after {
+      content: "";
+      position: absolute;
+      width: 430px;
+      height: 430px;
+      border-radius: 50%;
+      border: 3px solid var(--court-line);
+      z-index: 1;
+      pointer-events: none;
+      box-shadow: 0 0 10px rgba(248, 244, 232, 0.3);
+    }
+
+    #wheelCanvas {
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.3));
+    }
+
+    /* Pointeur en forme de raquette stylisée */
+    .pointer {
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 22px solid transparent;
+      border-bottom: 22px solid transparent;
+      border-right: 45px solid var(--court-line);
+      z-index: 10;
+      filter: drop-shadow(-3px 2px 4px rgba(0,0,0,0.4));
+    }
+
+    .pointer::after {
+      content: "";
+      position: absolute;
+      top: -16px;
+      right: -42px;
+      width: 0;
+      height: 0;
+      border-top: 16px solid transparent;
+      border-bottom: 16px solid transparent;
+      border-right: 32px solid var(--clay-deep);
+    }
+
+    .result {
+      text-align: center;
+      font-size: 28px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2px;
+      font-weight: bold;
+      margin-top: 15px;
+      min-height: 50px;
+      color: var(--tennis-green-dark);
+      padding: 10px 20px;
+      transition: all 0.3s;
+    }
+
+    .result:not(:empty) {
+      background: linear-gradient(135deg, var(--tennis-ball) 0%, var(--gold-light) 100%);
+      border-radius: 8px;
+      box-shadow:
+        0 0 0 3px var(--court-line),
+        0 0 0 5px var(--tennis-green),
+        0 6px 20px rgba(0,0,0,0.2);
+      animation: winPulse 0.6s ease-out;
+    }
+
+    @keyframes winPulse {
+      0% { transform: scale(0.9); opacity: 0; }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .name-list {
+      width: 100%;
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--tennis-green);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow:
+        inset 0 0 0 2px var(--court-line),
+        inset 0 2px 8px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    /* Effet "filet de tennis" */
+    .name-list::before {
+      content: "";
+      position: absolute;
+      top: 50px;
+      left: 15px;
+      right: 15px;
+      height: 1px;
+      background: var(--court-line);
+      opacity: 0.6;
+    }
+
+    .name-list h3 {
+      margin: 0 0 15px 0;
+      color: var(--court-line);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 3px;
+      font-size: 20px;
+      border-bottom: 2px solid var(--court-line);
+      padding-bottom: 8px;
+      width: 100%;
+      text-align: center;
+    }
+
+    #namesList {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 8px;
+    }
+
+    .name-item {
+      margin: 0;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(248, 244, 232, 0.95);
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+      border-left: 4px solid var(--tennis-ball);
+    }
+
+    .name-item:hover {
+      transform: translateX(2px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .name-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--clay);
+      cursor: pointer;
+    }
+
+    .name-item label {
+      cursor: pointer;
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .selected {
+      text-decoration: line-through;
+      color: #999 !important;
+      opacity: 0.7;
+    }
+
+    .name-item:has(.selected) {
+      border-left-color: var(--clay-light);
+      background: rgba(248, 244, 232, 0.7);
+    }
+
+    /* Animation balle qui rebondit pendant le spin */
+    .wheel-container.spinning::before {
+      animation: ballGlow 0.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes ballGlow {
+      from { box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 10px 40px rgba(0,0,0,0.4); }
+      to { box-shadow: inset 0 0 30px rgba(212, 237, 58, 0.3), 0 10px 50px rgba(212, 237, 58, 0.4); }
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 32px; letter-spacing: 2px; }
+      .subtitle { font-size: 12px; letter-spacing: 3px; }
+      .wheel-container {
+        width: 320px;
+        height: 320px;
+      }
+      .wheel-container::before {
+        width: 340px;
+        height: 340px;
+      }
+      .wheel-container::after {
+        width: 330px;
+        height: 330px;
+      }
+      #wheelCanvas {
+        width: 320px;
+        height: 320px;
+      }
+      .container { padding: 25px 15px; }
+      .btn { padding: 10px 16px; font-size: 13px; }
+      #namesList { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Roue des Prénoms</h1>
+  <div class="subtitle">— Édition Roland Garros —</div>
+
+  <div class="container">
+    <div class="input-section">
+      <input type="text" id="namesInput" placeholder="Entrez les prénoms séparés par des point-virgules (ex: Rafael;Novak;Carlos)">
+      <div class="button-group">
+        <button id="createWheel" class="btn">Créer la roue</button>
+        <button id="spinWheel" class="btn" disabled>🎾 Service !</button>
+        <button id="resetWheel" class="btn" disabled>Réinitialiser</button>
+        <button id="exportState" class="btn" disabled>Exporter</button>
+        <input type="file" id="importFile" style="display:none;">
+        <button id="importState" class="btn">Importer</button>
+      </div>
+    </div>
+
+    <div class="wheel-container" id="wheelContainer">
+      <div class="pointer"></div>
+      <canvas id="wheelCanvas" width="400" height="400"></canvas>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <div class="name-list">
+      <h3>🏆 Tableau des Joueurs</h3>
+      <div id="namesList"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const canvas = document.getElementById('wheelCanvas');
+      const ctx = canvas.getContext('2d');
+      const wheelContainer = document.getElementById('wheelContainer');
+      const createWheelBtn = document.getElementById('createWheel');
+      const spinWheelBtn = document.getElementById('spinWheel');
+      const resetWheelBtn = document.getElementById('resetWheel');
+      const exportStateBtn = document.getElementById('exportState');
+      const importStateBtn = document.getElementById('importState');
+      const importFileInput = document.getElementById('importFile');
+      const namesInput = document.getElementById('namesInput');
+      const resultElem = document.getElementById('result');
+      const namesListElem = document.getElementById('namesList');
+
+      let names = [];
+      let selectedNames = [];
+      let isSpinning = false;
+      let initialized = false;
+
+      // Palette thématique Roland Garros : alternance terre battue / vert / blanc / or
+      let colors = [
+        '#c0531f', // terre battue
+        '#2d5f3f', // vert tennis
+        '#f8f4e8', // blanc court
+        '#d4af37', // or trophée
+        '#8b3a14', // terre battue foncée
+        '#d97947', // terre battue claire
+        '#1a3d27', // vert foncé
+        '#d4ed3a', // jaune balle de tennis
+        '#5c2509', // terre profonde
+        '#3a7551', // vert moyen
+        '#f0c75e', // or clair
+        '#b8d128'  // jaune balle foncé
+      ];
+
+      // Couleurs de texte adaptées par couleur de fond pour bon contraste
+      const lightBackgrounds = ['#f8f4e8', '#d4af37', '#d4ed3a', '#f0c75e', '#b8d128', '#d97947'];
+      function getTextColor(bgColor) {
+        return lightBackgrounds.includes(bgColor) ? '#2b1810' : '#f8f4e8';
+      }
+
+      createWheelBtn.addEventListener('click', () => {
+        updateNamesFromInput();
+        if (names.length < 2) {
+          alert('Veuillez entrer au moins deux prénoms.');
+          return;
+        }
+        initialized = true;
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = false;
+        resetWheelBtn.disabled = false;
+        createWheelBtn.disabled = true;
+        exportStateBtn.disabled = false;
+        resultElem.textContent = '';
+      });
+
+      namesInput.addEventListener('input', () => {
+        if (!initialized) return;
+        updateNamesFromInput();
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = selectedNames.length >= names.length;
+      });
+
+      function updateNamesFromInput() {
+        const inputNames = namesInput.value.split(';').map(n => n.trim()).filter(n => n);
+        const newSelected = selectedNames.filter(n => inputNames.includes(n));
+        names = inputNames;
+        selectedNames = newSelected;
+      }
+
+      spinWheelBtn.addEventListener('click', () => {
+        if (isSpinning || names.length === 0 || selectedNames.length === names.length) return;
+        isSpinning = true;
+        resultElem.textContent = '';
+        spinWheelBtn.disabled = true;
+        wheelContainer.classList.add('spinning');
+
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * names.length);
+        } while (selectedNames.includes(names[randomIndex]));
+
+        const selectedName = names[randomIndex];
+        const segmentAngle = (2 * Math.PI) / names.length;
+        const targetAngle = -(segmentAngle * randomIndex + segmentAngle / 2) - Math.PI / 2;
+        const fullSpins = 20 + Math.floor(Math.random() * 11);
+        const finalRotation = (fullSpins * 2 * Math.PI) + targetAngle;
+
+        canvas.style.transition = 'transform 8s cubic-bezier(0.17, 0.67, 0.15, 1)';
+        canvas.style.transform = `rotate(${finalRotation}rad)`;
+
+        setTimeout(() => {
+          isSpinning = false;
+          wheelContainer.classList.remove('spinning');
+          selectedNames.push(selectedName);
+          resultElem.textContent = `🏆 Jeu, set et match : ${selectedName} !`;
+          updateNamesList();
+          drawWheel();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          spinWheelBtn.textContent = spinWheelBtn.disabled
+            ? "🏆 Tournoi terminé"
+            : `🎾 Service ! (${names.length - selectedNames.length} restant)`;
+        }, 8000);
+      });
+
+      resetWheelBtn.addEventListener('click', () => {
+        selectedNames = [];
+        spinWheelBtn.disabled = false;
+        spinWheelBtn.textContent = "🎾 Service !";
+        createWheelBtn.disabled = false;
+        exportStateBtn.disabled = false;
+        initialized = false;
+        canvas.style.transition = 'none';
+        canvas.style.transform = 'rotate(0rad)';
+        drawWheel();
+        updateNamesList();
+        resultElem.textContent = '';
+      });
+
+      exportStateBtn.addEventListener('click', () => {
+        const data = `${names.join(';')}\nPASSED:${selectedNames.join(';')}`;
+        const blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'etat_roue.txt';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+
+      importStateBtn.addEventListener('click', () => importFileInput.click());
+
+      importFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const content = e.target.result.trim();
+          const lines = content.split('\n');
+          if (lines.length < 1) return;
+          names = lines[0].split(';').map(name => name.trim()).filter(name => name.length > 0);
+          selectedNames = lines[1]?.startsWith('PASSED:') ? lines[1].substring(7).split(';').map(n => n.trim()) : [];
+          namesInput.value = names.join(';');
+          initialized = true;
+          drawWheel();
+          updateNamesList();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          resetWheelBtn.disabled = false;
+          createWheelBtn.disabled = true;
+          exportStateBtn.disabled = false;
+          resultElem.textContent = '';
+        };
+        reader.readAsText(file);
+      });
+
+      function drawWheel() {
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) - 10;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (names.length === 0) {
+          // Dessine une balle de tennis vide quand pas de noms
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+          ctx.fillStyle = '#d4ed3a';
+          ctx.fill();
+          ctx.strokeStyle = '#f8f4e8';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+          // Coutures stylisées de la balle
+          ctx.beginPath();
+          ctx.arc(centerX - radius * 0.3, centerY, radius * 0.95, -Math.PI / 3, Math.PI / 3);
+          ctx.lineWidth = 4;
+          ctx.strokeStyle = '#f8f4e8';
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(centerX + radius * 0.3, centerY, radius * 0.95, Math.PI - Math.PI / 3, Math.PI + Math.PI / 3);
+          ctx.stroke();
+          return;
+        }
+
+        const segmentAngle = (2 * Math.PI) / names.length;
+        const angleOffset = Math.PI / 2;
+
+        for (let i = 0; i < names.length; i++) {
+          const startAngle = i * segmentAngle + angleOffset;
+          const endAngle = (i + 1) * segmentAngle + angleOffset;
+          const segmentColor = colors[i % colors.length];
+          const isSelected = selectedNames.includes(names[i]);
+
+          // Dégradé radial pour effet "terre battue" sur chaque segment
+          const gradient = ctx.createRadialGradient(centerX, centerY, radius * 0.2, centerX, centerY, radius);
+          if (isSelected) {
+            gradient.addColorStop(0, '#a89890');
+            gradient.addColorStop(1, '#7a6a5e');
+          } else {
+            gradient.addColorStop(0, segmentColor);
+            gradient.addColorStop(1, shadeColor(segmentColor, -15));
+          }
+
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+          ctx.closePath();
+          ctx.fillStyle = gradient;
+          ctx.fill();
+
+          // Bordure blanche style "ligne de court"
+          ctx.strokeStyle = '#f8f4e8';
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+
+          // Texte
+          ctx.save();
+          ctx.translate(centerX, centerY);
+          ctx.rotate(startAngle + segmentAngle / 2);
+          ctx.textAlign = 'right';
+          ctx.fillStyle = isSelected ? '#555' : getTextColor(segmentColor);
+          ctx.font = 'bold 15px Montserrat, Arial';
+
+          // Petit halo sombre derrière le texte pour la lisibilité
+          if (!isSelected && getTextColor(segmentColor) === '#f8f4e8') {
+            ctx.shadowColor = 'rgba(0,0,0,0.6)';
+            ctx.shadowBlur = 3;
+          }
+
+          const textMaxLength = radius * 0.75;
+          let fontSize = 15;
+          if (ctx.measureText(names[i]).width > textMaxLength) {
+            fontSize = Math.floor(fontSize * (textMaxLength / ctx.measureText(names[i]).width));
+            ctx.font = `bold ${fontSize}px Montserrat, Arial`;
+          }
+          ctx.fillText(names[i], radius - 20, 5);
+          ctx.shadowBlur = 0;
+          ctx.restore();
+        }
+
+        // Cercle central façon "balle de tennis" avec coutures
+        const centerRadius = 28;
+
+        // Balle jaune
+        const ballGradient = ctx.createRadialGradient(centerX - 5, centerY - 5, 2, centerX, centerY, centerRadius);
+        ballGradient.addColorStop(0, '#e8ff5e');
+        ballGradient.addColorStop(0.7, '#d4ed3a');
+        ballGradient.addColorStop(1, '#a8c020');
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
+        ctx.fillStyle = ballGradient;
+        ctx.fill();
+
+        // Coutures de la balle (deux arcs caractéristiques)
+        ctx.strokeStyle = '#f8f4e8';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(centerX - centerRadius * 0.55, centerY, centerRadius * 1.1, -Math.PI / 2.5, Math.PI / 2.5);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(centerX + centerRadius * 0.55, centerY, centerRadius * 1.1, Math.PI - Math.PI / 2.5, Math.PI + Math.PI / 2.5);
+        ctx.stroke();
+
+        // Bordure de la balle
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#8b3a14';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      // Utilitaire : assombrir/éclaircir une couleur hex
+      function shadeColor(color, percent) {
+        const f = parseInt(color.slice(1), 16);
+        const t = percent < 0 ? 0 : 255;
+        const p = Math.abs(percent) / 100;
+        const R = f >> 16;
+        const G = (f >> 8) & 0x00FF;
+        const B = f & 0x0000FF;
+        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
+          (Math.round((t - G) * p) + G) * 0x100 +
+          (Math.round((t - B) * p) + B)).toString(16).slice(1);
+      }
+
+      function updateNamesList() {
+        namesListElem.innerHTML = '';
+        names.forEach(name => {
+          const div = document.createElement('div');
+          div.className = 'name-item';
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.checked = selectedNames.includes(name);
+          checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+              if (!selectedNames.includes(name)) selectedNames.push(name);
+            } else {
+              selectedNames = selectedNames.filter(n => n !== name);
+            }
+            drawWheel();
+            updateNamesList();
+            spinWheelBtn.disabled = selectedNames.length >= names.length;
+          });
+          const label = document.createElement('label');
+          label.textContent = name;
+          if (checkbox.checked) label.classList.add('selected');
+          div.appendChild(checkbox);
+          div.appendChild(label);
+          namesListElem.appendChild(div);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🏖️ Roue des Prénoms - Vacances à la Plage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* === Palette estivale === */
+      --sky-blue: #a8dcf5;
+      --sky-light: #d4f0fc;
+      --sea-turquoise: #2ec4b6;
+      --sea-blue: #118ab2;
+      --sea-deep: #0b6e94;
+      --pool-cyan: #4fd6e8;
+      --sand: #f7e6c4;
+      --sand-warm: #f0d9a8;
+      --sand-deep: #d9bc82;
+      --coral: #ff6f61;
+      --coral-dark: #e0503f;
+      --coral-deep: #b83a2c;
+      --sun-yellow: #ffd166;
+      --sun-bright: #ffdd85;
+      --sun-deep: #e8a933;
+      --watermelon: #ef476f;
+      --watermelon-dark: #c72e52;
+      --orange-glace: #ff9f1c;
+      --white-foam: #fdfefe;
+      --text-dark: #1d3d47;
+      --ivory: #fffdf7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Quicksand', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: var(--text-dark);
+      background-color: var(--sky-blue);
+      background-image:
+        /* Soleil en haut à droite */
+        radial-gradient(circle 90px at 85% 6%, var(--sun-bright) 0%, var(--sun-yellow) 55%, transparent 70%),
+        radial-gradient(circle 160px at 85% 6%, rgba(255, 209, 102, 0.4) 0%, transparent 70%),
+        /* Dégradé ciel → mer → sable */
+        linear-gradient(180deg,
+          var(--sky-light) 0%,
+          var(--sky-blue) 22%,
+          var(--pool-cyan) 42%,
+          var(--sea-turquoise) 58%,
+          var(--sea-blue) 74%,
+          var(--sand) 74.5%,
+          var(--sand-warm) 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* === Vagues + nuages en filigrane === */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        /* Nuages */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='60' viewBox='0 0 160 60'><g opacity='0.75' fill='%23ffffff'><ellipse cx='45' cy='40' rx='38' ry='16'/><ellipse cx='75' cy='30' rx='30' ry='18'/><ellipse cx='110' cy='40' rx='36' ry='15'/></g></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='46' viewBox='0 0 120 46'><g opacity='0.6' fill='%23ffffff'><ellipse cx='35' cy='30' rx='28' ry='12'/><ellipse cx='60' cy='22' rx='24' ry='14'/><ellipse cx='88' cy='30' rx='26' ry='11'/></g></svg>"),
+        /* Lignes de vagues sur la zone mer */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='30' viewBox='0 0 220 30'><path d='M0 18 Q 18 6 36 18 T 72 18 T 108 18 T 144 18 T 180 18 T 216 18' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' opacity='0.4'/></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='26' viewBox='0 0 180 26'><path d='M0 15 Q 15 5 30 15 T 60 15 T 90 15 T 120 15 T 150 15 T 180 15' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' opacity='0.35'/></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='28' viewBox='0 0 200 28'><path d='M0 16 Q 16 6 33 16 T 66 16 T 100 16 T 133 16 T 166 16 T 200 16' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' opacity='0.3'/></svg>");
+      background-position:
+        6% 7%,
+        55% 13%,
+        10% 48%,
+        70% 56%,
+        30% 66%;
+      background-repeat: no-repeat;
+      background-size: 160px 60px, 120px 46px, 220px 30px, 180px 26px, 200px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* === Parasol, palmier, tongs, étoile de mer en filigrane === */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        /* Parasol planté dans le sable (bas gauche) */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='170' viewBox='0 0 150 170'><g opacity='0.55'><path d='M75 12 Q30 22 15 62 L75 62 Z' fill='%23ff6f61'/><path d='M75 12 Q75 30 75 62 L15 62 Q40 40 75 12 Z' fill='%23fdfefe' opacity='0.9'/><path d='M75 12 Q120 22 135 62 L75 62 Z' fill='%23ffd166'/><path d='M75 12 Q95 35 105 62 L75 62 Z' fill='%23fdfefe' opacity='0.9'/><path d='M75 12 Q60 35 45 62 L75 62 Z' fill='%23ff6f61'/><line x1='75' y1='62' x2='82' y2='160' stroke='%23b8845a' stroke-width='5' stroke-linecap='round'/><circle cx='75' cy='10' r='4' fill='%23e0503f'/></g></svg>"),
+        /* Palmier (haut gauche) */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='180' viewBox='0 0 140 180'><g opacity='0.35' fill='none' stroke='%231d6e4f' stroke-width='3' stroke-linecap='round'><path d='M70 175 Q68 120 72 70' stroke-width='6'/><path d='M72 70 Q40 55 18 62 Q40 68 60 74'/><path d='M72 70 Q50 40 28 32 Q48 52 64 68'/><path d='M72 70 Q80 38 105 28 Q90 50 78 68'/><path d='M72 70 Q100 55 124 60 Q100 70 80 74'/><path d='M72 70 Q70 45 58 25 Q68 45 71 66'/></g></svg>"),
+        /* Tongs (bas droite) */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='90' viewBox='0 0 110 90'><g opacity='0.5'><ellipse cx='32' cy='45' rx='22' ry='38' fill='%23ef476f'/><path d='M32 18 L24 42 M32 18 L40 42' stroke='%23fdfefe' stroke-width='4' stroke-linecap='round' fill='none'/><ellipse cx='80' cy='48' rx='22' ry='38' fill='%232ec4b6'/><path d='M80 21 L72 45 M80 21 L88 45' stroke='%23fdfefe' stroke-width='4' stroke-linecap='round' fill='none'/></g></svg>"),
+        /* Étoile de mer (bas centre-gauche) */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 70 70'><path d='M35 4 L42 26 L66 26 L47 40 L54 63 L35 49 L16 63 L23 40 L4 26 L28 26 Z' fill='%23ff9f1c' opacity='0.5'/></svg>"),
+        /* Glace (haut droite sous le soleil) */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='90' viewBox='0 0 60 90'><g opacity='0.45'><circle cx='22' cy='24' r='14' fill='%23ef476f'/><circle cx='38' cy='24' r='14' fill='%23ffd166'/><circle cx='30' cy='14' r='13' fill='%232ec4b6'/><path d='M14 36 L30 85 L46 36 Z' fill='%23e8a933'/><path d='M20 42 L42 42 M22 52 L40 52 M25 62 L37 62' stroke='%23c78618' stroke-width='2'/></g></svg>");
+      background-position:
+        3% 96%,
+        1% 4%,
+        95% 93%,
+        38% 97%,
+        93% 30%;
+      background-repeat: no-repeat;
+      background-size: 150px 170px, 140px 180px, 110px 90px, 70px 70px, 60px 90px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    h1 {
+      font-family: 'Baloo 2', sans-serif;
+      font-weight: 800;
+      color: var(--white-foam);
+      text-align: center;
+      margin: 10px 0 5px 0;
+      font-size: 46px;
+      letter-spacing: 2px;
+      text-shadow:
+        2px 2px 0 var(--sea-blue),
+        4px 4px 12px rgba(11, 110, 148, 0.4);
+      position: relative;
+      z-index: 1;
+    }
+
+    h1::before { content: "🏖️ "; }
+    h1::after { content: " 🏖️"; }
+
+    .subtitle {
+      font-family: 'Baloo 2', sans-serif;
+      font-weight: 700;
+      letter-spacing: 6px;
+      font-size: 16px;
+      margin-bottom: 8px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      text-transform: uppercase;
+      color: var(--sea-deep);
+      text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    /* Petite guirlande de fanions */
+    .fanions {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 55px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .fanions span {
+      width: 0;
+      height: 0;
+      border-left: 11px solid transparent;
+      border-right: 11px solid transparent;
+      display: inline-block;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
+    }
+
+    .fanions span:nth-child(5n+1) { border-top: 18px solid var(--coral); }
+    .fanions span:nth-child(5n+2) { border-top: 18px solid var(--sun-yellow); }
+    .fanions span:nth-child(5n+3) { border-top: 18px solid var(--sea-turquoise); }
+    .fanions span:nth-child(5n+4) { border-top: 18px solid var(--watermelon); }
+    .fanions span:nth-child(5n+5) { border-top: 18px solid var(--white-foam); }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 800px;
+      background: rgba(255, 253, 247, 0.96);
+      border-radius: 24px;
+      padding: 45px 25px 30px;
+      box-shadow:
+        0 0 0 3px var(--white-foam),
+        0 0 0 7px var(--sea-turquoise),
+        0 20px 50px rgba(11, 110, 148, 0.35);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Médaillon bouée en haut */
+    .container::before {
+      content: "🛟";
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, var(--white-foam) 0%, var(--sky-light) 70%, var(--pool-cyan) 100%);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow:
+        0 0 0 3px var(--white-foam),
+        0 0 0 5px var(--coral),
+        0 6px 18px rgba(11, 110, 148, 0.35);
+      z-index: 2;
+    }
+
+    .input-section {
+      width: 100%;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+      position: relative;
+      z-index: 2;
+    }
+
+    #namesInput {
+      width: 90%;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 500;
+      border: 2px solid var(--sea-turquoise);
+      border-radius: 14px;
+      margin-bottom: 18px;
+      background: white;
+      color: var(--text-dark);
+      transition: all 0.3s;
+      box-shadow: inset 0 2px 4px rgba(11, 110, 148, 0.08);
+    }
+
+    #namesInput::placeholder {
+      color: rgba(29, 61, 71, 0.4);
+    }
+
+    #namesInput:focus {
+      outline: none;
+      border-color: var(--coral);
+      box-shadow:
+        inset 0 2px 4px rgba(11, 110, 148, 0.08),
+        0 0 0 3px rgba(255, 111, 97, 0.25);
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 12px 22px;
+      font-size: 14px;
+      font-family: 'Baloo 2', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: linear-gradient(180deg, var(--sea-blue) 0%, var(--sea-deep) 100%);
+      color: var(--white-foam);
+      border: 2px solid var(--sea-deep);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 3px 0 #085570, 0 5px 12px rgba(11, 110, 148, 0.3);
+      position: relative;
+      top: 0;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: linear-gradient(180deg, #1ba3cc 0%, var(--sea-blue) 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn:active:not(:disabled) {
+      top: 3px;
+      box-shadow: 0 0 0 #085570, 0 2px 5px rgba(11, 110, 148, 0.3);
+    }
+
+    .btn:disabled {
+      background: linear-gradient(180deg, #a5b8bf 0%, #8aa0a8 100%);
+      border-color: #6f858d;
+      color: #dbe5e8;
+      box-shadow: 0 3px 0 #6f858d;
+      cursor: not-allowed;
+      opacity: 0.75;
+    }
+
+    /* Bouton plouf en jaune soleil */
+    #spinWheel {
+      background: linear-gradient(180deg, var(--sun-bright) 0%, var(--sun-yellow) 50%, var(--sun-deep) 100%);
+      color: var(--text-dark);
+      border-color: var(--sun-deep);
+      box-shadow: 0 3px 0 #c78618, 0 5px 15px rgba(255, 209, 102, 0.45);
+    }
+
+    #spinWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #ffe8a3 0%, var(--sun-bright) 50%, var(--sun-yellow) 100%);
+    }
+
+    /* Bouton créer en corail */
+    #createWheel {
+      background: linear-gradient(180deg, var(--coral) 0%, var(--coral-dark) 100%);
+      color: var(--white-foam);
+      border-color: var(--coral-deep);
+      box-shadow: 0 3px 0 var(--coral-deep), 0 5px 12px rgba(255, 111, 97, 0.35);
+    }
+
+    #createWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #ff8a7e 0%, var(--coral) 100%);
+    }
+
+    /* Bouton reset en turquoise piscine */
+    #resetWheel:not(:disabled) {
+      background: linear-gradient(180deg, var(--sea-turquoise) 0%, #1fa093 100%);
+      border-color: #178278;
+      box-shadow: 0 3px 0 #178278, 0 5px 12px rgba(46, 196, 182, 0.35);
+    }
+
+    #resetWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #45d6c9 0%, var(--sea-turquoise) 100%);
+    }
+
+    .wheel-container {
+      position: relative;
+      width: 440px;
+      height: 440px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0 30px 0;
+    }
+
+    /* Bouée gonflable autour de la roue : rayures corail/blanc */
+    .wheel-container::before {
+      content: "";
+      position: absolute;
+      width: 468px;
+      height: 468px;
+      border-radius: 50%;
+      background:
+        /* Reflet brillant du plastique gonflé */
+        radial-gradient(ellipse 200px 90px at 35% 18%, rgba(255, 255, 255, 0.55) 0%, transparent 60%),
+        /* Rayures de la bouée */
+        repeating-conic-gradient(
+          from -11.25deg,
+          var(--coral) 0deg 22.5deg,
+          var(--white-foam) 22.5deg 45deg
+        );
+      box-shadow:
+        inset 0 -8px 20px rgba(184, 58, 44, 0.35),
+        inset 0 8px 18px rgba(255, 255, 255, 0.5),
+        0 12px 40px rgba(11, 110, 148, 0.4);
+      z-index: 0;
+    }
+
+    /* Creux intérieur de la bouée */
+    .wheel-container::after {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      box-shadow:
+        inset 0 4px 14px rgba(29, 61, 71, 0.35),
+        0 0 0 3px rgba(255, 255, 255, 0.7);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    #wheelCanvas {
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 4px 15px rgba(11, 110, 148, 0.35));
+    }
+
+    /* Pointeur en corail */
+    .pointer {
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 24px solid transparent;
+      border-bottom: 24px solid transparent;
+      border-right: 48px solid var(--watermelon);
+      z-index: 10;
+      filter: drop-shadow(-3px 2px 6px rgba(29, 61, 71, 0.4));
+    }
+
+    .pointer::after {
+      content: "";
+      position: absolute;
+      top: -18px;
+      right: -45px;
+      width: 0;
+      height: 0;
+      border-top: 18px solid transparent;
+      border-bottom: 18px solid transparent;
+      border-right: 36px solid var(--white-foam);
+    }
+
+    .result {
+      text-align: center;
+      font-size: 26px;
+      font-family: 'Baloo 2', sans-serif;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      margin-top: 15px;
+      min-height: 55px;
+      color: var(--sea-deep);
+      padding: 12px 25px;
+      transition: all 0.4s;
+      position: relative;
+      z-index: 2;
+    }
+
+    .result:not(:empty) {
+      background: linear-gradient(135deg, var(--pool-cyan) 0%, var(--sea-turquoise) 100%);
+      border-radius: 16px;
+      box-shadow:
+        0 0 0 3px var(--white-foam),
+        0 0 0 6px var(--coral),
+        0 8px 25px rgba(11, 110, 148, 0.35);
+      animation: splashPulse 0.7s ease-out;
+      color: var(--white-foam);
+      text-shadow: 1px 1px 2px rgba(11, 110, 148, 0.5);
+    }
+
+    @keyframes splashPulse {
+      0% { transform: scale(0.85) rotate(-2deg); opacity: 0; }
+      40% { transform: scale(1.08) rotate(1deg); }
+      70% { transform: scale(0.98); }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* ============================================
+       LES VACANCIERS (liste sur le sable)
+       ============================================ */
+    .name-list {
+      width: 100%;
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background:
+        radial-gradient(circle at 15% 25%, rgba(217, 188, 130, 0.35) 0%, transparent 12%),
+        radial-gradient(circle at 75% 60%, rgba(217, 188, 130, 0.3) 0%, transparent 10%),
+        radial-gradient(circle at 45% 85%, rgba(217, 188, 130, 0.3) 0%, transparent 11%),
+        linear-gradient(180deg, var(--sand) 0%, var(--sand-warm) 100%);
+      border-radius: 16px;
+      padding: 25px 20px 20px;
+      box-shadow:
+        inset 0 0 0 2px var(--sun-deep),
+        inset 0 2px 12px rgba(184, 132, 90, 0.25);
+      position: relative;
+      z-index: 2;
+    }
+
+    .name-list h3 {
+      margin: 0 0 18px 0;
+      color: var(--coral-dark);
+      font-family: 'Baloo 2', sans-serif;
+      font-weight: 800;
+      letter-spacing: 3px;
+      font-size: 19px;
+      padding-bottom: 12px;
+      width: 100%;
+      text-align: center;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .name-list h3::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--coral) 50%, transparent 100%);
+    }
+
+    #namesList {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 10px;
+    }
+
+    /* Les badges sont des serviettes de plage rayées */
+    .name-item {
+      margin: 0;
+      font-size: 15px;
+      font-family: 'Quicksand', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--white-foam);
+      padding: 9px 12px;
+      border-radius: 10px;
+      transition: all 0.2s;
+      border-left: 10px solid var(--sea-turquoise);
+      box-shadow: 0 3px 8px rgba(184, 132, 90, 0.3);
+      position: relative;
+    }
+
+    /* Rayures de serviette sur le bord gauche (via border-image) */
+    .name-item:nth-child(4n+1) {
+      border-image: repeating-linear-gradient(180deg,
+        var(--sea-turquoise) 0px, var(--sea-turquoise) 6px,
+        var(--white-foam) 6px, var(--white-foam) 10px) 1 100%;
+    }
+    .name-item:nth-child(4n+2) {
+      border-image: repeating-linear-gradient(180deg,
+        var(--coral) 0px, var(--coral) 6px,
+        var(--white-foam) 6px, var(--white-foam) 10px) 1 100%;
+    }
+    .name-item:nth-child(4n+3) {
+      border-image: repeating-linear-gradient(180deg,
+        var(--sun-yellow) 0px, var(--sun-yellow) 6px,
+        var(--white-foam) 6px, var(--white-foam) 10px) 1 100%;
+    }
+    .name-item:nth-child(4n+4) {
+      border-image: repeating-linear-gradient(180deg,
+        var(--watermelon) 0px, var(--watermelon) 6px,
+        var(--white-foam) 6px, var(--white-foam) 10px) 1 100%;
+    }
+
+    .name-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 14px rgba(184, 132, 90, 0.45);
+    }
+
+    .name-item input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--coral);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .name-item label {
+      cursor: pointer;
+      color: var(--text-dark);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .selected {
+      text-decoration: line-through;
+      color: #999 !important;
+      opacity: 0.65;
+    }
+
+    .name-item:has(.selected) {
+      border-image: none !important;
+      border-left-color: #b0b8ba !important;
+      background: rgba(230, 232, 228, 0.8);
+      filter: grayscale(0.5);
+      box-shadow: 0 2px 5px rgba(184, 132, 90, 0.2);
+    }
+
+    /* ============================================
+       POPUP PLOUF !
+       ============================================ */
+    .goal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(11, 110, 148, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .goal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .goal-popup {
+      background:
+        linear-gradient(135deg, var(--pool-cyan) 0%, var(--sea-turquoise) 35%, var(--sun-yellow) 70%, var(--coral) 100%);
+      border-radius: 26px;
+      padding: 8px;
+      box-shadow:
+        0 0 0 4px var(--white-foam),
+        0 0 60px rgba(79, 214, 232, 0.55),
+        0 25px 70px rgba(11, 110, 148, 0.55);
+      transform: scale(0.3) rotate(-8deg);
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 90vw;
+    }
+
+    .goal-overlay.active .goal-popup {
+      transform: scale(1) rotate(0deg);
+    }
+
+    .goal-popup-inner {
+      background: var(--ivory);
+      border-radius: 20px;
+      padding: 40px 50px 35px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Vague en haut de la popup */
+    .goal-popup-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 16px;
+      background:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='16' viewBox='0 0 40 16'><path d='M0 16 Q10 2 20 10 Q30 16 40 6 L40 0 L0 0 Z' fill='%234fd6e8'/></svg>");
+      background-size: 40px 16px;
+      background-repeat: repeat-x;
+    }
+
+    .goal-word {
+      font-family: 'Baloo 2', sans-serif;
+      font-weight: 800;
+      font-size: 72px;
+      letter-spacing: 4px;
+      margin: 12px 0 0 0;
+      background: linear-gradient(90deg, var(--sea-blue), var(--sea-turquoise), var(--sun-deep), var(--coral), var(--watermelon), var(--sea-blue));
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowShift 2s linear infinite, splashShake 0.5s ease-in-out 3;
+    }
+
+    @keyframes rainbowShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    @keyframes splashShake {
+      0%, 100% { transform: translateX(0) scale(1); }
+      20% { transform: translateX(-6px) scale(1.04); }
+      40% { transform: translateX(6px) scale(1.06); }
+      60% { transform: translateX(-4px) scale(1.04); }
+      80% { transform: translateX(4px) scale(1.02); }
+    }
+
+    .goal-name {
+      font-family: 'Baloo 2', sans-serif;
+      font-weight: 700;
+      font-size: 34px;
+      letter-spacing: 2px;
+      margin: 12px 0 0 0;
+      color: var(--sea-deep);
+      animation: namePopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+    }
+
+    @keyframes namePopIn {
+      0% { transform: scale(0) rotate(10deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .goal-ball {
+      font-size: 46px;
+      display: inline-block;
+      animation: floatBob 1.8s ease-in-out infinite;
+      margin-top: 12px;
+    }
+
+    @keyframes floatBob {
+      0%, 100% { transform: translateY(0) rotate(-6deg); }
+      50% { transform: translateY(-14px) rotate(6deg); }
+    }
+
+    .goal-close-hint {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 13px;
+      color: #8aa0a8;
+      margin-top: 18px;
+      animation: namePopIn 0.5s ease 1.2s both;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      top: -20px;
+      z-index: 1001;
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 28px; letter-spacing: 1px; }
+      .subtitle { font-size: 12px; letter-spacing: 4px; }
+      .fanions { margin-bottom: 48px; }
+      .fanions span {
+        border-left-width: 8px;
+        border-right-width: 8px;
+      }
+      .fanions span:nth-child(n) { border-top-width: 14px; }
+      .wheel-container {
+        width: 320px;
+        height: 320px;
+      }
+      .wheel-container::before {
+        width: 344px;
+        height: 344px;
+      }
+      .wheel-container::after {
+        width: 308px;
+        height: 308px;
+      }
+      #wheelCanvas {
+        width: 320px;
+        height: 320px;
+      }
+      .container { padding: 38px 12px 25px; }
+      .btn { padding: 10px 16px; font-size: 12px; }
+      #namesList { grid-template-columns: 1fr; }
+      .result { font-size: 20px; letter-spacing: 1px; }
+      .goal-word { font-size: 46px; letter-spacing: 2px; }
+      .goal-name { font-size: 25px; }
+      .goal-popup-inner { padding: 34px 25px 25px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Roue des Prénoms</h1>
+  <div class="subtitle">Vacances à la Plage</div>
+  <div class="fanions">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="container">
+    <div class="input-section">
+      <input type="text" id="namesInput" placeholder="Entrez les vacanciers séparés par des point-virgules (ex: Léa;Marius;Chloé)">
+      <div class="button-group">
+        <button id="createWheel" class="btn">Préparer la sortie</button>
+        <button id="spinWheel" class="btn" disabled>🌊 À l'eau !</button>
+        <button id="resetWheel" class="btn" disabled>Nouvelle baignade</button>
+        <button id="exportState" class="btn" disabled>Exporter</button>
+        <input type="file" id="importFile" style="display:none;">
+        <button id="importState" class="btn">Importer</button>
+      </div>
+    </div>
+
+    <div class="wheel-container" id="wheelContainer">
+      <div class="pointer"></div>
+      <canvas id="wheelCanvas" width="400" height="400"></canvas>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <div class="name-list">
+      <h3>⛱️ Les Vacanciers</h3>
+      <div id="namesList"></div>
+    </div>
+  </div>
+
+  <!-- Popup Plouf ! -->
+  <div class="goal-overlay" id="goalOverlay">
+    <div class="goal-popup">
+      <div class="goal-popup-inner">
+        <p class="goal-word">PLOUF !</p>
+        <p class="goal-name" id="goalName"></p>
+        <span class="goal-ball">🛟</span>
+        <p class="goal-close-hint">Cliquez n'importe où pour fermer</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const canvas = document.getElementById('wheelCanvas');
+      const ctx = canvas.getContext('2d');
+      const wheelContainer = document.getElementById('wheelContainer');
+      const createWheelBtn = document.getElementById('createWheel');
+      const spinWheelBtn = document.getElementById('spinWheel');
+      const resetWheelBtn = document.getElementById('resetWheel');
+      const exportStateBtn = document.getElementById('exportState');
+      const importStateBtn = document.getElementById('importState');
+      const importFileInput = document.getElementById('importFile');
+      const namesInput = document.getElementById('namesInput');
+      const resultElem = document.getElementById('result');
+      const namesListElem = document.getElementById('namesList');
+      const goalOverlay = document.getElementById('goalOverlay');
+      const goalNameElem = document.getElementById('goalName');
+
+      let names = [];
+      let selectedNames = [];
+      let isSpinning = false;
+      let initialized = false;
+      let confettiTimers = [];
+
+      // === Palette estivale plage / piscine ===
+      let colors = [
+        '#2ec4b6', // turquoise piscine
+        '#ffd166', // jaune soleil
+        '#ff6f61', // corail
+        '#118ab2', // bleu océan
+        '#ef476f', // rose pastèque
+        '#fdfefe', // blanc écume
+        '#ff9f1c', // orange glace
+        '#4fd6e8', // cyan piscine
+        '#f7e6c4', // sable
+        '#0b6e94', // bleu profond
+        '#ffdd85', // jaune clair
+        '#e0503f'  // corail foncé
+      ];
+
+      const lightBackgrounds = ['#ffd166', '#fdfefe', '#4fd6e8', '#f7e6c4', '#ffdd85', '#2ec4b6', '#ff9f1c'];
+      function getTextColor(bgColor) {
+        return lightBackgrounds.includes(bgColor) ? '#1d3d47' : '#fffdf7';
+      }
+
+      createWheelBtn.addEventListener('click', () => {
+        updateNamesFromInput();
+        if (names.length < 2) {
+          alert('Veuillez entrer au moins deux vacanciers.');
+          return;
+        }
+        initialized = true;
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = false;
+        resetWheelBtn.disabled = false;
+        createWheelBtn.disabled = true;
+        exportStateBtn.disabled = false;
+        resultElem.textContent = '';
+      });
+
+      namesInput.addEventListener('input', () => {
+        if (!initialized) return;
+        updateNamesFromInput();
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = selectedNames.length >= names.length;
+      });
+
+      function updateNamesFromInput() {
+        const inputNames = namesInput.value.split(';').map(n => n.trim()).filter(n => n);
+        const newSelected = selectedNames.filter(n => inputNames.includes(n));
+        names = inputNames;
+        selectedNames = newSelected;
+      }
+
+      spinWheelBtn.addEventListener('click', () => {
+        if (isSpinning || names.length === 0 || selectedNames.length === names.length) return;
+        isSpinning = true;
+        resultElem.textContent = '';
+        spinWheelBtn.disabled = true;
+        wheelContainer.classList.add('spinning');
+
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * names.length);
+        } while (selectedNames.includes(names[randomIndex]));
+
+        const selectedName = names[randomIndex];
+        const segmentAngle = (2 * Math.PI) / names.length;
+        const targetAngle = -(segmentAngle * randomIndex + segmentAngle / 2) - Math.PI / 2;
+        const fullSpins = 20 + Math.floor(Math.random() * 11);
+        const finalRotation = (fullSpins * 2 * Math.PI) + targetAngle;
+
+        canvas.style.transition = 'transform 8s cubic-bezier(0.17, 0.67, 0.15, 1)';
+        canvas.style.transform = `rotate(${finalRotation}rad)`;
+
+        setTimeout(() => {
+          isSpinning = false;
+          wheelContainer.classList.remove('spinning');
+          selectedNames.push(selectedName);
+          resultElem.textContent = `🌊 Plouf ! ${selectedName} à l'eau !`;
+          updateNamesList();
+          drawWheel();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          spinWheelBtn.textContent = spinWheelBtn.disabled
+            ? "🌅 Fin des vacances"
+            : `🌊 À l'eau ! (${names.length - selectedNames.length} au sec)`;
+
+          showSplashCelebration(selectedName);
+        }, 8000);
+      });
+
+      // ============================================
+      // CÉLÉBRATION PLOUF : popup + confettis
+      // ============================================
+      const confettiColors = ['#2ec4b6', '#ffd166', '#ff6f61', '#118ab2', '#ef476f', '#4fd6e8', '#ff9f1c', '#ffffff'];
+
+      function showSplashCelebration(name) {
+        goalNameElem.textContent = `${name} à l'eau !`;
+        goalOverlay.classList.add('active');
+        launchConfetti();
+      }
+
+      function hideSplashCelebration() {
+        goalOverlay.classList.remove('active');
+        stopConfetti();
+      }
+
+      goalOverlay.addEventListener('click', hideSplashCelebration);
+
+      function launchConfetti() {
+        stopConfetti();
+        for (let wave = 0; wave < 6; wave++) {
+          const timer = setTimeout(() => {
+            for (let i = 0; i < 25; i++) {
+              createConfettiPiece();
+            }
+          }, wave * 450);
+          confettiTimers.push(timer);
+        }
+      }
+
+      function stopConfetti() {
+        confettiTimers.forEach(t => clearTimeout(t));
+        confettiTimers = [];
+        document.querySelectorAll('.confetti').forEach(c => c.remove());
+      }
+
+      function createConfettiPiece() {
+        const piece = document.createElement('div');
+        piece.className = 'confetti';
+        const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        // Mélange de gouttes d'eau (rondes) et de confettis
+        const isCircle = Math.random() > 0.4;
+        const size = 7 + Math.random() * 9;
+        const startX = Math.random() * window.innerWidth;
+        const drift = (Math.random() - 0.5) * 250;
+        const duration = 2200 + Math.random() * 1800;
+        const rotations = 360 + Math.random() * 720;
+
+        piece.style.left = startX + 'px';
+        piece.style.width = size + 'px';
+        piece.style.height = (isCircle ? size : size * 0.55) + 'px';
+        piece.style.background = color;
+        piece.style.borderRadius = isCircle ? '50% 50% 50% 0' : '2px';
+        if (isCircle) piece.style.transform = 'rotate(45deg)';
+
+        document.body.appendChild(piece);
+
+        const anim = piece.animate([
+          {
+            transform: `translate(0, 0) rotate(0deg)`,
+            opacity: 1
+          },
+          {
+            transform: `translate(${drift}px, ${window.innerHeight + 50}px) rotate(${rotations}deg)`,
+            opacity: 0.7
+          }
+        ], {
+          duration: duration,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        });
+
+        anim.onfinish = () => piece.remove();
+      }
+
+      resetWheelBtn.addEventListener('click', () => {
+        selectedNames = [];
+        spinWheelBtn.disabled = false;
+        spinWheelBtn.textContent = "🌊 À l'eau !";
+        createWheelBtn.disabled = false;
+        exportStateBtn.disabled = false;
+        initialized = false;
+        canvas.style.transition = 'none';
+        canvas.style.transform = 'rotate(0rad)';
+        drawWheel();
+        updateNamesList();
+        resultElem.textContent = '';
+        hideSplashCelebration();
+      });
+
+      exportStateBtn.addEventListener('click', () => {
+        const data = `${names.join(';')}\nPASSED:${selectedNames.join(';')}`;
+        const blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'etat_roue.txt';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+
+      importStateBtn.addEventListener('click', () => importFileInput.click());
+
+      importFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const content = e.target.result.trim();
+          const lines = content.split('\n');
+          if (lines.length < 1) return;
+          names = lines[0].split(';').map(name => name.trim()).filter(name => name.length > 0);
+          selectedNames = lines[1]?.startsWith('PASSED:') ? lines[1].substring(7).split(';').map(n => n.trim()) : [];
+          namesInput.value = names.join(';');
+          initialized = true;
+          drawWheel();
+          updateNamesList();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          resetWheelBtn.disabled = false;
+          createWheelBtn.disabled = true;
+          exportStateBtn.disabled = false;
+          resultElem.textContent = '';
+        };
+        reader.readAsText(file);
+      });
+
+      function drawWheel() {
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) - 10;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (names.length === 0) {
+          // Ballon de plage vide
+          drawBeachBallBackground(centerX, centerY, radius);
+          drawBeachBallCenter(centerX, centerY);
+          return;
+        }
+
+        const segmentAngle = (2 * Math.PI) / names.length;
+        const angleOffset = Math.PI / 2;
+
+        for (let i = 0; i < names.length; i++) {
+          const startAngle = i * segmentAngle + angleOffset;
+          const endAngle = (i + 1) * segmentAngle + angleOffset;
+          const segmentColor = colors[i % colors.length];
+          const isSelected = selectedNames.includes(names[i]);
+
+          const gradient = ctx.createRadialGradient(centerX, centerY, radius * 0.15, centerX, centerY, radius);
+          if (isSelected) {
+            gradient.addColorStop(0, '#b0b8ba');
+            gradient.addColorStop(1, '#8a9598');
+          } else {
+            gradient.addColorStop(0, shadeColor(segmentColor, 15));
+            gradient.addColorStop(0.6, segmentColor);
+            gradient.addColorStop(1, shadeColor(segmentColor, -15));
+          }
+
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+          ctx.closePath();
+          ctx.fillStyle = gradient;
+          ctx.fill();
+
+          // Bordure blanche écume
+          ctx.strokeStyle = '#fdfefe';
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+
+          // Texte du prénom
+          ctx.save();
+          ctx.translate(centerX, centerY);
+          ctx.rotate(startAngle + segmentAngle / 2);
+          ctx.textAlign = 'right';
+          ctx.fillStyle = isSelected ? '#555' : getTextColor(segmentColor);
+          ctx.font = 'bold 15px Quicksand, Arial';
+
+          if (!isSelected && getTextColor(segmentColor) === '#fffdf7') {
+            ctx.shadowColor = 'rgba(29, 61, 71, 0.6)';
+            ctx.shadowBlur = 3;
+          }
+
+          const textMaxLength = radius * 0.75;
+          let fontSize = 15;
+          if (ctx.measureText(names[i]).width > textMaxLength) {
+            fontSize = Math.floor(fontSize * (textMaxLength / ctx.measureText(names[i]).width));
+            ctx.font = `bold ${fontSize}px Quicksand, Arial`;
+          }
+          ctx.fillText(names[i], radius - 20, 5);
+          ctx.shadowBlur = 0;
+          ctx.restore();
+        }
+
+        drawBeachBallCenter(centerX, centerY);
+      }
+
+      // Fond ballon de plage (roue vide)
+      function drawBeachBallBackground(centerX, centerY, radius) {
+        const ballColors = ['#ff6f61', '#fdfefe', '#ffd166', '#fdfefe', '#2ec4b6', '#fdfefe'];
+        for (let i = 0; i < 6; i++) {
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.arc(centerX, centerY, radius, i * Math.PI / 3 - Math.PI / 2, (i + 1) * Math.PI / 3 - Math.PI / 2);
+          ctx.closePath();
+          ctx.fillStyle = ballColors[i];
+          ctx.fill();
+          ctx.strokeStyle = '#fdfefe';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#118ab2';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      }
+
+      // Centre : petit ballon de plage
+      function drawBeachBallCenter(centerX, centerY) {
+        const ballRadius = 30;
+        const ballColors = ['#ff6f61', '#ffd166', '#2ec4b6', '#118ab2', '#ef476f', '#ff9f1c'];
+
+        // Quartiers colorés du ballon
+        for (let i = 0; i < 6; i++) {
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.arc(centerX, centerY, ballRadius, i * Math.PI / 3 - Math.PI / 2, (i + 1) * Math.PI / 3 - Math.PI / 2);
+          ctx.closePath();
+          ctx.fillStyle = ballColors[i];
+          ctx.fill();
+          ctx.strokeStyle = '#fdfefe';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+
+        // Reflet brillant
+        const shine = ctx.createRadialGradient(centerX - 9, centerY - 11, 1, centerX - 9, centerY - 11, 12);
+        shine.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
+        shine.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.beginPath();
+        ctx.arc(centerX - 9, centerY - 11, 12, 0, 2 * Math.PI);
+        ctx.fillStyle = shine;
+        ctx.fill();
+
+        // Capuchon blanc central
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 7, 0, 2 * Math.PI);
+        ctx.fillStyle = '#fdfefe';
+        ctx.fill();
+        ctx.strokeStyle = '#d5dadb';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Contour du ballon
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, ballRadius, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#118ab2';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // Anneau blanc autour
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, ballRadius + 3.5, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#fdfefe';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+      }
+
+      function shadeColor(color, percent) {
+        const f = parseInt(color.slice(1), 16);
+        const t = percent < 0 ? 0 : 255;
+        const p = Math.abs(percent) / 100;
+        const R = f >> 16;
+        const G = (f >> 8) & 0x00FF;
+        const B = f & 0x0000FF;
+        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
+          (Math.round((t - G) * p) + G) * 0x100 +
+          (Math.round((t - B) * p) + B)).toString(16).slice(1);
+      }
+
+      function updateNamesList() {
+        namesListElem.innerHTML = '';
+        names.forEach(name => {
+          const div = document.createElement('div');
+          div.className = 'name-item';
+
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.checked = selectedNames.includes(name);
+          checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+              if (!selectedNames.includes(name)) selectedNames.push(name);
+            } else {
+              selectedNames = selectedNames.filter(n => n !== name);
+            }
+            drawWheel();
+            updateNamesList();
+            spinWheelBtn.disabled = selectedNames.length >= names.length;
+          });
+
+          const label = document.createElement('label');
+          label.textContent = name;
+          if (checkbox.checked) label.classList.add('selected');
+
+          div.appendChild(checkbox);
+          div.appendChild(label);
+          namesListElem.appendChild(div);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

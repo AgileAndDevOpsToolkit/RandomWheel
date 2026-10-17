@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>⚽ Coupe du Monde des Prénoms 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* === Palette officielle CM 2026 (charte vive) === */
+      --wc-orange: #f4633a;
+      --wc-red-orange: #e94e1b;
+      --wc-coral: #f27d9d;
+      --wc-pink: #ee5d8a;
+      --wc-magenta: #d81e75;
+      --wc-purple: #7b2d8e;
+      --wc-violet: #8b5cf6;
+      --wc-lavender: #c9a0dc;
+      --wc-teal: #00a8a8;
+      --wc-cyan: #4fc3e8;
+      --wc-lime: #8bc53f;
+      --wc-green: #4caf50;
+      --wc-blue: #2d6fb8;
+
+      /* Trophée & FIFA */
+      --gold: #d4af37;
+      --gold-light: #f0c75e;
+      --gold-bright: #ffd700;
+      --gold-dark: #9c7d1f;
+
+      /* Pelouse */
+      --pitch-green: #2e8b3d;
+      --pitch-green-light: #3aa04c;
+      --pitch-green-dark: #1f6b2d;
+      --pitch-green-deep: #14501f;
+
+      --line-white: #f8fcf8;
+      --night-navy: #0d1b3d;
+      --text-dark: #12240f;
+      --ivory: #fdfff8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Titillium Web', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: var(--text-dark);
+      background-color: var(--pitch-green);
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.045) 0px,
+          rgba(255, 255, 255, 0.045) 70px,
+          transparent 70px,
+          transparent 140px
+        ),
+        radial-gradient(ellipse 700px 350px at 50% -10%, rgba(255, 255, 255, 0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 400px 250px at 8% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 400px 250px at 92% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 60%),
+        linear-gradient(180deg, var(--pitch-green-light) 0%, var(--pitch-green) 45%, var(--pitch-green-dark) 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* === Lignes du terrain en filigrane === */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        radial-gradient(circle 340px at 50% 52%, transparent 336px, rgba(248, 252, 248, 0.16) 337px, rgba(248, 252, 248, 0.16) 341px, transparent 342px),
+        linear-gradient(180deg, transparent 0%, transparent calc(52% - 2px), rgba(248, 252, 248, 0.14) calc(52% - 2px), rgba(248, 252, 248, 0.14) calc(52% + 2px), transparent calc(52% + 2px));
+      background-size: 100% 100%, 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center, center;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* === Ballons en filigrane + mosaïques de couleurs 2026 === */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><g opacity='0.14'><circle cx='60' cy='60' r='50' fill='none' stroke='%23f8fcf8' stroke-width='2.5'/><polygon points='60,38 74,48 69,65 51,65 46,48' fill='%23f8fcf8'/><path d='M60 38 L60 18 M74 48 L92 42 M69 65 L82 80 M51 65 L38 80 M46 48 L28 42' stroke='%23f8fcf8' stroke-width='2.5' fill='none'/></g></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'><g opacity='0.12'><circle cx='45' cy='45' r='38' fill='none' stroke='%23f8fcf8' stroke-width='2'/><polygon points='45,28 56,36 52,49 38,49 34,36' fill='%23f8fcf8'/><path d='M45 28 L45 13 M56 36 L70 31 M52 49 L62 61 M38 49 L28 61 M34 36 L20 31' stroke='%23f8fcf8' stroke-width='2' fill='none'/></g></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g opacity='0.2'><rect x='0' y='0' width='40' height='40' rx='8' fill='%23f4633a'/><rect x='44' y='0' width='40' height='40' rx='8' fill='%234fc3e8'/><rect x='88' y='0' width='40' height='40' rx='8' fill='%23d81e75'/><rect x='0' y='44' width='40' height='40' rx='8' fill='%238b5cf6'/><rect x='44' y='44' width='40' height='40' rx='8' fill='%238bc53f'/><rect x='88' y='44' width='40' height='40' rx='8' fill='%23f27d9d'/><rect x='0' y='88' width='40' height='40' rx='8' fill='%2300a8a8'/><rect x='44' y='88' width='40' height='40' rx='8' fill='%23e94e1b'/><rect x='88' y='88' width='40' height='40' rx='8' fill='%23c9a0dc'/></g></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='130' height='130' viewBox='0 0 130 130'><g opacity='0.16'><rect x='0' y='0' width='38' height='38' rx='8' fill='%23ee5d8a'/><rect x='42' y='0' width='38' height='38' rx='8' fill='%238bc53f'/><rect x='84' y='0' width='38' height='38' rx='8' fill='%232d6fb8'/><rect x='0' y='42' width='38' height='38' rx='8' fill='%234fc3e8'/><rect x='42' y='42' width='38' height='38' rx='8' fill='%23f4633a'/><rect x='84' y='42' width='38' height='38' rx='8' fill='%237b2d8e'/></g></svg>");
+      background-position: 4% 78%, 92% 85%, 97% 12%, 2% 30%;
+      background-repeat: no-repeat;
+      background-size: 120px 120px, 90px 90px, 160px 160px, 130px 130px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    h1 {
+      font-family: 'Russo One', sans-serif;
+      color: var(--line-white);
+      text-align: center;
+      margin: 10px 0 5px 0;
+      font-size: 38px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-shadow:
+        2px 2px 0 var(--pitch-green-deep),
+        4px 4px 15px rgba(0,0,0,0.45);
+      position: relative;
+      z-index: 1;
+    }
+
+    h1::before { content: "⚽ "; }
+    h1::after { content: " ⚽"; }
+
+    .subtitle {
+      font-family: 'Russo One', sans-serif;
+      letter-spacing: 5px;
+      font-size: 15px;
+      margin-bottom: 8px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      text-transform: uppercase;
+      color: var(--gold-bright);
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    }
+
+    .host-stripe {
+      margin-bottom: 55px;
+      position: relative;
+      z-index: 1;
+      font-family: 'Russo One', sans-serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: var(--line-white);
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+      text-transform: uppercase;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 800px;
+      background: rgba(253, 255, 248, 0.96);
+      border-radius: 14px;
+      padding: 45px 25px 30px;
+      box-shadow:
+        0 0 0 3px var(--line-white),
+        0 0 0 6px var(--gold),
+        0 20px 50px rgba(0, 0, 0, 0.45);
+      position: relative;
+      z-index: 1;
+    }
+
+    .container::before {
+      content: "🏆";
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, var(--gold-bright) 0%, var(--gold) 60%, var(--gold-dark) 100%);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow:
+        0 0 0 3px var(--line-white),
+        0 0 0 5px var(--gold-dark),
+        0 6px 18px rgba(0,0,0,0.4);
+      z-index: 2;
+    }
+
+    .input-section {
+      width: 100%;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+      position: relative;
+      z-index: 2;
+    }
+
+    #namesInput {
+      width: 90%;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-family: 'Titillium Web', sans-serif;
+      border: 2px solid var(--pitch-green);
+      border-radius: 8px;
+      margin-bottom: 18px;
+      background: white;
+      color: var(--text-dark);
+      transition: all 0.3s;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+    }
+
+    #namesInput::placeholder {
+      color: rgba(18, 36, 15, 0.45);
+    }
+
+    #namesInput:focus {
+      outline: none;
+      border-color: var(--wc-magenta);
+      box-shadow:
+        inset 0 2px 4px rgba(0,0,0,0.06),
+        0 0 0 3px rgba(216, 30, 117, 0.2);
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 12px 22px;
+      font-size: 13px;
+      font-family: 'Russo One', sans-serif;
+      letter-spacing: 1.5px;
+      background: linear-gradient(180deg, var(--wc-blue) 0%, #1e4d85 100%);
+      color: var(--line-white);
+      border: 2px solid #1e4d85;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      box-shadow: 0 3px 0 #14355c, 0 5px 12px rgba(0,0,0,0.25);
+      position: relative;
+      top: 0;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: linear-gradient(180deg, #3d84d1 0%, var(--wc-blue) 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn:active:not(:disabled) {
+      top: 3px;
+      box-shadow: 0 0 0 #14355c, 0 2px 5px rgba(0,0,0,0.25);
+    }
+
+    .btn:disabled {
+      background: linear-gradient(180deg, #9aa5b8 0%, #7d8798 100%);
+      border-color: #656e7d;
+      color: #d5dae2;
+      box-shadow: 0 3px 0 #656e7d;
+      cursor: not-allowed;
+      opacity: 0.75;
+    }
+
+    #spinWheel {
+      background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+      color: var(--night-navy);
+      border-color: var(--gold-dark);
+      box-shadow: 0 3px 0 var(--gold-dark), 0 5px 15px rgba(212, 175, 55, 0.4);
+      font-weight: bold;
+    }
+
+    #spinWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #ffe44d 0%, var(--gold-bright) 50%, var(--gold) 100%);
+    }
+
+    #createWheel {
+      background: linear-gradient(180deg, var(--wc-orange) 0%, var(--wc-red-orange) 100%);
+      color: var(--line-white);
+      border-color: #b83a12;
+      box-shadow: 0 3px 0 #b83a12, 0 5px 12px rgba(0,0,0,0.25);
+    }
+
+    #createWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #ff7d52 0%, var(--wc-orange) 100%);
+    }
+
+    #resetWheel:not(:disabled) {
+      background: linear-gradient(180deg, var(--wc-magenta) 0%, #a8155a 100%);
+      border-color: #851047;
+      box-shadow: 0 3px 0 #851047, 0 5px 12px rgba(0,0,0,0.25);
+    }
+
+    #resetWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #ef3d92 0%, var(--wc-magenta) 100%);
+    }
+
+    .wheel-container {
+      position: relative;
+      width: 440px;
+      height: 440px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0 30px 0;
+    }
+
+    .wheel-container::before {
+      content: "";
+      position: absolute;
+      width: 460px;
+      height: 460px;
+      border-radius: 50%;
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.05) 0px,
+          rgba(255, 255, 255, 0.05) 24px,
+          transparent 24px,
+          transparent 48px
+        ),
+        radial-gradient(circle, var(--pitch-green) 0%, var(--pitch-green-dark) 100%);
+      box-shadow:
+        inset 0 0 30px rgba(0,0,0,0.4),
+        inset 0 0 0 4px var(--line-white),
+        inset 0 0 0 8px var(--pitch-green-dark),
+        inset 0 0 0 10px var(--gold),
+        0 12px 40px rgba(0,0,0,0.45);
+      z-index: 0;
+    }
+
+    .wheel-container::after {
+      content: "";
+      position: absolute;
+      width: 460px;
+      height: 460px;
+      border-radius: 50%;
+      background-image:
+        radial-gradient(circle 5px at 50% 3.5%, var(--line-white) 50%, transparent 52%),
+        radial-gradient(circle 5px at 50% 96.5%, var(--line-white) 50%, transparent 52%),
+        radial-gradient(circle 5px at 3.5% 50%, var(--line-white) 50%, transparent 52%),
+        radial-gradient(circle 5px at 96.5% 50%, var(--line-white) 50%, transparent 52%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    #wheelCanvas {
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.35));
+    }
+
+    .pointer {
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 24px solid transparent;
+      border-bottom: 24px solid transparent;
+      border-right: 48px solid var(--gold-bright);
+      z-index: 10;
+      filter: drop-shadow(-3px 2px 6px rgba(0,0,0,0.45));
+    }
+
+    .pointer::after {
+      content: "";
+      position: absolute;
+      top: -18px;
+      right: -45px;
+      width: 0;
+      height: 0;
+      border-top: 18px solid transparent;
+      border-bottom: 18px solid transparent;
+      border-right: 36px solid var(--night-navy);
+    }
+
+    .result {
+      text-align: center;
+      font-size: 26px;
+      font-family: 'Russo One', sans-serif;
+      letter-spacing: 2px;
+      margin-top: 15px;
+      min-height: 55px;
+      color: var(--pitch-green-deep);
+      padding: 12px 25px;
+      transition: all 0.4s;
+      position: relative;
+      z-index: 2;
+      text-transform: uppercase;
+    }
+
+    .result:not(:empty) {
+      background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold-light) 100%);
+      border-radius: 10px;
+      box-shadow:
+        0 0 0 3px var(--line-white),
+        0 0 0 6px var(--wc-magenta),
+        0 8px 25px rgba(0,0,0,0.3);
+      animation: goalPulse 0.7s ease-out;
+      color: var(--night-navy);
+    }
+
+    @keyframes goalPulse {
+      0% { transform: scale(0.85) rotate(-2deg); opacity: 0; }
+      40% { transform: scale(1.08) rotate(1deg); }
+      70% { transform: scale(0.98); }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* ============================================
+       FEUILLE DE MATCH — TERRAIN DE FOOT
+       ============================================ */
+    .name-list {
+      width: 100%;
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(180deg, var(--night-navy) 0%, #091229 100%);
+      border-radius: 10px;
+      padding: 25px 20px 20px;
+      box-shadow:
+        inset 0 0 0 2px var(--gold),
+        inset 0 2px 15px rgba(0,0,0,0.4);
+      position: relative;
+      z-index: 2;
+    }
+
+    .name-list h3 {
+      margin: 0 0 18px 0;
+      color: var(--gold-bright);
+      font-family: 'Russo One', sans-serif;
+      letter-spacing: 4px;
+      font-size: 18px;
+      padding-bottom: 12px;
+      width: 100%;
+      text-align: center;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .name-list h3::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+    }
+
+    /* Le terrain */
+    .pitch {
+      position: relative;
+      width: 100%;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.05) 0px,
+          rgba(255, 255, 255, 0.05) 46px,
+          transparent 46px,
+          transparent 92px
+        ),
+        linear-gradient(180deg, var(--pitch-green-light) 0%, var(--pitch-green) 55%, var(--pitch-green-dark) 100%);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow:
+        inset 0 0 40px rgba(0,0,0,0.3),
+        0 4px 15px rgba(0,0,0,0.35);
+    }
+
+    /* Lignes du terrain (bordure, médiane, rond central) */
+    .pitch-lines {
+      position: absolute;
+      top: 12px; left: 12px; right: 12px; bottom: 12px;
+      border: 3px solid rgba(248, 252, 248, 0.8);
+      border-radius: 3px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Rond central */
+    .pitch-lines::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120px;
+      height: 120px;
+      border: 3px solid rgba(248, 252, 248, 0.8);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Ligne médiane + point central */
+    .pitch-lines::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: rgba(248, 252, 248, 0.8);
+      transform: translateY(-50%);
+    }
+
+    .pitch-center-dot {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background: rgba(248, 252, 248, 0.9);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Surface de réparation (en bas, autour du gardien) */
+    .penalty-box {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(400px, 72%);
+      height: 110px;
+      border: 3px solid rgba(248, 252, 248, 0.8);
+      border-bottom: none;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Petite surface (6 mètres) */
+    .goal-area {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(190px, 40%);
+      height: 45px;
+      border: 3px solid rgba(248, 252, 248, 0.8);
+      border-bottom: none;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* La cage de but */
+    .goal-cage {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 13px;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(248, 252, 248, 0.9) 0px,
+          rgba(248, 252, 248, 0.9) 2px,
+          transparent 2px,
+          transparent 8px
+        );
+      border: 2px solid rgba(248, 252, 248, 0.95);
+      border-bottom: none;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Contenu du terrain : les lignes de joueurs */
+    #namesList {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 22px;
+      padding: 30px 25px 20px;
+      min-height: 320px;
+    }
+
+    .pitch-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: nowrap;
+    }
+
+    /* Rangée du gardien : un peu plus d'espace au-dessus */
+    .pitch-row.keeper-row {
+      margin-top: 6px;
+    }
+
+    /* Joueur = silhouette + badge */
+    .player {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+
+    .player-silhouette {
+      width: 46px;
+      height: 44px;
+      margin-bottom: -6px;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35));
+      transition: all 0.3s;
+    }
+
+    .player-silhouette svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .player:has(.selected) .player-silhouette {
+      filter: grayscale(1) opacity(0.45) drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+    }
+
+    .name-item {
+      margin: 0;
+      font-size: 14px;
+      font-family: 'Titillium Web', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(253, 255, 248, 0.96);
+      padding: 7px 12px;
+      border-radius: 7px;
+      transition: all 0.2s;
+      border-left: 4px solid var(--wc-teal);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+      position: relative;
+      z-index: 2;
+      max-width: 160px;
+    }
+
+    .name-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 14px rgba(0,0,0,0.45);
+    }
+
+    .name-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--wc-magenta);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .name-item label {
+      cursor: pointer;
+      color: var(--text-dark);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Badge du gardien : liseré or */
+    .player.keeper .name-item {
+      border-left-color: var(--gold-bright) !important;
+      box-shadow:
+        0 0 0 1px var(--gold),
+        0 3px 8px rgba(0,0,0,0.35);
+    }
+
+    .selected {
+      text-decoration: line-through;
+      color: #999 !important;
+      opacity: 0.65;
+    }
+
+    .name-item:has(.selected) {
+      border-left-color: #9aa5b8 !important;
+      background: rgba(200, 205, 198, 0.75);
+      filter: grayscale(0.5);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+    }
+
+    /* ============================================
+       POPUP DE CÉLÉBRATION DE BUT
+       ============================================ */
+    .goal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(13, 27, 61, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .goal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .goal-popup {
+      background:
+        linear-gradient(135deg, var(--wc-orange) 0%, var(--wc-magenta) 35%, var(--wc-purple) 70%, var(--wc-blue) 100%);
+      border-radius: 20px;
+      padding: 8px;
+      box-shadow:
+        0 0 0 4px var(--gold-bright),
+        0 0 60px rgba(255, 215, 0, 0.6),
+        0 25px 70px rgba(0,0,0,0.6);
+      transform: scale(0.3) rotate(-8deg);
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 90vw;
+    }
+
+    .goal-overlay.active .goal-popup {
+      transform: scale(1) rotate(0deg);
+    }
+
+    .goal-popup-inner {
+      background: var(--ivory);
+      border-radius: 14px;
+      padding: 40px 50px 35px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .goal-word {
+      font-family: 'Russo One', sans-serif;
+      font-size: 72px;
+      letter-spacing: 6px;
+      margin: 0;
+      background: linear-gradient(90deg, var(--wc-orange), var(--wc-magenta), var(--wc-purple), var(--wc-cyan), var(--wc-lime), var(--wc-orange));
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowShift 2s linear infinite, goalShake 0.5s ease-in-out 3;
+      text-transform: uppercase;
+    }
+
+    @keyframes rainbowShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    @keyframes goalShake {
+      0%, 100% { transform: translateX(0) scale(1); }
+      20% { transform: translateX(-6px) scale(1.04); }
+      40% { transform: translateX(6px) scale(1.06); }
+      60% { transform: translateX(-4px) scale(1.04); }
+      80% { transform: translateX(4px) scale(1.02); }
+    }
+
+    .goal-name {
+      font-family: 'Russo One', sans-serif;
+      font-size: 38px;
+      letter-spacing: 3px;
+      margin: 12px 0 0 0;
+      color: var(--night-navy);
+      text-transform: uppercase;
+      animation: namePopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+    }
+
+    @keyframes namePopIn {
+      0% { transform: scale(0) rotate(10deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .goal-ball {
+      font-size: 44px;
+      display: inline-block;
+      animation: ballBounce 0.8s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
+      margin-top: 10px;
+    }
+
+    @keyframes ballBounce {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-22px) rotate(180deg); }
+    }
+
+    .goal-close-hint {
+      font-family: 'Titillium Web', sans-serif;
+      font-size: 13px;
+      color: #7d8798;
+      margin-top: 18px;
+      animation: namePopIn 0.5s ease 1.2s both;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      top: -20px;
+      z-index: 1001;
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 22px; letter-spacing: 1px; }
+      .subtitle { font-size: 11px; letter-spacing: 3px; }
+      .host-stripe { font-size: 10px; letter-spacing: 2px; margin-bottom: 48px; }
+      .wheel-container {
+        width: 320px;
+        height: 320px;
+      }
+      .wheel-container::before, .wheel-container::after {
+        width: 340px;
+        height: 340px;
+      }
+      #wheelCanvas {
+        width: 320px;
+        height: 320px;
+      }
+      .container { padding: 38px 12px 25px; }
+      .btn { padding: 10px 16px; font-size: 11px; letter-spacing: 1px; }
+      .result { font-size: 19px; letter-spacing: 1px; }
+      .goal-word { font-size: 44px; letter-spacing: 3px; }
+      .goal-name { font-size: 26px; }
+      .goal-popup-inner { padding: 30px 25px 25px; }
+
+      /* Terrain compact sur mobile */
+      #namesList { padding: 22px 8px 16px; gap: 16px; }
+      .pitch-row { gap: 6px; }
+      .name-item {
+        font-size: 11px;
+        padding: 5px 7px;
+        gap: 5px;
+        max-width: 105px;
+        border-left-width: 3px;
+      }
+      .name-item input[type="checkbox"] { width: 13px; height: 13px; }
+      .player-silhouette { width: 34px; height: 32px; margin-bottom: -4px; }
+      .pitch-lines::before { width: 80px; height: 80px; }
+      .penalty-box { height: 90px; }
+      .goal-area { height: 38px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Coupe du Monde des Prénoms</h1>
+  <div class="subtitle">Édition 2026</div>
+  <div class="host-stripe">CANADA · USA · MEXIQUE</div>
+
+  <div class="container">
+    <div class="input-section">
+      <input type="text" id="namesInput" placeholder="Entrez les joueurs séparés par des point-virgules (ex: Kylian;Lionel;Antoine)">
+      <div class="button-group">
+        <button id="createWheel" class="btn">Composer l'équipe</button>
+        <button id="spinWheel" class="btn" disabled>⚽ Coup d'envoi !</button>
+        <button id="resetWheel" class="btn" disabled>Nouveau match</button>
+        <button id="exportState" class="btn" disabled>Exporter</button>
+        <input type="file" id="importFile" style="display:none;">
+        <button id="importState" class="btn">Importer</button>
+      </div>
+    </div>
+
+    <div class="wheel-container" id="wheelContainer">
+      <div class="pointer"></div>
+      <canvas id="wheelCanvas" width="400" height="400"></canvas>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <div class="name-list">
+      <h3>⚽ Feuille de Match</h3>
+      <div class="pitch">
+        <div class="pitch-lines"></div>
+        <div class="pitch-center-dot"></div>
+        <div class="penalty-box"></div>
+        <div class="goal-area"></div>
+        <div class="goal-cage"></div>
+        <div id="namesList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup de célébration de but -->
+  <div class="goal-overlay" id="goalOverlay">
+    <div class="goal-popup">
+      <div class="goal-popup-inner">
+        <p class="goal-word">BUUUUT !</p>
+        <p class="goal-name" id="goalName"></p>
+        <span class="goal-ball">⚽</span>
+        <p class="goal-close-hint">Cliquez n'importe où pour fermer</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const canvas = document.getElementById('wheelCanvas');
+      const ctx = canvas.getContext('2d');
+      const wheelContainer = document.getElementById('wheelContainer');
+      const createWheelBtn = document.getElementById('createWheel');
+      const spinWheelBtn = document.getElementById('spinWheel');
+      const resetWheelBtn = document.getElementById('resetWheel');
+      const exportStateBtn = document.getElementById('exportState');
+      const importStateBtn = document.getElementById('importState');
+      const importFileInput = document.getElementById('importFile');
+      const namesInput = document.getElementById('namesInput');
+      const resultElem = document.getElementById('result');
+      const namesListElem = document.getElementById('namesList');
+      const goalOverlay = document.getElementById('goalOverlay');
+      const goalNameElem = document.getElementById('goalName');
+
+      let names = [];
+      let selectedNames = [];
+      let isSpinning = false;
+      let initialized = false;
+      let confettiTimers = [];
+
+      // === Palette officielle Coupe du Monde 2026 (charte vive) ===
+      let colors = [
+        '#f4633a', // orange
+        '#4fc3e8', // cyan
+        '#d81e75', // magenta
+        '#8bc53f', // vert lime
+        '#7b2d8e', // violet profond
+        '#f27d9d', // corail rose
+        '#2d6fb8', // bleu
+        '#ffd700', // or trophée
+        '#00a8a8', // turquoise
+        '#e94e1b', // rouge-orange
+        '#c9a0dc', // lavande
+        '#ee5d8a'  // rose vif
+      ];
+
+      const lightBackgrounds = ['#4fc3e8', '#8bc53f', '#f27d9d', '#ffd700', '#c9a0dc', '#ee5d8a', '#f4633a'];
+      function getTextColor(bgColor) {
+        return lightBackgrounds.includes(bgColor) ? '#12240f' : '#fdfff8';
+      }
+
+      createWheelBtn.addEventListener('click', () => {
+        updateNamesFromInput();
+        if (names.length < 2) {
+          alert('Veuillez entrer au moins deux joueurs.');
+          return;
+        }
+        initialized = true;
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = false;
+        resetWheelBtn.disabled = false;
+        createWheelBtn.disabled = true;
+        exportStateBtn.disabled = false;
+        resultElem.textContent = '';
+      });
+
+      namesInput.addEventListener('input', () => {
+        if (!initialized) return;
+        updateNamesFromInput();
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = selectedNames.length >= names.length;
+      });
+
+      function updateNamesFromInput() {
+        const inputNames = namesInput.value.split(';').map(n => n.trim()).filter(n => n);
+        const newSelected = selectedNames.filter(n => inputNames.includes(n));
+        names = inputNames;
+        selectedNames = newSelected;
+      }
+
+      spinWheelBtn.addEventListener('click', () => {
+        if (isSpinning || names.length === 0 || selectedNames.length === names.length) return;
+        isSpinning = true;
+        resultElem.textContent = '';
+        spinWheelBtn.disabled = true;
+        wheelContainer.classList.add('spinning');
+
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * names.length);
+        } while (selectedNames.includes(names[randomIndex]));
+
+        const selectedName = names[randomIndex];
+        const segmentAngle = (2 * Math.PI) / names.length;
+        const targetAngle = -(segmentAngle * randomIndex + segmentAngle / 2) - Math.PI / 2;
+        const fullSpins = 20 + Math.floor(Math.random() * 11);
+        const finalRotation = (fullSpins * 2 * Math.PI) + targetAngle;
+
+        canvas.style.transition = 'transform 8s cubic-bezier(0.17, 0.67, 0.15, 1)';
+        canvas.style.transform = `rotate(${finalRotation}rad)`;
+
+        setTimeout(() => {
+          isSpinning = false;
+          wheelContainer.classList.remove('spinning');
+          selectedNames.push(selectedName);
+          resultElem.textContent = `⚽ BUUUUT ! ${selectedName} !`;
+          updateNamesList();
+          drawWheel();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          spinWheelBtn.textContent = spinWheelBtn.disabled
+            ? "🏆 Fin du mondial"
+            : `⚽ Coup d'envoi ! (${names.length - selectedNames.length} en jeu)`;
+
+          showGoalCelebration(selectedName);
+        }, 8000);
+      });
+
+      // ============================================
+      // CÉLÉBRATION DE BUT : popup + confettis
+      // ============================================
+      const confettiColors = ['#f4633a', '#4fc3e8', '#d81e75', '#8bc53f', '#7b2d8e', '#f27d9d', '#ffd700', '#00a8a8', '#e94e1b', '#c9a0dc'];
+
+      function showGoalCelebration(name) {
+        goalNameElem.textContent = `BUT de ${name}`;
+        goalOverlay.classList.add('active');
+        launchConfetti();
+      }
+
+      function hideGoalCelebration() {
+        goalOverlay.classList.remove('active');
+        stopConfetti();
+      }
+
+      goalOverlay.addEventListener('click', hideGoalCelebration);
+
+      function launchConfetti() {
+        stopConfetti();
+        for (let wave = 0; wave < 6; wave++) {
+          const timer = setTimeout(() => {
+            for (let i = 0; i < 25; i++) {
+              createConfettiPiece();
+            }
+          }, wave * 450);
+          confettiTimers.push(timer);
+        }
+      }
+
+      function stopConfetti() {
+        confettiTimers.forEach(t => clearTimeout(t));
+        confettiTimers = [];
+        document.querySelectorAll('.confetti').forEach(c => c.remove());
+      }
+
+      function createConfettiPiece() {
+        const piece = document.createElement('div');
+        piece.className = 'confetti';
+        const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        const isCircle = Math.random() > 0.5;
+        const size = 7 + Math.random() * 9;
+        const startX = Math.random() * window.innerWidth;
+        const drift = (Math.random() - 0.5) * 250;
+        const duration = 2200 + Math.random() * 1800;
+        const rotations = 360 + Math.random() * 720;
+
+        piece.style.left = startX + 'px';
+        piece.style.width = size + 'px';
+        piece.style.height = (isCircle ? size : size * 0.55) + 'px';
+        piece.style.background = color;
+        piece.style.borderRadius = isCircle ? '50%' : '2px';
+
+        document.body.appendChild(piece);
+
+        const anim = piece.animate([
+          {
+            transform: `translate(0, 0) rotate(0deg)`,
+            opacity: 1
+          },
+          {
+            transform: `translate(${drift}px, ${window.innerHeight + 50}px) rotate(${rotations}deg)`,
+            opacity: 0.7
+          }
+        ], {
+          duration: duration,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        });
+
+        anim.onfinish = () => piece.remove();
+      }
+
+      resetWheelBtn.addEventListener('click', () => {
+        selectedNames = [];
+        spinWheelBtn.disabled = false;
+        spinWheelBtn.textContent = "⚽ Coup d'envoi !";
+        createWheelBtn.disabled = false;
+        exportStateBtn.disabled = false;
+        initialized = false;
+        canvas.style.transition = 'none';
+        canvas.style.transform = 'rotate(0rad)';
+        drawWheel();
+        updateNamesList();
+        resultElem.textContent = '';
+        hideGoalCelebration();
+      });
+
+      exportStateBtn.addEventListener('click', () => {
+        const data = `${names.join(';')}\nPASSED:${selectedNames.join(';')}`;
+        const blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'etat_roue.txt';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+
+      importStateBtn.addEventListener('click', () => importFileInput.click());
+
+      importFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const content = e.target.result.trim();
+          const lines = content.split('\n');
+          if (lines.length < 1) return;
+          names = lines[0].split(';').map(name => name.trim()).filter(name => name.length > 0);
+          selectedNames = lines[1]?.startsWith('PASSED:') ? lines[1].substring(7).split(';').map(n => n.trim()) : [];
+          namesInput.value = names.join(';');
+          initialized = true;
+          drawWheel();
+          updateNamesList();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          resetWheelBtn.disabled = false;
+          createWheelBtn.disabled = true;
+          exportStateBtn.disabled = false;
+          resultElem.textContent = '';
+        };
+        reader.readAsText(file);
+      });
+
+      function drawWheel() {
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) - 10;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (names.length === 0) {
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+          ctx.fillStyle = '#f8fcf8';
+          ctx.fill();
+          ctx.strokeStyle = '#12240f';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+          drawPentagon(centerX, centerY, radius * 0.28, '#12240f');
+          return;
+        }
+
+        const segmentAngle = (2 * Math.PI) / names.length;
+        const angleOffset = Math.PI / 2;
+
+        for (let i = 0; i < names.length; i++) {
+          const startAngle = i * segmentAngle + angleOffset;
+          const endAngle = (i + 1) * segmentAngle + angleOffset;
+          const segmentColor = colors[i % colors.length];
+          const isSelected = selectedNames.includes(names[i]);
+
+          const gradient = ctx.createRadialGradient(centerX, centerY, radius * 0.15, centerX, centerY, radius);
+          if (isSelected) {
+            gradient.addColorStop(0, '#a8b0a5');
+            gradient.addColorStop(1, '#7d857a');
+          } else {
+            gradient.addColorStop(0, shadeColor(segmentColor, 15));
+            gradient.addColorStop(0.6, segmentColor);
+            gradient.addColorStop(1, shadeColor(segmentColor, -20));
+          }
+
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+          ctx.closePath();
+          ctx.fillStyle = gradient;
+          ctx.fill();
+
+          ctx.strokeStyle = '#f8fcf8';
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+
+          ctx.save();
+          ctx.translate(centerX, centerY);
+          ctx.rotate(startAngle + segmentAngle / 2);
+          ctx.textAlign = 'right';
+          ctx.fillStyle = isSelected ? '#555' : getTextColor(segmentColor);
+          ctx.font = 'bold 15px "Titillium Web", Arial';
+
+          if (!isSelected && getTextColor(segmentColor) === '#fdfff8') {
+            ctx.shadowColor = 'rgba(0,0,0,0.6)';
+            ctx.shadowBlur = 3;
+          }
+
+          const textMaxLength = radius * 0.75;
+          let fontSize = 15;
+          if (ctx.measureText(names[i]).width > textMaxLength) {
+            fontSize = Math.floor(fontSize * (textMaxLength / ctx.measureText(names[i]).width));
+            ctx.font = `bold ${fontSize}px "Titillium Web", Arial`;
+          }
+          ctx.fillText(names[i], radius - 20, 5);
+          ctx.shadowBlur = 0;
+          ctx.restore();
+        }
+
+        // Centre : ballon de football
+        const centerRadius = 30;
+
+        const ballGradient = ctx.createRadialGradient(centerX - 7, centerY - 7, 3, centerX, centerY, centerRadius);
+        ballGradient.addColorStop(0, '#ffffff');
+        ballGradient.addColorStop(0.7, '#f0f2ec');
+        ballGradient.addColorStop(1, '#c8ccc2');
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
+        ctx.fillStyle = ballGradient;
+        ctx.fill();
+
+        drawPentagon(centerX, centerY, centerRadius * 0.38, '#12240f');
+
+        for (let p = 0; p < 5; p++) {
+          const ang = (p * 2 * Math.PI / 5) - Math.PI / 2;
+          const px = centerX + Math.cos(ang) * centerRadius * 0.82;
+          const py = centerY + Math.sin(ang) * centerRadius * 0.82;
+          drawPentagon(px, py, centerRadius * 0.2, '#12240f');
+        }
+
+        ctx.strokeStyle = '#12240f';
+        ctx.lineWidth = 1.2;
+        for (let p = 0; p < 5; p++) {
+          const ang = (p * 2 * Math.PI / 5) - Math.PI / 2;
+          ctx.beginPath();
+          ctx.moveTo(centerX + Math.cos(ang) * centerRadius * 0.38, centerY + Math.sin(ang) * centerRadius * 0.38);
+          ctx.lineTo(centerX + Math.cos(ang) * centerRadius * 0.62, centerY + Math.sin(ang) * centerRadius * 0.62);
+          ctx.stroke();
+        }
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#12240f';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, centerRadius + 4, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#ffd700';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+      }
+
+      function drawPentagon(cx, cy, size, color) {
+        ctx.beginPath();
+        for (let i = 0; i < 5; i++) {
+          const angle = (i * 2 * Math.PI / 5) - Math.PI / 2;
+          const x = cx + Math.cos(angle) * size;
+          const y = cy + Math.sin(angle) * size;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+
+      function shadeColor(color, percent) {
+        const f = parseInt(color.slice(1), 16);
+        const t = percent < 0 ? 0 : 255;
+        const p = Math.abs(percent) / 100;
+        const R = f >> 16;
+        const G = (f >> 8) & 0x00FF;
+        const B = f & 0x0000FF;
+        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
+          (Math.round((t - G) * p) + G) * 0x100 +
+          (Math.round((t - B) * p) + B)).toString(16).slice(1);
+      }
+
+      // ============================================
+      // FEUILLE DE MATCH : disposition en formation
+      // ============================================
+
+      // Silhouette neutre (tête + épaules/maillot)
+      function createSilhouette(isKeeper) {
+        const jersey = isKeeper ? '#2c3548' : '#3d4a63';
+        const skin = '#8a94a8';
+        return `
+          <svg viewBox="0 0 60 58" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="30" cy="16" r="11" fill="${skin}"/>
+            <path d="M8 56 Q8 36 30 33 Q52 36 52 56 Z" fill="${jersey}"/>
+            <path d="M22 34 Q30 40 38 34 L38 42 Q30 47 22 42 Z" fill="${isKeeper ? '#c9a536' : '#5a6a88'}" opacity="0.9"/>
+          </svg>`;
+      }
+
+      // Construit un élément joueur : silhouette + badge à cocher
+      function buildPlayer(name, colorIndex, isKeeper) {
+        const player = document.createElement('div');
+        player.className = 'player' + (isKeeper ? ' keeper' : '');
+
+        const silhouette = document.createElement('div');
+        silhouette.className = 'player-silhouette';
+        silhouette.innerHTML = createSilhouette(isKeeper);
+        player.appendChild(silhouette);
+
+        const div = document.createElement('div');
+        div.className = 'name-item';
+        div.style.borderLeftColor = colors[colorIndex % colors.length];
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = selectedNames.includes(name);
+        checkbox.addEventListener('change', () => {
+          if (checkbox.checked) {
+            if (!selectedNames.includes(name)) selectedNames.push(name);
+          } else {
+            selectedNames = selectedNames.filter(n => n !== name);
+          }
+          drawWheel();
+          updateNamesList();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+        });
+
+        const label = document.createElement('label');
+        label.textContent = name;
+        if (checkbox.checked) label.classList.add('selected');
+
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        player.appendChild(div);
+        return player;
+      }
+
+      // Répartit les joueurs de champ en lignes équilibrées (max 4 par ligne)
+      function computeRows(count) {
+        if (count <= 0) return [];
+        const maxPerRow = 4;
+        const rowCount = Math.ceil(count / maxPerRow);
+        const base = Math.floor(count / rowCount);
+        const extra = count % rowCount;
+        const rows = [];
+        for (let r = 0; r < rowCount; r++) {
+          rows.push(base + (r < extra ? 1 : 0));
+        }
+        return rows;
+      }
+
+      function updateNamesList() {
+        namesListElem.innerHTML = '';
+        if (names.length === 0) return;
+
+        // Le premier prénom de la liste est le gardien (en bas, devant la cage)
+        const keeper = names[0];
+        const outfield = names.slice(1);
+
+        const rowSizes = computeRows(outfield.length);
+
+        // Lignes de joueurs de champ : de l'attaque (haut) à la défense (bas)
+        let idx = 0;
+        rowSizes.forEach(size => {
+          const row = document.createElement('div');
+          row.className = 'pitch-row';
+          for (let i = 0; i < size; i++) {
+            const name = outfield[idx];
+            const colorIndex = names.indexOf(name);
+            row.appendChild(buildPlayer(name, colorIndex, false));
+            idx++;
+          }
+          namesListElem.appendChild(row);
+        });
+
+        // Rangée du gardien, seule en bas
+        const keeperRow = document.createElement('div');
+        keeperRow.className = 'pitch-row keeper-row';
+        keeperRow.appendChild(buildPlayer(keeper, 0, true));
+        namesListElem.appendChild(keeperRow);
+      }
+
+      updateNamesList();
+    });
+  </script>
+</body>
+</html>

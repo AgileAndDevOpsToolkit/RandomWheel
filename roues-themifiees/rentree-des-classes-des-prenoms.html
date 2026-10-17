@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎒 Roue des Prénoms - La Rentrée des Classes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* === Tableau noir === */
+      --board-green: #2f5d50;
+      --board-green-dark: #234a3f;
+      --board-green-deep: #18362e;
+      --chalk: #f4f1e8;
+      --chalk-dim: rgba(244, 241, 232, 0.55);
+
+      /* === Bois d'écolier === */
+      --wood: #b07d4f;
+      --wood-dark: #8a5f3a;
+      --wood-deep: #5f3f24;
+
+      /* === Cahier === */
+      --paper: #fdfcf5;
+      --paper-line: #b8d4e8;
+      --margin-red: #e8a0a8;
+
+      /* === Crayons de couleur === */
+      --crayon-red: #e63946;
+      --crayon-red-dark: #b82835;
+      --crayon-orange: #f77f00;
+      --crayon-yellow: #fcbf49;
+      --crayon-yellow-dark: #d99e1e;
+      --crayon-green: #2a9d8f;
+      --crayon-green-dark: #1e7a6f;
+      --crayon-blue: #457b9d;
+      --crayon-blue-dark: #33607d;
+      --crayon-purple: #7d5ba6;
+      --crayon-pink: #ff70a6;
+      --crayon-sky: #4cc9f0;
+
+      /* === Pomme === */
+      --apple-red: #d62828;
+      --apple-light: #f25c54;
+      --apple-leaf: #5a9e4b;
+
+      --text-dark: #2b2118;
+      --graphite: #3a3a3a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Nunito', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: var(--text-dark);
+      background-color: var(--board-green);
+      background-image:
+        /* Traces d'effaçage à la craie */
+        radial-gradient(ellipse 220px 60px at 20% 25%, rgba(244, 241, 232, 0.05) 0%, transparent 70%),
+        radial-gradient(ellipse 260px 70px at 75% 55%, rgba(244, 241, 232, 0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 200px 55px at 40% 80%, rgba(244, 241, 232, 0.05) 0%, transparent 70%),
+        /* Dégradé du tableau */
+        linear-gradient(180deg, var(--board-green) 0%, var(--board-green-dark) 55%, var(--board-green-deep) 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* === Gribouillis à la craie sur le tableau === */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        /* "A+" entouré */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='80' viewBox='0 0 90 80'><g opacity='0.4' stroke='%23f4f1e8' fill='none' stroke-width='2.5' stroke-linecap='round'><path d='M22 60 L38 18 L54 60 M28 46 L48 46'/><path d='M62 30 L62 46 M54 38 L70 38'/><ellipse cx='45' cy='40' rx='40' ry='32'/></g></svg>"),
+        /* "1+1=2" */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='130' height='50' viewBox='0 0 130 50'><g opacity='0.35' stroke='%23f4f1e8' fill='none' stroke-width='2.5' stroke-linecap='round'><path d='M12 15 L18 10 L18 40'/><path d='M35 25 L51 25 M43 17 L43 33'/><path d='M62 15 L68 10 L68 40'/><path d='M82 20 L96 20 M82 30 L96 30'/><path d='M108 14 Q120 8 120 18 Q120 26 106 38 L122 38'/></g></svg>"),
+        /* Petite fusée */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='70' height='90' viewBox='0 0 70 90'><g opacity='0.38' stroke='%23f4f1e8' fill='none' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M35 8 Q48 24 48 44 L48 58 L22 58 L22 44 Q22 24 35 8 Z'/><circle cx='35' cy='36' r='7'/><path d='M22 50 L10 66 L22 62 M48 50 L60 66 L48 62'/><path d='M30 62 L28 76 M35 62 L35 80 M40 62 L42 76'/></g></svg>"),
+        /* Soleil gribouillé */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><g opacity='0.33' stroke='%23f4f1e8' fill='none' stroke-width='2.5' stroke-linecap='round'><circle cx='40' cy='40' r='16'/><path d='M40 8 L40 18 M40 62 L40 72 M8 40 L18 40 M62 40 L72 40 M17 17 L24 24 M56 56 L63 63 M63 17 L56 24 M24 56 L17 63'/></g></svg>"),
+        /* Étoile */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='55' height='55' viewBox='0 0 55 55'><path d='M27 5 L33 21 L50 21 L36 31 L41 48 L27 38 L13 48 L18 31 L4 21 L21 21 Z' fill='none' stroke='%23f4f1e8' stroke-width='2.5' stroke-linejoin='round' opacity='0.35'/></svg>");
+      background-position:
+        4% 10%,
+        88% 12%,
+        94% 68%,
+        3% 62%,
+        12% 88%;
+      background-repeat: no-repeat;
+      background-size: 90px 80px, 130px 50px, 70px 90px, 80px 80px, 55px 55px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* === Fournitures scolaires en décor === */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        /* Crayon jaune */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='44' viewBox='0 0 150 44'><g opacity='0.75' transform='rotate(-8 75 22)'><rect x='18' y='12' width='100' height='20' fill='%23fcbf49' stroke='%23d99e1e' stroke-width='2'/><path d='M18 12 L2 22 L18 32 Z' fill='%23f4d8b0' stroke='%23d99e1e' stroke-width='2'/><path d='M8 18 L2 22 L8 26 Z' fill='%233a3a3a'/><rect x='118' y='12' width='10' height='20' fill='%23c0c0c0' stroke='%23909090' stroke-width='1.5'/><rect x='128' y='12' width='14' height='20' rx='4' fill='%23ff70a6' stroke='%23d15586' stroke-width='2'/><line x1='40' y1='12' x2='40' y2='32' stroke='%23d99e1e' stroke-width='1.5'/></g></svg>"),
+        /* Règle en bois */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='42' viewBox='0 0 160 42'><g opacity='0.7' transform='rotate(6 80 21)'><rect x='6' y='10' width='148' height='24' rx='3' fill='%23e8c896' stroke='%23b07d4f' stroke-width='2'/><g stroke='%235f3f24' stroke-width='1.5'><line x1='18' y1='10' x2='18' y2='20'/><line x1='30' y1='10' x2='30' y2='17'/><line x1='42' y1='10' x2='42' y2='20'/><line x1='54' y1='10' x2='54' y2='17'/><line x1='66' y1='10' x2='66' y2='20'/><line x1='78' y1='10' x2='78' y2='17'/><line x1='90' y1='10' x2='90' y2='20'/><line x1='102' y1='10' x2='102' y2='17'/><line x1='114' y1='10' x2='114' y2='20'/><line x1='126' y1='10' x2='126' y2='17'/><line x1='138' y1='10' x2='138' y2='20'/></g></g></svg>"),
+        /* Cartable */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='110' viewBox='0 0 110 110'><g opacity='0.7'><rect x='15' y='34' width='80' height='62' rx='12' fill='%23e63946' stroke='%23b82835' stroke-width='3'/><path d='M35 34 Q35 14 55 14 Q75 14 75 34' fill='none' stroke='%23b82835' stroke-width='6' stroke-linecap='round'/><rect x='28' y='56' width='54' height='40' rx='8' fill='%23f25c54' stroke='%23b82835' stroke-width='2.5'/><rect x='47' y='70' width='16' height='12' rx='3' fill='%23fcbf49' stroke='%23d99e1e' stroke-width='2'/><line x1='15' y1='50' x2='95' y2='50' stroke='%23b82835' stroke-width='2.5'/></g></svg>"),
+        /* Pile de livres */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='84' viewBox='0 0 110 84'><g opacity='0.7'><rect x='14' y='58' width='84' height='18' rx='3' fill='%23457b9d' stroke='%2333607d' stroke-width='2.5'/><rect x='20' y='40' width='76' height='18' rx='3' fill='%232a9d8f' stroke='%231e7a6f' stroke-width='2.5'/><rect x='26' y='22' width='64' height='18' rx='3' fill='%23fcbf49' stroke='%23d99e1e' stroke-width='2.5'/><line x1='26' y1='67' x2='86' y2='67' stroke='%2333607d' stroke-width='1.5'/><line x1='32' y1='49' x2='84' y2='49' stroke='%231e7a6f' stroke-width='1.5'/><line x1='38' y1='31' x2='78' y2='31' stroke='%23d99e1e' stroke-width='1.5'/></g></svg>");
+      background-position:
+        2% 40%,
+        96% 32%,
+        95% 90%,
+        3% 94%;
+      background-repeat: no-repeat;
+      background-size: 150px 44px, 160px 42px, 110px 110px, 110px 84px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    h1 {
+      font-family: 'Patrick Hand', cursive;
+      color: var(--chalk);
+      text-align: center;
+      margin: 10px 0 0 0;
+      font-size: 52px;
+      letter-spacing: 3px;
+      text-shadow:
+        0 0 12px rgba(244, 241, 232, 0.3),
+        2px 2px 3px rgba(24, 54, 46, 0.8);
+      position: relative;
+      z-index: 1;
+      transform: rotate(-1deg);
+    }
+
+    h1::before { content: "🎒 "; }
+    h1::after { content: " 🍎"; }
+
+    .subtitle {
+      font-family: 'Patrick Hand', cursive;
+      letter-spacing: 5px;
+      font-size: 22px;
+      margin-bottom: 6px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      color: var(--crayon-yellow);
+      text-shadow: 1px 1px 3px rgba(24, 54, 46, 0.8);
+      transform: rotate(0.5deg);
+    }
+
+    /* Trait de craie souligné à main levée */
+    .chalk-line {
+      width: 260px;
+      height: 14px;
+      margin-bottom: 50px;
+      position: relative;
+      z-index: 1;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='14' viewBox='0 0 260 14'><path d='M4 8 Q60 3 130 7 T256 6' fill='none' stroke='%23f4f1e8' stroke-width='3' stroke-linecap='round' opacity='0.7'/></svg>");
+      background-repeat: no-repeat;
+    }
+
+    /* === Conteneur : feuille de cahier === */
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 800px;
+      background:
+        /* Lignes horizontales du cahier */
+        repeating-linear-gradient(
+          180deg,
+          transparent 0px,
+          transparent 27px,
+          var(--paper-line) 27px,
+          var(--paper-line) 28px
+        ),
+        /* Marge rouge verticale */
+        linear-gradient(90deg,
+          transparent 0px, transparent 52px,
+          var(--margin-red) 52px, var(--margin-red) 54px,
+          transparent 54px),
+        var(--paper);
+      border-radius: 6px;
+      padding: 45px 25px 30px 70px;
+      box-shadow:
+        0 0 0 2px rgba(43, 33, 24, 0.15),
+        0 6px 0 -2px rgba(253, 252, 245, 0.65),
+        0 8px 0 -3px rgba(43, 33, 24, 0.12),
+        0 20px 45px rgba(24, 54, 46, 0.55);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Perforations de la feuille */
+    .container::after {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 18px;
+      width: 16px;
+      background-image:
+        radial-gradient(circle 8px at 8px 15%, var(--board-green-dark) 7px, rgba(43,33,24,0.2) 8px, transparent 9px),
+        radial-gradient(circle 8px at 8px 50%, var(--board-green-dark) 7px, rgba(43,33,24,0.2) 8px, transparent 9px),
+        radial-gradient(circle 8px at 8px 85%, var(--board-green-dark) 7px, rgba(43,33,24,0.2) 8px, transparent 9px);
+      pointer-events: none;
+    }
+
+    /* Pomme du professeur épinglée en haut */
+    .container::before {
+      content: "🍎";
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-4deg);
+      background: radial-gradient(circle, var(--paper) 0%, #f0ecdc 100%);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow:
+        0 0 0 3px var(--paper),
+        0 0 0 5px var(--crayon-red),
+        0 6px 16px rgba(24, 54, 46, 0.5);
+      z-index: 2;
+    }
+
+    .input-section {
+      width: 100%;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+      position: relative;
+      z-index: 2;
+    }
+
+    #namesInput {
+      width: 90%;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      border: 2px dashed var(--crayon-blue);
+      border-radius: 6px;
+      margin-bottom: 18px;
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--text-dark);
+      transition: all 0.3s;
+    }
+
+    #namesInput::placeholder {
+      color: rgba(43, 33, 24, 0.4);
+      font-style: italic;
+    }
+
+    #namesInput:focus {
+      outline: none;
+      border-style: solid;
+      border-color: var(--crayon-red);
+      box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 11px 20px;
+      font-size: 16px;
+      font-family: 'Patrick Hand', cursive;
+      letter-spacing: 1.5px;
+      background: linear-gradient(180deg, var(--crayon-blue) 0%, var(--crayon-blue-dark) 100%);
+      color: var(--paper);
+      border: 2px solid var(--crayon-blue-dark);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 3px 0 #234358, 0 5px 10px rgba(24, 54, 46, 0.25);
+      position: relative;
+      top: 0;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: linear-gradient(180deg, #5590b5 0%, var(--crayon-blue) 100%);
+      transform: translateY(-1px) rotate(-0.5deg);
+    }
+
+    .btn:active:not(:disabled) {
+      top: 3px;
+      box-shadow: 0 0 0 #234358, 0 2px 5px rgba(24, 54, 46, 0.25);
+    }
+
+    .btn:disabled {
+      background: linear-gradient(180deg, #b5b0a5 0%, #98938a 100%);
+      border-color: #7d786f;
+      color: #e5e2da;
+      box-shadow: 0 3px 0 #7d786f;
+      cursor: not-allowed;
+      opacity: 0.75;
+    }
+
+    /* Bouton interroger en jaune crayon */
+    #spinWheel {
+      background: linear-gradient(180deg, #fdd57a 0%, var(--crayon-yellow) 50%, var(--crayon-yellow-dark) 100%);
+      color: var(--text-dark);
+      border-color: var(--crayon-yellow-dark);
+      box-shadow: 0 3px 0 #b5831a, 0 5px 12px rgba(252, 191, 73, 0.4);
+      font-weight: bold;
+    }
+
+    #spinWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #fee49e 0%, #fdd57a 50%, var(--crayon-yellow) 100%);
+    }
+
+    /* Bouton créer en vert cahier */
+    #createWheel {
+      background: linear-gradient(180deg, var(--crayon-green) 0%, var(--crayon-green-dark) 100%);
+      border-color: var(--crayon-green-dark);
+      box-shadow: 0 3px 0 #155c54, 0 5px 10px rgba(24, 54, 46, 0.25);
+    }
+
+    #createWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #35b8a8 0%, var(--crayon-green) 100%);
+    }
+
+    /* Bouton reset en rouge gomme */
+    #resetWheel:not(:disabled) {
+      background: linear-gradient(180deg, var(--crayon-red) 0%, var(--crayon-red-dark) 100%);
+      border-color: var(--crayon-red-dark);
+      box-shadow: 0 3px 0 #8f1f2a, 0 5px 10px rgba(24, 54, 46, 0.25);
+    }
+
+    #resetWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #f05561 0%, var(--crayon-red) 100%);
+    }
+
+    .wheel-container {
+      position: relative;
+      width: 440px;
+      height: 440px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0 30px 0;
+    }
+
+    /* Cadre en bois d'écolier autour de la roue */
+    .wheel-container::before {
+      content: "";
+      position: absolute;
+      width: 464px;
+      height: 464px;
+      border-radius: 50%;
+      background:
+        repeating-conic-gradient(
+          from 0deg,
+          var(--wood) 0deg 18deg,
+          #c08d5d 18deg 36deg
+        );
+      box-shadow:
+        inset 0 0 0 5px var(--wood-dark),
+        inset 0 0 22px rgba(95, 63, 36, 0.6),
+        0 10px 35px rgba(24, 54, 46, 0.5);
+      z-index: 0;
+    }
+
+    /* Liseré ardoise entre le bois et la roue */
+    .wheel-container::after {
+      content: "";
+      position: absolute;
+      width: 424px;
+      height: 424px;
+      border-radius: 50%;
+      border: 5px solid var(--board-green-deep);
+      box-shadow: inset 0 0 0 2px var(--chalk-dim);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    #wheelCanvas {
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 4px 12px rgba(24, 54, 46, 0.4));
+    }
+
+    /* Pointeur en crayon jaune taillé */
+    .pointer {
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 24px solid transparent;
+      border-bottom: 24px solid transparent;
+      border-right: 48px solid var(--crayon-yellow);
+      z-index: 10;
+      filter: drop-shadow(-3px 2px 5px rgba(24, 54, 46, 0.45));
+    }
+
+    /* Mine du crayon */
+    .pointer::before {
+      content: "";
+      position: absolute;
+      top: -9px;
+      right: -49px;
+      width: 0;
+      height: 0;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-right: 18px solid var(--graphite);
+      transform: translateX(-30px);
+      z-index: 11;
+    }
+
+    .pointer::after {
+      content: "";
+      position: absolute;
+      top: -18px;
+      right: -45px;
+      width: 0;
+      height: 0;
+      border-top: 18px solid transparent;
+      border-bottom: 18px solid transparent;
+      border-right: 36px solid var(--crayon-red);
+    }
+
+    .result {
+      text-align: center;
+      font-size: 28px;
+      font-family: 'Patrick Hand', cursive;
+      letter-spacing: 1.5px;
+      margin-top: 15px;
+      min-height: 55px;
+      color: var(--board-green-dark);
+      padding: 12px 25px;
+      transition: all 0.4s;
+      position: relative;
+      z-index: 2;
+    }
+
+    .result:not(:empty) {
+      background: linear-gradient(135deg, var(--board-green) 0%, var(--board-green-dark) 100%);
+      border-radius: 8px;
+      box-shadow:
+        0 0 0 3px var(--wood),
+        0 0 0 5px var(--wood-dark),
+        0 8px 22px rgba(24, 54, 46, 0.4);
+      animation: bellRing 0.7s ease-out;
+      color: var(--chalk);
+      text-shadow: 0 0 8px rgba(244, 241, 232, 0.4);
+      transform: rotate(-0.5deg);
+    }
+
+    @keyframes bellRing {
+      0% { transform: scale(0.85) rotate(-3deg); opacity: 0; }
+      40% { transform: scale(1.08) rotate(1deg); }
+      70% { transform: scale(0.98) rotate(-1deg); }
+      100% { transform: scale(1) rotate(-0.5deg); opacity: 1; }
+    }
+
+    /* ============================================
+       LA LISTE D'APPEL
+       ============================================ */
+    .name-list {
+      width: 100%;
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(180deg, var(--board-green) 0%, var(--board-green-dark) 100%);
+      border-radius: 8px;
+      padding: 25px 20px 20px;
+      box-shadow:
+        0 0 0 4px var(--wood),
+        0 0 0 6px var(--wood-dark),
+        inset 0 2px 15px rgba(24, 54, 46, 0.5);
+      position: relative;
+      z-index: 2;
+    }
+
+    .name-list h3 {
+      margin: 0 0 18px 0;
+      color: var(--chalk);
+      font-family: 'Patrick Hand', cursive;
+      letter-spacing: 4px;
+      font-size: 24px;
+      padding-bottom: 10px;
+      width: 100%;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(244, 241, 232, 0.3);
+      position: relative;
+      transform: rotate(-0.5deg);
+    }
+
+    .name-list h3::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 8px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='8' viewBox='0 0 200 8'><path d='M2 5 Q50 2 100 4 T198 3' fill='none' stroke='%23fcbf49' stroke-width='2.5' stroke-linecap='round' opacity='0.8'/></svg>");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+
+    #namesList {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 10px;
+    }
+
+    /* Étiquettes d'élèves */
+    .name-item {
+      margin: 0;
+      font-size: 15px;
+      font-family: 'Nunito', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--paper);
+      padding: 9px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+      border-left: 6px solid var(--crayon-blue);
+      box-shadow: 0 3px 7px rgba(24, 54, 46, 0.45);
+    }
+
+    /* Alternance couleurs de crayons */
+    .name-item:nth-child(6n+1) { border-left-color: var(--crayon-red); }
+    .name-item:nth-child(6n+2) { border-left-color: var(--crayon-blue); }
+    .name-item:nth-child(6n+3) { border-left-color: var(--crayon-yellow); }
+    .name-item:nth-child(6n+4) { border-left-color: var(--crayon-green); }
+    .name-item:nth-child(6n+5) { border-left-color: var(--crayon-purple); }
+    .name-item:nth-child(6n+6) { border-left-color: var(--crayon-pink); }
+
+    /* Légère rotation aléatoire des étiquettes, comme collées à la main */
+    .name-item:nth-child(3n+1) { transform: rotate(-0.6deg); }
+    .name-item:nth-child(3n+2) { transform: rotate(0.5deg); }
+
+    .name-item:hover {
+      transform: translateY(-2px) rotate(0deg) !important;
+      box-shadow: 0 5px 12px rgba(24, 54, 46, 0.6);
+    }
+
+    .name-item input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--crayon-green);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .name-item label {
+      cursor: pointer;
+      color: var(--text-dark);
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .selected {
+      text-decoration: line-through;
+      color: #999 !important;
+      opacity: 0.65;
+    }
+
+    /* Élève déjà interrogé */
+    .name-item:has(.selected) {
+      border-left-color: #b5b0a5 !important;
+      background: rgba(232, 228, 216, 0.85);
+      filter: grayscale(0.4);
+      box-shadow: 0 2px 4px rgba(24, 54, 46, 0.3);
+    }
+
+    /* ============================================
+       POPUP AU TABLEAU !
+       ============================================ */
+    .goal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(24, 54, 46, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .goal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Popup en petit tableau noir à cadre de bois */
+    .goal-popup {
+      background:
+        repeating-conic-gradient(
+          from 0deg,
+          var(--wood) 0deg 20deg,
+          #c08d5d 20deg 40deg
+        );
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow:
+        0 0 0 3px var(--wood-dark),
+        0 0 50px rgba(252, 191, 73, 0.3),
+        0 25px 70px rgba(0, 0, 0, 0.6);
+      transform: scale(0.3) rotate(-8deg);
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 90vw;
+    }
+
+    .goal-overlay.active .goal-popup {
+      transform: scale(1) rotate(0deg);
+    }
+
+    .goal-popup-inner {
+      background: linear-gradient(135deg, var(--board-green) 0%, var(--board-green-dark) 100%);
+      border-radius: 8px;
+      padding: 40px 50px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 25px rgba(24, 54, 46, 0.6);
+    }
+
+    /* Petit gribouillis de craie dans le coin */
+    .goal-popup-inner::before {
+      content: "★";
+      position: absolute;
+      top: 10px;
+      right: 16px;
+      font-size: 22px;
+      color: var(--chalk-dim);
+      transform: rotate(12deg);
+    }
+
+    .goal-word {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 64px;
+      letter-spacing: 4px;
+      margin: 0;
+      color: var(--chalk);
+      text-shadow:
+        0 0 14px rgba(244, 241, 232, 0.45),
+        2px 2px 3px rgba(24, 54, 46, 0.8);
+      animation: chalkWobble 0.5s ease-in-out 3;
+      transform: rotate(-1.5deg);
+    }
+
+    @keyframes chalkWobble {
+      0%, 100% { transform: translateX(0) rotate(-1.5deg) scale(1); }
+      20% { transform: translateX(-6px) rotate(-2.5deg) scale(1.04); }
+      40% { transform: translateX(6px) rotate(-0.5deg) scale(1.06); }
+      60% { transform: translateX(-4px) rotate(-2deg) scale(1.04); }
+      80% { transform: translateX(4px) rotate(-1deg) scale(1.02); }
+    }
+
+    .goal-name {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 36px;
+      letter-spacing: 2px;
+      margin: 10px 0 0 0;
+      color: var(--crayon-yellow);
+      text-shadow: 1px 1px 3px rgba(24, 54, 46, 0.8);
+      animation: namePopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+      transform: rotate(0.5deg);
+    }
+
+    @keyframes namePopIn {
+      0% { transform: scale(0) rotate(10deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0.5deg); opacity: 1; }
+    }
+
+    .goal-ball {
+      font-size: 44px;
+      display: inline-block;
+      animation: bagBounce 0.9s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
+      margin-top: 12px;
+    }
+
+    @keyframes bagBounce {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    .goal-close-hint {
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      color: rgba(244, 241, 232, 0.55);
+      margin-top: 18px;
+      animation: namePopIn 0.5s ease 1.2s both;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      top: -20px;
+      z-index: 1001;
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 32px; letter-spacing: 1px; }
+      .subtitle { font-size: 16px; letter-spacing: 3px; }
+      .chalk-line { width: 180px; margin-bottom: 44px; }
+      .wheel-container {
+        width: 320px;
+        height: 320px;
+      }
+      .wheel-container::before {
+        width: 342px;
+        height: 342px;
+      }
+      .wheel-container::after {
+        width: 310px;
+        height: 310px;
+        border-width: 4px;
+      }
+      #wheelCanvas {
+        width: 320px;
+        height: 320px;
+      }
+      .container { padding: 38px 12px 25px 48px; }
+      .container::after { left: 8px; }
+      .btn { padding: 9px 14px; font-size: 14px; letter-spacing: 1px; }
+      #namesList { grid-template-columns: 1fr; }
+      .result { font-size: 21px; letter-spacing: 1px; }
+      .goal-word { font-size: 40px; letter-spacing: 2px; }
+      .goal-name { font-size: 26px; }
+      .goal-popup-inner { padding: 32px 25px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Roue des Prénoms</h1>
+  <div class="subtitle">La Rentrée des Classes</div>
+  <div class="chalk-line"></div>
+
+  <div class="container">
+    <div class="input-section">
+      <input type="text" id="namesInput" placeholder="Inscrivez les élèves séparés par des point-virgules (ex: Louise;Gabriel;Emma)">
+      <div class="button-group">
+        <button id="createWheel" class="btn">📋 Faire l'appel</button>
+        <button id="spinWheel" class="btn" disabled>🔔 Au tableau !</button>
+        <button id="resetWheel" class="btn" disabled>Effacer l'ardoise</button>
+        <button id="exportState" class="btn" disabled>Exporter</button>
+        <input type="file" id="importFile" style="display:none;">
+        <button id="importState" class="btn">Importer</button>
+      </div>
+    </div>
+
+    <div class="wheel-container" id="wheelContainer">
+      <div class="pointer"></div>
+      <canvas id="wheelCanvas" width="400" height="400"></canvas>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <div class="name-list">
+      <h3>📋 La Liste d'Appel</h3>
+      <div id="namesList"></div>
+    </div>
+  </div>
+
+  <!-- Popup Au tableau ! -->
+  <div class="goal-overlay" id="goalOverlay">
+    <div class="goal-popup">
+      <div class="goal-popup-inner">
+        <p class="goal-word">Au tableau !</p>
+        <p class="goal-name" id="goalName"></p>
+        <span class="goal-ball">🎒</span>
+        <p class="goal-close-hint">Cliquez n'importe où pour fermer</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const canvas = document.getElementById('wheelCanvas');
+      const ctx = canvas.getContext('2d');
+      const wheelContainer = document.getElementById('wheelContainer');
+      const createWheelBtn = document.getElementById('createWheel');
+      const spinWheelBtn = document.getElementById('spinWheel');
+      const resetWheelBtn = document.getElementById('resetWheel');
+      const exportStateBtn = document.getElementById('exportState');
+      const importStateBtn = document.getElementById('importState');
+      const importFileInput = document.getElementById('importFile');
+      const namesInput = document.getElementById('namesInput');
+      const resultElem = document.getElementById('result');
+      const namesListElem = document.getElementById('namesList');
+      const goalOverlay = document.getElementById('goalOverlay');
+      const goalNameElem = document.getElementById('goalName');
+
+      let names = [];
+      let selectedNames = [];
+      let isSpinning = false;
+      let initialized = false;
+      let confettiTimers = [];
+
+      // === Palette crayons de couleur ===
+      let colors = [
+        '#e63946', // rouge
+        '#457b9d', // bleu
+        '#fcbf49', // jaune
+        '#2a9d8f', // vert
+        '#7d5ba6', // violet
+        '#ff70a6', // rose
+        '#f77f00', // orange
+        '#4cc9f0', // bleu ciel
+        '#90be6d', // vert clair
+        '#f1faee', // blanc craie
+        '#8d6a4f', // marron
+        '#1d3557'  // bleu nuit
+      ];
+
+      const lightBackgrounds = ['#fcbf49', '#4cc9f0', '#90be6d', '#f1faee', '#ff70a6', '#f77f00'];
+      function getTextColor(bgColor) {
+        return lightBackgrounds.includes(bgColor) ? '#2b2118' : '#fdfcf5';
+      }
+
+      createWheelBtn.addEventListener('click', () => {
+        updateNamesFromInput();
+        if (names.length < 2) {
+          alert('Veuillez inscrire au moins deux élèves.');
+          return;
+        }
+        initialized = true;
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = false;
+        resetWheelBtn.disabled = false;
+        createWheelBtn.disabled = true;
+        exportStateBtn.disabled = false;
+        resultElem.textContent = '';
+      });
+
+      namesInput.addEventListener('input', () => {
+        if (!initialized) return;
+        updateNamesFromInput();
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = selectedNames.length >= names.length;
+      });
+
+      function updateNamesFromInput() {
+        const inputNames = namesInput.value.split(';').map(n => n.trim()).filter(n => n);
+        const newSelected = selectedNames.filter(n => inputNames.includes(n));
+        names = inputNames;
+        selectedNames = newSelected;
+      }
+
+      spinWheelBtn.addEventListener('click', () => {
+        if (isSpinning || names.length === 0 || selectedNames.length === names.length) return;
+        isSpinning = true;
+        resultElem.textContent = '';
+        spinWheelBtn.disabled = true;
+
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * names.length);
+        } while (selectedNames.includes(names[randomIndex]));
+
+        const selectedName = names[randomIndex];
+        const segmentAngle = (2 * Math.PI) / names.length;
+        const targetAngle = -(segmentAngle * randomIndex + segmentAngle / 2) - Math.PI / 2;
+        const fullSpins = 20 + Math.floor(Math.random() * 11);
+        const finalRotation = (fullSpins * 2 * Math.PI) + targetAngle;
+
+        canvas.style.transition = 'transform 8s cubic-bezier(0.17, 0.67, 0.15, 1)';
+        canvas.style.transform = `rotate(${finalRotation}rad)`;
+
+        setTimeout(() => {
+          isSpinning = false;
+          selectedNames.push(selectedName);
+          resultElem.textContent = `🖐️ ${selectedName}, au tableau !`;
+          updateNamesList();
+          drawWheel();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          spinWheelBtn.textContent = spinWheelBtn.disabled
+            ? "🎓 Tout le monde est passé"
+            : `🔔 Au tableau ! (${names.length - selectedNames.length} non interrogés)`;
+
+          showBoardCelebration(selectedName);
+        }, 8000);
+      });
+
+      // ============================================
+      // CÉLÉBRATION AU TABLEAU : popup + confettis
+      // ============================================
+      const confettiColors = ['#e63946', '#457b9d', '#fcbf49', '#2a9d8f', '#7d5ba6', '#ff70a6', '#f77f00', '#4cc9f0'];
+
+      function showBoardCelebration(name) {
+        goalNameElem.textContent = `${name} est interrogé(e)`;
+        goalOverlay.classList.add('active');
+        launchConfetti();
+      }
+
+      function hideBoardCelebration() {
+        goalOverlay.classList.remove('active');
+        stopConfetti();
+      }
+
+      goalOverlay.addEventListener('click', hideBoardCelebration);
+
+      function launchConfetti() {
+        stopConfetti();
+        for (let wave = 0; wave < 6; wave++) {
+          const timer = setTimeout(() => {
+            for (let i = 0; i < 25; i++) {
+              createConfettiPiece();
+            }
+          }, wave * 450);
+          confettiTimers.push(timer);
+        }
+      }
+
+      function stopConfetti() {
+        confettiTimers.forEach(t => clearTimeout(t));
+        confettiTimers = [];
+        document.querySelectorAll('.confetti').forEach(c => c.remove());
+      }
+
+      function createConfettiPiece() {
+        const piece = document.createElement('div');
+        piece.className = 'confetti';
+        const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        const isCircle = Math.random() > 0.5;
+        const size = 7 + Math.random() * 9;
+        const startX = Math.random() * window.innerWidth;
+        const drift = (Math.random() - 0.5) * 250;
+        const duration = 2200 + Math.random() * 1800;
+        const rotations = 360 + Math.random() * 720;
+
+        piece.style.left = startX + 'px';
+        piece.style.width = size + 'px';
+        piece.style.height = (isCircle ? size : size * 0.55) + 'px';
+        piece.style.background = color;
+        piece.style.borderRadius = isCircle ? '50%' : '2px';
+
+        document.body.appendChild(piece);
+
+        const anim = piece.animate([
+          {
+            transform: `translate(0, 0) rotate(0deg)`,
+            opacity: 1
+          },
+          {
+            transform: `translate(${drift}px, ${window.innerHeight + 50}px) rotate(${rotations}deg)`,
+            opacity: 0.7
+          }
+        ], {
+          duration: duration,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        });
+
+        anim.onfinish = () => piece.remove();
+      }
+
+      resetWheelBtn.addEventListener('click', () => {
+        selectedNames = [];
+        spinWheelBtn.disabled = false;
+        spinWheelBtn.textContent = "🔔 Au tableau !";
+        createWheelBtn.disabled = false;
+        exportStateBtn.disabled = false;
+        initialized = false;
+        canvas.style.transition = 'none';
+        canvas.style.transform = 'rotate(0rad)';
+        drawWheel();
+        updateNamesList();
+        resultElem.textContent = '';
+        hideBoardCelebration();
+      });
+
+      exportStateBtn.addEventListener('click', () => {
+        const data = `${names.join(';')}\nPASSED:${selectedNames.join(';')}`;
+        const blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'etat_roue.txt';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+
+      importStateBtn.addEventListener('click', () => importFileInput.click());
+
+      importFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const content = e.target.result.trim();
+          const lines = content.split('\n');
+          if (lines.length < 1) return;
+          names = lines[0].split(';').map(name => name.trim()).filter(name => name.length > 0);
+          selectedNames = lines[1]?.startsWith('PASSED:') ? lines[1].substring(7).split(';').map(n => n.trim()) : [];
+          namesInput.value = names.join(';');
+          initialized = true;
+          drawWheel();
+          updateNamesList();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          resetWheelBtn.disabled = false;
+          createWheelBtn.disabled = true;
+          exportStateBtn.disabled = false;
+          resultElem.textContent = '';
+        };
+        reader.readAsText(file);
+      });
+
+      function drawWheel() {
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) - 10;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (names.length === 0) {
+          // Ardoise vide avec un "?" à la craie
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+          ctx.fillStyle = '#2f5d50';
+          ctx.fill();
+          ctx.strokeStyle = '#f4f1e8';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+          ctx.fillStyle = 'rgba(244, 241, 232, 0.7)';
+          ctx.font = '90px "Patrick Hand", cursive';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('?', centerX, centerY);
+          drawApple(centerX, centerY);
+          return;
+        }
+
+        const segmentAngle = (2 * Math.PI) / names.length;
+        const angleOffset = Math.PI / 2;
+
+        for (let i = 0; i < names.length; i++) {
+          const startAngle = i * segmentAngle + angleOffset;
+          const endAngle = (i + 1) * segmentAngle + angleOffset;
+          const segmentColor = colors[i % colors.length];
+          const isSelected = selectedNames.includes(names[i]);
+
+          const gradient = ctx.createRadialGradient(centerX, centerY, radius * 0.15, centerX, centerY, radius);
+          if (isSelected) {
+            gradient.addColorStop(0, '#b5b0a5');
+            gradient.addColorStop(1, '#8a857a');
+          } else {
+            gradient.addColorStop(0, shadeColor(segmentColor, 15));
+            gradient.addColorStop(0.6, segmentColor);
+            gradient.addColorStop(1, shadeColor(segmentColor, -18));
+          }
+
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+          ctx.closePath();
+          ctx.fillStyle = gradient;
+          ctx.fill();
+
+          // Bordure blanche craie
+          ctx.strokeStyle = '#fdfcf5';
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+
+          // Texte du prénom
+          ctx.save();
+          ctx.translate(centerX, centerY);
+          ctx.rotate(startAngle + segmentAngle / 2);
+          ctx.textAlign = 'right';
+          ctx.fillStyle = isSelected ? '#555' : getTextColor(segmentColor);
+          ctx.font = 'bold 15px Nunito, Arial';
+
+          if (!isSelected && getTextColor(segmentColor) === '#fdfcf5') {
+            ctx.shadowColor = 'rgba(24, 54, 46, 0.6)';
+            ctx.shadowBlur = 3;
+          }
+
+          const textMaxLength = radius * 0.75;
+          let fontSize = 15;
+          if (ctx.measureText(names[i]).width > textMaxLength) {
+            fontSize = Math.floor(fontSize * (textMaxLength / ctx.measureText(names[i]).width));
+            ctx.font = `bold ${fontSize}px Nunito, Arial`;
+          }
+          ctx.fillText(names[i], radius - 20, 5);
+          ctx.shadowBlur = 0;
+          ctx.restore();
+        }
+
+        drawApple(centerX, centerY);
+      }
+
+      // Centre : la pomme du professeur
+      function drawApple(centerX, centerY) {
+        const appleRadius = 26;
+
+        // Anneau blanc autour
+        ctx.beginPath();
+        ctx.arc(centerX, centerY + 2, appleRadius + 7, 0, 2 * Math.PI);
+        ctx.fillStyle = '#fdfcf5';
+        ctx.fill();
+        ctx.strokeStyle = '#8a5f3a';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Corps de la pomme (deux lobes)
+        const appleGradient = ctx.createRadialGradient(centerX - 8, centerY - 6, 3, centerX, centerY + 2, appleRadius + 2);
+        appleGradient.addColorStop(0, '#f25c54');
+        appleGradient.addColorStop(0.6, '#d62828');
+        appleGradient.addColorStop(1, '#a31e1e');
+
+        ctx.beginPath();
+        ctx.arc(centerX - appleRadius * 0.38, centerY + 4, appleRadius * 0.72, 0, 2 * Math.PI);
+        ctx.arc(centerX + appleRadius * 0.38, centerY + 4, appleRadius * 0.72, 0, 2 * Math.PI);
+        ctx.fillStyle = appleGradient;
+        ctx.fill();
+
+        // Creux du haut
+        ctx.beginPath();
+        ctx.arc(centerX, centerY - appleRadius * 0.45, appleRadius * 0.55, 0.25 * Math.PI, 0.75 * Math.PI, false);
+        ctx.fillStyle = appleGradient;
+        ctx.fill();
+
+        // Tige
+        ctx.strokeStyle = '#5f3f24';
+        ctx.lineWidth = 3.5;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY - appleRadius * 0.5);
+        ctx.quadraticCurveTo(centerX + 3, centerY - appleRadius * 0.9, centerX + 7, centerY - appleRadius * 1.05);
+        ctx.stroke();
+
+        // Feuille
+        ctx.beginPath();
+        ctx.ellipse(centerX + 13, centerY - appleRadius * 0.95, 9, 4.5, -0.5, 0, 2 * Math.PI);
+        ctx.fillStyle = '#5a9e4b';
+        ctx.fill();
+        ctx.strokeStyle = '#3f7a33';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        // Reflet brillant
+        ctx.beginPath();
+        ctx.ellipse(centerX - 9, centerY - 4, 5, 8, 0.4, 0, 2 * Math.PI);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+        ctx.fill();
+      }
+
+      function shadeColor(color, percent) {
+        const f = parseInt(color.slice(1), 16);
+        const t = percent < 0 ? 0 : 255;
+        const p = Math.abs(percent) / 100;
+        const R = f >> 16;
+        const G = (f >> 8) & 0x00FF;
+        const B = f & 0x0000FF;
+        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
+          (Math.round((t - G) * p) + G) * 0x100 +
+          (Math.round((t - B) * p) + B)).toString(16).slice(1);
+      }
+
+      function updateNamesList() {
+        namesListElem.innerHTML = '';
+        names.forEach(name => {
+          const div = document.createElement('div');
+          div.className = 'name-item';
+
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.checked = selectedNames.includes(name);
+          checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+              if (!selectedNames.includes(name)) selectedNames.push(name);
+            } else {
+              selectedNames = selectedNames.filter(n => n !== name);
+            }
+            drawWheel();
+            updateNamesList();
+            spinWheelBtn.disabled = selectedNames.length >= names.length;
+          });
+
+          const label = document.createElement('label');
+          label.textContent = name;
+          if (checkbox.checked) label.classList.add('selected');
+
+          div.appendChild(checkbox);
+          div.appendChild(label);
+          namesListElem.appendChild(div);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

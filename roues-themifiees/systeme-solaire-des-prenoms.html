@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🪐 Système des Prénoms</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --space-deep: #04050c;
+      --space-navy: #0b0f2a;
+      --panel-top: rgba(20, 24, 58, 0.9);
+      --panel-bottom: rgba(10, 12, 32, 0.94);
+      --panel-line: rgba(150, 170, 255, 0.32);
+
+      --alien: #7cff8a;
+      --alien-dark: #36d26a;
+      --alien-deep: #1f8f45;
+      --violet: #a77bff;
+      --violet-dark: #7b4fe0;
+      --violet-deep: #4f2fa6;
+      --cyan: #4fd1ff;
+      --sun: #ffd43b;
+
+      --text-light: #eef1ff;
+      --text-dim: #9aa5d6;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: var(--text-light);
+      background-color: var(--space-deep);
+      background-image:
+        /* Nébuleuses */
+        radial-gradient(ellipse 620px 420px at 14% 20%, rgba(123, 63, 228, 0.22) 0%, transparent 70%),
+        radial-gradient(ellipse 720px 460px at 86% 76%, rgba(29, 161, 242, 0.15) 0%, transparent 70%),
+        radial-gradient(ellipse 520px 300px at 62% 8%, rgba(255, 105, 180, 0.09) 0%, transparent 70%),
+        /* Ciel noir profond */
+        linear-gradient(180deg, #070918 0%, var(--space-deep) 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ============================================
+       CIEL ÉTOILÉ
+       ============================================ */
+    .stars {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .stars.small {
+      background-image:
+        radial-gradient(1.2px 1.2px at 4% 8%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 11% 23%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 17% 4%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 23% 41%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 29% 15%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 34% 67%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 38% 30%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 44% 9%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 47% 52%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 53% 78%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 57% 19%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 61% 44%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 66% 6%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 70% 62%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 74% 27%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 79% 88%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 83% 13%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 87% 49%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 91% 71%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 95% 33%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 8% 58%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 13% 84%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 19% 92%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 26% 73%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 42% 88%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 64% 93%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 97% 90%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 50% 36%, #fff, transparent);
+      animation: twinkle 6s ease-in-out infinite alternate;
+    }
+
+    .stars.medium {
+      background-image:
+        radial-gradient(2px 2px at 7% 35%, #cfe0ff, transparent),
+        radial-gradient(2px 2px at 15% 12%, #ffe9c4, transparent),
+        radial-gradient(2px 2px at 22% 60%, #e0d4ff, transparent),
+        radial-gradient(2px 2px at 31% 88%, #ffffff, transparent),
+        radial-gradient(2px 2px at 36% 6%, #cfe0ff, transparent),
+        radial-gradient(2px 2px at 48% 24%, #ffd6e8, transparent),
+        radial-gradient(2px 2px at 55% 64%, #ffffff, transparent),
+        radial-gradient(2px 2px at 63% 14%, #cfe0ff, transparent),
+        radial-gradient(2px 2px at 72% 82%, #ffe9c4, transparent),
+        radial-gradient(2px 2px at 77% 40%, #ffffff, transparent),
+        radial-gradient(2px 2px at 85% 8%, #e0d4ff, transparent),
+        radial-gradient(2px 2px at 89% 58%, #cfe0ff, transparent),
+        radial-gradient(2px 2px at 93% 22%, #ffffff, transparent),
+        radial-gradient(2px 2px at 98% 77%, #ffe9c4, transparent);
+      animation: twinkle 4s ease-in-out infinite alternate-reverse;
+    }
+
+    .stars.bright {
+      background-image:
+        radial-gradient(3px 3px at 12% 45%, #ffffff, transparent),
+        radial-gradient(3px 3px at 40% 16%, #ffffff, transparent),
+        radial-gradient(3px 3px at 68% 35%, #ffffff, transparent),
+        radial-gradient(3px 3px at 82% 66%, #ffffff, transparent),
+        radial-gradient(3px 3px at 26% 28%, #ffffff, transparent),
+        radial-gradient(3px 3px at 58% 90%, #ffffff, transparent),
+        radial-gradient(9px 9px at 12% 45%, rgba(180, 200, 255, 0.35), transparent),
+        radial-gradient(9px 9px at 68% 35%, rgba(180, 200, 255, 0.35), transparent),
+        radial-gradient(9px 9px at 82% 66%, rgba(255, 220, 180, 0.3), transparent);
+      animation: twinkle 2.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.45; }
+      100% { opacity: 1; }
+    }
+
+    /* Étoiles filantes */
+    .shooting-star {
+      position: fixed;
+      width: 130px;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(180, 200, 255, 0.4) 30%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      animation: shoot 11s ease-in infinite;
+    }
+
+    .shooting-star.one { top: 10%; left: 78%; animation-delay: 2s; }
+    .shooting-star.two { top: 32%; left: 42%; animation-delay: 7.5s; }
+
+    @keyframes shoot {
+      0% { transform: translate(0, 0) rotate(-22deg); opacity: 0; }
+      1.5% { opacity: 1; }
+      11% { transform: translate(-420px, 170px) rotate(-22deg); opacity: 0; }
+      100% { transform: translate(-420px, 170px) rotate(-22deg); opacity: 0; }
+    }
+
+    /* Planète à anneaux lointaine, satellite, lune, fusée */
+    .decor-layer {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='110' viewBox='0 0 160 110'><defs><radialGradient id='pg' cx='0.35' cy='0.35' r='0.75'><stop offset='0' stop-color='%23e3ccff'/><stop offset='1' stop-color='%235b3fa8'/></radialGradient><clipPath id='front'><rect x='0' y='55' width='160' height='55'/></clipPath></defs><g opacity='0.7' transform='rotate(-14 80 55)'><ellipse cx='80' cy='55' rx='70' ry='15' fill='none' stroke='%23c4b0ff' stroke-width='5'/><circle cx='80' cy='55' r='32' fill='url(%23pg)'/><ellipse cx='80' cy='55' rx='70' ry='15' fill='none' stroke='%23c4b0ff' stroke-width='5' clip-path='url(%23front)'/></g></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='130' height='70' viewBox='0 0 130 70'><g opacity='0.75' transform='rotate(-15 65 35)'><rect x='4' y='26' width='40' height='18' fill='%232f5fb3' stroke='%2391b4ff' stroke-width='1.5'/><line x1='17' y1='26' x2='17' y2='44' stroke='%2391b4ff'/><line x1='30' y1='26' x2='30' y2='44' stroke='%2391b4ff'/><rect x='86' y='26' width='40' height='18' fill='%232f5fb3' stroke='%2391b4ff' stroke-width='1.5'/><line x1='99' y1='26' x2='99' y2='44' stroke='%2391b4ff'/><line x1='112' y1='26' x2='112' y2='44' stroke='%2391b4ff'/><line x1='44' y1='35' x2='52' y2='35' stroke='%23c0c6d8' stroke-width='2'/><line x1='78' y1='35' x2='86' y2='35' stroke='%23c0c6d8' stroke-width='2'/><rect x='52' y='24' width='26' height='22' rx='3' fill='%23e0b84a' stroke='%23a3832a' stroke-width='1.5'/><path d='M65 24 L65 14' stroke='%23c0c6d8' stroke-width='2'/><path d='M57 13 Q65 4 73 13 Z' fill='%23c0c6d8'/></g></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'><g opacity='0.72'><circle cx='45' cy='45' r='38' fill='%23d5d9e2'/><circle cx='32' cy='34' r='7' fill='%23b4bac7'/><circle cx='55' cy='52' r='10' fill='%23b4bac7'/><circle cx='40' cy='62' r='5' fill='%23b4bac7'/><circle cx='60' cy='28' r='4' fill='%23b4bac7'/><path d='M45 7 A38 38 0 0 1 45 83 A26 38 0 0 0 45 7 Z' fill='%23000814' opacity='0.4'/></g></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='120' viewBox='0 0 70 120'><g opacity='0.82' transform='rotate(25 35 60)'><path d='M35 6 Q52 26 52 60 L52 82 L18 82 L18 60 Q18 26 35 6 Z' fill='%23eef1ff' stroke='%239aa3c4' stroke-width='2'/><circle cx='35' cy='44' r='8' fill='%234fd1ff' stroke='%239aa3c4' stroke-width='2'/><path d='M18 64 L6 86 L18 82 Z M52 64 L64 86 L52 82 Z' fill='%23ff6b6b'/><path d='M35 6 Q44 16 47 26 L23 26 Q26 16 35 6 Z' fill='%23ff6b6b'/><path d='M24 82 Q35 112 46 82 Z' fill='%23ffb627'/><path d='M29 82 Q35 100 41 82 Z' fill='%23fff3a0'/></g></svg>");
+      background-position: 2% 5%, 97% 7%, 3% 95%, 97% 95%;
+      background-repeat: no-repeat;
+      background-size: 160px 110px, 130px 70px, 90px 90px, 80px 120px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Astronaute qui flotte */
+    .astronaut {
+      position: fixed;
+      left: 3%;
+      top: 44%;
+      width: 90px;
+      height: 100px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='100' viewBox='0 0 90 100'><g opacity='0.85'><path d='M30 50 Q16 54 14 66' stroke='%23aab2cc' stroke-width='11' stroke-linecap='round' fill='none'/><path d='M30 50 Q16 54 14 66' stroke='%23f4f6ff' stroke-width='8' stroke-linecap='round' fill='none'/><path d='M60 50 Q74 44 78 32' stroke='%23aab2cc' stroke-width='11' stroke-linecap='round' fill='none'/><path d='M60 50 Q74 44 78 32' stroke='%23f4f6ff' stroke-width='8' stroke-linecap='round' fill='none'/><path d='M38 74 L34 92 M52 74 L58 90' stroke='%23aab2cc' stroke-width='12' stroke-linecap='round'/><path d='M38 74 L34 92 M52 74 L58 90' stroke='%23f4f6ff' stroke-width='9' stroke-linecap='round'/><rect x='30' y='44' width='30' height='32' rx='10' fill='%23f4f6ff' stroke='%23aab2cc' stroke-width='2'/><rect x='38' y='52' width='14' height='9' rx='2' fill='%23ff8fab'/><circle cx='45' cy='28' r='18' fill='%23f4f6ff' stroke='%23aab2cc' stroke-width='2'/><ellipse cx='47' cy='29' rx='11' ry='9' fill='%23263a6b'/><ellipse cx='43' cy='26' rx='3' ry='2' fill='%23ffffff' opacity='0.7'/></g></svg>");
+      background-repeat: no-repeat;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatAround 9s ease-in-out infinite;
+    }
+
+    @keyframes floatAround {
+      0%, 100% { transform: translate(0, 0) rotate(-8deg); }
+      50% { transform: translate(12px, -20px) rotate(7deg); }
+    }
+
+    /* ============================================
+       EN-TÊTE
+       ============================================ */
+    h1 {
+      font-family: 'Fredoka', 'Trebuchet MS', sans-serif;
+      font-weight: 700;
+      color: #f4f2ff;
+      text-align: center;
+      margin: 10px 0 4px 0;
+      font-size: 48px;
+      letter-spacing: 0.5px;
+      text-shadow:
+        0 0 18px rgba(167, 123, 255, 0.55),
+        0 3px 0 rgba(40, 20, 90, 0.9);
+      position: relative;
+      z-index: 1;
+    }
+
+    h1::before { content: "🪐 "; }
+    h1::after { content: " 🛸"; }
+
+    .subtitle {
+      font-family: 'Fredoka', 'Trebuchet MS', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      margin-bottom: 6px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      color: var(--cyan);
+      text-shadow: 0 0 12px rgba(79, 209, 255, 0.5);
+    }
+
+    .tagline {
+      margin: 0 0 54px 0;
+      font-size: 15px;
+      color: var(--text-dim);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      max-width: 60ch;
+    }
+
+    /* ============================================
+       CONTENEUR : poste de pilotage
+       ============================================ */
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 860px;
+      background: linear-gradient(180deg, var(--panel-top) 0%, var(--panel-bottom) 100%);
+      border-radius: 22px;
+      padding: 45px 25px 30px;
+      box-shadow:
+        0 0 0 1px var(--panel-line),
+        0 0 45px rgba(110, 90, 255, 0.18),
+        0 24px 60px rgba(0, 0, 0, 0.6);
+      position: relative;
+      z-index: 1;
+    }
+
+    .container::before {
+      content: "🪐";
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle at 35% 35%, #c9b4ff 0%, var(--violet) 50%, var(--violet-deep) 100%);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow:
+        0 0 0 3px var(--space-navy),
+        0 0 0 4px var(--panel-line),
+        0 0 24px rgba(167, 123, 255, 0.55);
+      z-index: 2;
+    }
+
+    .input-section {
+      width: 100%;
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+      position: relative;
+      z-index: 2;
+    }
+
+    #namesInput {
+      width: 90%;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-family: 'Space Grotesk', sans-serif;
+      border: 1px solid rgba(150, 170, 255, 0.45);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      background: rgba(5, 8, 25, 0.75);
+      color: var(--text-light);
+      transition: border-color 0.3s, box-shadow 0.3s;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    #namesInput::placeholder {
+      color: rgba(200, 210, 255, 0.4);
+    }
+
+    #namesInput:focus {
+      outline: none;
+      border-color: var(--alien);
+      box-shadow:
+        inset 0 2px 8px rgba(0, 0, 0, 0.4),
+        0 0 0 3px rgba(124, 255, 138, 0.22);
+    }
+
+    .limit-hint {
+      margin: 0 0 16px 0;
+      font-size: 13px;
+      color: var(--text-dim);
+      min-height: 18px;
+      text-align: center;
+    }
+
+    .limit-hint.over {
+      color: #ff9b9b;
+      font-weight: 700;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 12px 22px;
+      font-size: 15px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      background: linear-gradient(180deg, #343a80 0%, #22265a 100%);
+      color: var(--text-light);
+      border: 1px solid rgba(160, 175, 255, 0.45);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 3px 0 #11143a, 0 5px 14px rgba(0, 0, 0, 0.45);
+      position: relative;
+      top: 0;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: linear-gradient(180deg, #424a9a 0%, #2c3170 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn:active:not(:disabled) {
+      top: 3px;
+      box-shadow: 0 0 0 #11143a, 0 2px 5px rgba(0, 0, 0, 0.45);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid var(--alien);
+      outline-offset: 3px;
+    }
+
+    .btn:disabled {
+      background: linear-gradient(180deg, #2b2e45 0%, #202235 100%);
+      border-color: #3b3f5c;
+      color: #6d7294;
+      box-shadow: 0 3px 0 #15172a;
+      cursor: not-allowed;
+      opacity: 0.8;
+    }
+
+    /* Mise en orbite : vert alien */
+    #spinWheel {
+      background: linear-gradient(180deg, #a6ffb0 0%, var(--alien) 45%, var(--alien-dark) 100%);
+      color: #06210f;
+      border-color: var(--alien-dark);
+      box-shadow: 0 3px 0 var(--alien-deep), 0 0 18px rgba(124, 255, 138, 0.35);
+    }
+
+    #spinWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #c2ffca 0%, #95ffa1 45%, var(--alien) 100%);
+    }
+
+    /* Former le système : violet nébuleuse */
+    #createWheel {
+      background: linear-gradient(180deg, #bb98ff 0%, var(--violet) 45%, var(--violet-dark) 100%);
+      border-color: var(--violet-dark);
+      box-shadow: 0 3px 0 var(--violet-deep), 0 5px 14px rgba(0, 0, 0, 0.45);
+    }
+
+    #createWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #ccb0ff 0%, #b48cff 45%, var(--violet) 100%);
+    }
+
+    /* Big Bang : bouton en forme d'explosion façon BD */
+    #resetWheel {
+      --burst: polygon(50.0% 0.0%, 57.6% 16.9%, 70.0% 8.6%, 72.4% 21.9%, 89.1% 18.8%, 79.7% 35.7%, 92.9% 40.2%, 85.0% 50.0%, 97.8% 60.9%, 80.6% 64.8%, 86.7% 79.3%, 73.1% 78.9%, 71.7% 95.0%, 57.3% 82.2%, 50.0% 95.0%, 42.2% 84.1%, 28.7% 94.1%, 27.6% 78.1%, 14.0% 78.7%, 19.4% 64.8%, 1.3% 61.1%, 17.0% 50.0%, 7.1% 40.2%, 17.6% 34.4%, 12.5% 20.1%, 28.8% 23.4%, 29.6% 7.7%, 42.2% 15.9%);
+      min-width: 158px;
+      padding: 22px 34px;
+      font-size: 17px;
+      font-weight: 800;
+      color: #3a0d00;
+      background: none;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      isolation: isolate;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.55));
+      transition: transform 0.2s;
+    }
+
+    /* Contour sombre de l'explosion */
+    #resetWheel::before {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      clip-path: var(--burst);
+      background: #7a1a0a;
+      z-index: -1;
+    }
+
+    /* Cœur de l'explosion : jaune au centre, rouge sur les pointes */
+    #resetWheel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      clip-path: var(--burst);
+      background: radial-gradient(ellipse at 50% 50%, #fff6b0 0%, #ffd43b 32%, #ff9a5c 62%, #f0442a 100%);
+      z-index: -1;
+    }
+
+    #resetWheel:hover:not(:disabled) {
+      background: none;
+      transform: scale(1.07) rotate(-5deg);
+    }
+
+    #resetWheel:active:not(:disabled) {
+      box-shadow: none;
+      transform: scale(0.95) rotate(3deg);
+    }
+
+    #resetWheel:disabled {
+      background: none;
+      box-shadow: none;
+      color: #6d7294;
+      filter: none;
+    }
+
+    #resetWheel:disabled::before {
+      background: #3b3f5c;
+    }
+
+    #resetWheel:disabled::after {
+      background: radial-gradient(ellipse at 50% 50%, #3a3e5c 0%, #2b2e45 100%);
+    }
+
+    /* ============================================
+       LE SYSTÈME SOLAIRE EN PERSPECTIVE (canvas + vaisseau)
+       ============================================ */
+    .wheel-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      aspect-ratio: 840 / 420;
+      margin: 14px 0 22px 0;
+    }
+
+    .sun-glow {
+      position: absolute;
+      left: 42.857%;
+      top: 50%;
+      width: 26%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 200, 80, 0.35) 0%, rgba(255, 150, 40, 0.12) 45%, transparent 70%);
+      transform: translate(-50%, -50%);
+      animation: sunBreath 5s ease-in-out infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes sunBreath {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+      50% { transform: translate(-50%, -50%) scale(1.12); opacity: 1; }
+    }
+
+    #wheelCanvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* Le vaisseau-pointeur et son alien : il vise l'axe horizontal du soleil */
+    .spaceship {
+      position: absolute;
+      left: 81.43%;
+      top: 50%;
+      width: 18.57%;
+      transform: translateY(-50%);
+      z-index: 3;
+      pointer-events: none;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.55));
+    }
+
+    .spaceship svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+      animation: shipHover 3s ease-in-out infinite;
+    }
+
+    @keyframes shipHover {
+      0%, 100% { transform: translateY(-2px) rotate(-1deg); }
+      50% { transform: translateY(2px) rotate(1deg); }
+    }
+
+    .spaceship .beam {
+      opacity: 0.4;
+      transition: opacity 0.6s;
+    }
+
+    /* Rayon verrouillé sur la planète tirée : il prolonge celui dessiné sur le canvas */
+    .spaceship .beam-solid {
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+
+    .spaceship.beam-on .beam {
+      opacity: 0;
+    }
+
+    .spaceship.beam-on .beam-solid {
+      opacity: 1;
+    }
+
+    .spaceship .light {
+      animation: blink 1.4s ease-in-out infinite;
+    }
+    .spaceship .light:nth-of-type(2) { animation-delay: 0.28s; }
+    .spaceship .light:nth-of-type(3) { animation-delay: 0.56s; }
+    .spaceship .light:nth-of-type(4) { animation-delay: 0.84s; }
+    .spaceship .light:nth-of-type(5) { animation-delay: 1.12s; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.25; }
+    }
+
+    .spaceship .engine-glow {
+      animation: engine 1.8s ease-in-out infinite;
+    }
+
+    @keyframes engine {
+      0%, 100% { opacity: 0.45; }
+      50% { opacity: 0.9; }
+    }
+
+    /* Pendant le tirage : le vaisseau s'agite, le rayon scanne */
+    .wheel-container.spinning .spaceship svg { animation-duration: 0.8s; }
+    .wheel-container.spinning .spaceship .light { animation-duration: 0.5s; }
+    .wheel-container.spinning .spaceship .beam { animation: beamScan 0.35s steps(2) infinite; }
+
+    @keyframes beamScan {
+      0% { opacity: 0.2; }
+      100% { opacity: 0.55; }
+    }
+
+    .result {
+      text-align: center;
+      font-size: 24px;
+      font-family: 'Fredoka', 'Trebuchet MS', sans-serif;
+      font-weight: 600;
+      margin-top: 10px;
+      min-height: 55px;
+      color: #b9ffc2;
+      padding: 12px 25px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .result:not(:empty) {
+      background: rgba(124, 255, 138, 0.08);
+      border-radius: 14px;
+      box-shadow:
+        0 0 0 1px var(--alien),
+        0 0 26px rgba(124, 255, 138, 0.25);
+      text-shadow: 0 0 12px rgba(124, 255, 138, 0.55);
+      animation: signalIn 0.7s ease-out;
+    }
+
+    @keyframes signalIn {
+      0% { transform: scale(0.9); opacity: 0; filter: blur(4px); }
+      100% { transform: scale(1); opacity: 1; filter: blur(0); }
+    }
+
+    /* ============================================
+       LES PLANÈTES (liste)
+       ============================================ */
+    .name-list {
+      width: 100%;
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background:
+        radial-gradient(1.5px 1.5px at 14% 28%, rgba(245, 243, 255, 0.5), transparent),
+        radial-gradient(1.5px 1.5px at 78% 18%, rgba(245, 243, 255, 0.45), transparent),
+        radial-gradient(1.5px 1.5px at 42% 75%, rgba(245, 243, 255, 0.4), transparent),
+        radial-gradient(1.5px 1.5px at 88% 65%, rgba(245, 243, 255, 0.45), transparent),
+        rgba(5, 7, 20, 0.65);
+      border-radius: 16px;
+      padding: 22px 20px 20px;
+      box-shadow:
+        inset 0 0 0 1px rgba(150, 170, 255, 0.25),
+        inset 0 2px 18px rgba(0, 0, 0, 0.5);
+      position: relative;
+      z-index: 2;
+    }
+
+    .name-list h3 {
+      margin: 0 0 16px 0;
+      color: #e8e4ff;
+      font-family: 'Fredoka', 'Trebuchet MS', sans-serif;
+      font-weight: 600;
+      font-size: 21px;
+      text-align: center;
+      text-shadow: 0 0 12px rgba(167, 123, 255, 0.5);
+    }
+
+    #namesList {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 10px;
+    }
+
+    .name-item {
+      margin: 0;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(160, 180, 255, 0.18);
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .name-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .name-item input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--alien-dark);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Pastille de la couleur de sa planète */
+    .planet-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow:
+        inset -3px -3px 4px rgba(0, 0, 0, 0.35),
+        inset 2px 2px 3px rgba(255, 255, 255, 0.35);
+    }
+
+    .name-item label {
+      cursor: pointer;
+      color: var(--text-light);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+
+    .selected {
+      text-decoration: line-through;
+      color: #8a8fa8 !important;
+      opacity: 0.75;
+    }
+
+    /* Planète déjà visitée : grise */
+    .name-item:has(.selected) {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(160, 180, 255, 0.1);
+    }
+
+    .name-item:has(.selected) .planet-dot {
+      background: #7f848e !important;
+    }
+
+    /* ============================================
+       POPUP PLANÈTE EN VUE !
+       ============================================ */
+    .goal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(3, 4, 14, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .goal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .goal-popup {
+      background: linear-gradient(135deg, var(--alien) 0%, var(--cyan) 45%, var(--violet) 100%);
+      border-radius: 24px;
+      padding: 6px;
+      box-shadow:
+        0 0 60px rgba(124, 255, 138, 0.35),
+        0 25px 70px rgba(0, 0, 0, 0.7);
+      transform: scale(0.3) rotate(-10deg);
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 90vw;
+    }
+
+    .goal-overlay.active .goal-popup {
+      transform: scale(1) rotate(0deg);
+    }
+
+    .goal-popup-inner {
+      background:
+        radial-gradient(1.5px 1.5px at 12% 20%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 85% 30%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 70% 85%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 25% 80%, #fff, transparent),
+        linear-gradient(180deg, #141a45 0%, #090c24 100%);
+      border-radius: 19px;
+      padding: 40px 50px 32px;
+      text-align: center;
+    }
+
+    .goal-word {
+      font-family: 'Fredoka', 'Trebuchet MS', sans-serif;
+      font-weight: 700;
+      font-size: 54px;
+      margin: 0;
+      background: linear-gradient(90deg, var(--alien), var(--cyan), var(--violet), var(--alien));
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: signalShift 2.5s linear infinite;
+    }
+
+    @keyframes signalShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    .goal-name {
+      font-family: 'Fredoka', 'Trebuchet MS', sans-serif;
+      font-weight: 600;
+      font-size: 30px;
+      margin: 12px 0 0 0;
+      color: var(--text-light);
+      animation: namePopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+    }
+
+    @keyframes namePopIn {
+      0% { transform: scale(0) rotate(12deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .goal-ball {
+      font-size: 50px;
+      display: inline-block;
+      animation: alienBob 1.6s ease-in-out infinite;
+      margin-top: 12px;
+    }
+
+    @keyframes alienBob {
+      0%, 100% { transform: translateY(0) rotate(-8deg); }
+      50% { transform: translateY(-14px) rotate(8deg); }
+    }
+
+    .goal-close-hint {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 16px;
+      animation: namePopIn 0.5s ease 1.2s both;
+    }
+
+    .confetti {
+      position: fixed;
+      top: -20px;
+      z-index: 1001;
+      pointer-events: none;
+    }
+
+    .confetti.star-shape {
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    /* ============================================
+       MOUVEMENT RÉDUIT & MOBILE
+       ============================================ */
+    @media (prefers-reduced-motion: reduce) {
+      .stars, .shooting-star, .astronaut, .sun-glow,
+      .spaceship svg, .spaceship .light, .spaceship .engine-glow {
+        animation: none !important;
+      }
+      .shooting-star { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 28px; }
+      .subtitle { font-size: 18px; }
+      .tagline { font-size: 13px; margin-bottom: 46px; }
+      .astronaut { display: none; }
+      .container { padding: 38px 12px 25px; }
+      .btn { padding: 10px 14px; font-size: 13px; }
+      #namesList { grid-template-columns: 1fr; }
+      .result { font-size: 18px; }
+      .goal-word { font-size: 34px; }
+      .goal-name { font-size: 21px; }
+      .goal-popup-inner { padding: 30px 22px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Décor -->
+  <div class="stars small" aria-hidden="true"></div>
+  <div class="stars medium" aria-hidden="true"></div>
+  <div class="stars bright" aria-hidden="true"></div>
+  <div class="shooting-star one" aria-hidden="true"></div>
+  <div class="shooting-star two" aria-hidden="true"></div>
+  <div class="decor-layer" aria-hidden="true"></div>
+  <div class="astronaut" aria-hidden="true"></div>
+
+  <h1>Système des Prénoms</h1>
+  <div class="subtitle">Système solaire</div>
+  <p class="tagline">Un prénom par planète. L'alien atterrit sur la planète tirée au sort.</p>
+
+  <div class="container">
+    <div class="input-section">
+      <input type="text" id="namesInput" placeholder="Entrez les prénoms séparés par des point-virgules (ex: Léo;Inès;Malo)">
+      <p class="limit-hint" id="limitHint">Jusqu'à 15 prénoms, un par planète.</p>
+      <div class="button-group">
+        <button id="createWheel" class="btn">🪐 Former le système</button>
+        <button id="spinWheel" class="btn" disabled>🛸 Mise en orbite !</button>
+        <button id="resetWheel" class="btn" disabled>Big Bang</button>
+        <button id="exportState" class="btn" disabled>Exporter</button>
+        <input type="file" id="importFile" style="display:none;">
+        <button id="importState" class="btn">Importer</button>
+      </div>
+    </div>
+
+    <div class="wheel-container" id="wheelContainer">
+      <div class="sun-glow" aria-hidden="true"></div>
+      <canvas id="wheelCanvas" width="840" height="420" aria-label="Système solaire des prénoms, vu en perspective"></canvas>
+
+      <!-- Vaisseau-pointeur avec son alien -->
+      <div class="spaceship" id="spaceship" aria-hidden="true">
+        <svg viewBox="0 0 140 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="beamGrad" x1="1" x2="0" y1="0" y2="0">
+              <stop offset="0" stop-color="#9dffb0" stop-opacity="0.9"/>
+              <stop offset="1" stop-color="#9dffb0" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="hullGrad" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#f1f4ff"/>
+              <stop offset="0.5" stop-color="#b8c0d8"/>
+              <stop offset="1" stop-color="#6c7593"/>
+            </linearGradient>
+            <radialGradient id="domeGrad" cx="0.35" cy="0.3" r="0.8">
+              <stop offset="0" stop-color="#ffffff" stop-opacity="0.75"/>
+              <stop offset="0.4" stop-color="#bfe9ff" stop-opacity="0.35"/>
+              <stop offset="1" stop-color="#6fb8ff" stop-opacity="0.3"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Rayon tracteur pointé vers l'axe d'atterrissage -->
+          <polygon class="beam" points="58,45 0,33 0,67 58,55" fill="url(#beamGrad)"/>
+          <polygon class="beam-solid" points="58,45 0,33 0,67 58,55" fill="rgba(157,255,176,0.38)"/>
+
+          <!-- Alien -->
+          <path d="M91 26 L88 23" stroke="#4fbf55" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M101 26 L104 23" stroke="#4fbf55" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="88" cy="22.5" r="1.8" fill="#c4ff7a"/>
+          <circle cx="104" cy="22.5" r="1.8" fill="#c4ff7a"/>
+          <ellipse cx="96" cy="33" rx="10.5" ry="9.5" fill="#7be36f" stroke="#4fbf55" stroke-width="1"/>
+          <ellipse cx="91.5" cy="32" rx="3.2" ry="4" fill="#14202b"/>
+          <ellipse cx="100.5" cy="32" rx="3.2" ry="4" fill="#14202b"/>
+          <circle cx="92.4" cy="30.6" r="1.1" fill="#ffffff"/>
+          <circle cx="101.4" cy="30.6" r="1.1" fill="#ffffff"/>
+          <circle cx="88.6" cy="37" r="1.7" fill="#ff8fab" opacity="0.7"/>
+          <circle cx="103.4" cy="37" r="1.7" fill="#ff8fab" opacity="0.7"/>
+          <path d="M92 37.5 Q96 41 100 37.5" stroke="#14202b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+          <!-- Dôme de verre -->
+          <path d="M68 46 A28 28 0 0 1 124 46 Z" fill="url(#domeGrad)" stroke="#d8f1ff" stroke-width="1.5"/>
+
+          <!-- Coque de la soucoupe -->
+          <ellipse class="engine-glow" cx="96" cy="64" rx="13" ry="3.5" fill="#7cff8a"/>
+          <ellipse cx="96" cy="59" rx="16" ry="4" fill="#4a526e"/>
+          <ellipse cx="96" cy="50" rx="42" ry="11" fill="url(#hullGrad)" stroke="#4a526e" stroke-width="1.5"/>
+          <ellipse cx="96" cy="48" rx="42" ry="5" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
+          <g>
+            <circle class="light" cx="66" cy="53" r="2.6" fill="#ffd43b"/>
+            <circle class="light" cx="81" cy="54.5" r="2.6" fill="#7cff8a"/>
+            <circle class="light" cx="96" cy="55" r="2.6" fill="#ff8fab"/>
+            <circle class="light" cx="111" cy="54.5" r="2.6" fill="#7cff8a"/>
+            <circle class="light" cx="126" cy="53" r="2.6" fill="#ffd43b"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <div class="name-list">
+      <h3>🪐 Les Planètes</h3>
+      <div id="namesList"></div>
+    </div>
+  </div>
+
+  <!-- Popup Planète en vue ! -->
+  <div class="goal-overlay" id="goalOverlay">
+    <div class="goal-popup">
+      <div class="goal-popup-inner">
+        <p class="goal-word">Planète en vue !</p>
+        <p class="goal-name" id="goalName"></p>
+        <span class="goal-ball">👽</span>
+        <p class="goal-close-hint">Cliquez n'importe où pour fermer</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const canvas = document.getElementById('wheelCanvas');
+      const ctx = canvas.getContext('2d');
+      const wheelContainer = document.getElementById('wheelContainer');
+      const spaceship = document.getElementById('spaceship');
+      const createWheelBtn = document.getElementById('createWheel');
+      const spinWheelBtn = document.getElementById('spinWheel');
+      const resetWheelBtn = document.getElementById('resetWheel');
+      const exportStateBtn = document.getElementById('exportState');
+      const importStateBtn = document.getElementById('importState');
+      const importFileInput = document.getElementById('importFile');
+      const namesInput = document.getElementById('namesInput');
+      const limitHint = document.getElementById('limitHint');
+      const resultElem = document.getElementById('result');
+      const namesListElem = document.getElementById('namesList');
+      const goalOverlay = document.getElementById('goalOverlay');
+      const goalNameElem = document.getElementById('goalName');
+
+      let names = [];
+      let selectedNames = [];
+      let isSpinning = false;
+      let initialized = false;
+      let confettiTimers = [];
+
+      // ============================================
+      // SYSTÈME SOLAIRE EN PERSPECTIVE : constantes
+      // Les orbites sont des cercles dans un plan incliné : vues de biais,
+      // elles deviennent des ellipses aplaties (facteur TILT).
+      // Le haut de l'écran est le fond de la scène, le bas est au premier plan.
+      // ============================================
+      const MAX_PLANETS = 15;
+      const W = 840;                 // largeur logique du canvas
+      const H = 420;                 // hauteur logique du canvas
+      const CX = 360;                // position du soleil
+      const CY = 210;
+      const TAU = Math.PI * 2;
+      const TILT = 0.42;             // aplatissement des orbites (inclinaison du plan)
+      const PERSP = 0.2;             // ±20 % de taille entre le fond et le premier plan
+      const SUN_R = 38;
+      const R_MIN = 80;              // orbite la plus proche du soleil
+      const R_MAX = 305;             // orbite la plus lointaine
+      const SHIP_TIP_X = 684;        // pointe du rayon du vaisseau (81,43 % de la largeur)
+      const AXIS_CLEAR = 18;         // marge autour de l'axe du vaisseau (px)
+      const BASE_LABEL_W = 84;       // largeur max d'un prénom sur sa planète
+
+      // Chronologie du tirage (secondes) : résultat révélé à 8 s comme avant
+      const WINNER_STOP = 6.2;
+      const OTHER_STOP_MIN = 5.2;
+      const OTHER_STOP_MAX = 7.6;
+
+      // Canvas net sur écrans haute densité
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      // Une planète par position : couleur, taille et relief différents
+      const PLANET_STYLES = [
+        { color: '#ff6b5e', size: 11, craters: true },              // rouge martienne
+        { color: '#4dabf7', size: 13, continents: true },           // bleue océan
+        { color: '#ffa94d', size: 17, bands: true, spot: true },    // géante orangée
+        { color: '#e9c46a', size: 15, bands: true, ring: true },    // sable à anneaux
+        { color: '#63e6be', size: 12, ring: true },                 // turquoise glacée
+        { color: '#748ffc', size: 16, bands: true },                // indigo
+        { color: '#da77f2', size: 10, craters: true },              // violette
+        { color: '#ffd43b', size: 12, spot: true },                 // soufre
+        { color: '#ff8fab', size: 14, bands: true },                // rose
+        { color: '#69db7c', size: 11, continents: true },           // verte
+        { color: '#3bc9db', size: 16, bands: true, ring: true },    // cyan à anneaux
+        { color: '#ff922b', size: 9, craters: true },               // cuivre
+        { color: '#b197fc', size: 13, spot: true },                 // lavande
+        { color: '#c98b5b', size: 15, bands: true },                // brune
+        { color: '#a9e34b', size: 10, craters: true }               // lime
+      ];
+      const GREY_PLANET = '#7f848e';
+
+      const angleOf = new Map();     // angle de chaque planète dans le plan de l'orbite (radians)
+      let lastWinnerName = null;     // dernière planète tirée (halo vert)
+      let geoCache = null;
+      let spinPlan = null;
+      let orbitFrame = null;
+
+      // ============================================
+      // OUTILS
+      // ============================================
+      function mod(x, m) {
+        return ((x % m) + m) % m;
+      }
+
+      function shuffle(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function prand(j) {
+        const x = Math.sin(j * 12.9898 + 78.233) * 43758.5453;
+        return x - Math.floor(x);
+      }
+
+      function labelFont(fs) {
+        return `600 ${fs}px Fredoka, 'Trebuchet MS', sans-serif`;
+      }
+
+      function shadeColor(color, percent) {
+        const f = parseInt(color.slice(1), 16);
+        const t = percent < 0 ? 0 : 255;
+        const p = Math.abs(percent) / 100;
+        const R = f >> 16;
+        const G = (f >> 8) & 0x00FF;
+        const B = f & 0x0000FF;
+        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
+          (Math.round((t - G) * p) + G) * 0x100 +
+          (Math.round((t - B) * p) + B)).toString(16).slice(1);
+      }
+
+      // ============================================
+      // PROJECTION : du plan de l'orbite vers l'écran
+      // angle 0 = à droite du soleil (face au vaisseau), sens antihoraire vu du dessus :
+      // la planète part vers le fond, passe derrière le soleil, revient au premier plan.
+      // ============================================
+      function relXY(i, a, geo) {
+        const r = geo.radius[i];
+        return { x: r * Math.cos(a), y: -r * TILT * Math.sin(a) };
+      }
+
+      // 1 = tout au fond, -1 = tout devant
+      function depthOf(a) {
+        return Math.sin(a);
+      }
+
+      function scaleAt(a) {
+        return 1 - PERSP * Math.sin(a);
+      }
+
+      // ============================================
+      // GÉOMÉTRIE : orbites, tailles, étiquettes
+      // ============================================
+      function getGeometry() {
+        if (geoCache) return geoCache;
+        const n = names.length;
+        const range = R_MAX - R_MIN;
+        const spacing = n > 1 ? Math.min(46, range / (n - 1)) : 0;
+        const start = n > 1 ? R_MIN + (range - spacing * (n - 1)) / 2 : (R_MIN + R_MAX) / 2;
+
+        // Sur petit écran, le canvas est réduit : on grossit planètes et prénoms pour rester lisible
+        const disp = (canvas.clientWidth || W) / W;
+        const fontBoost = Math.min(1.7, Math.max(1, 0.7 / disp));
+        const sizeBoost = Math.min(1.4, Math.max(1, 0.6 / disp));
+
+        const sizeScale = (n <= 5 ? 1.45 : n <= 8 ? 1.25 : n <= 11 ? 1.1 : 1) * sizeBoost;
+        const fontBase = (n <= 8 ? 15 : 13) * fontBoost;
+        const labelMax = BASE_LABEL_W * fontBoost;
+        const maxScale = 1 + PERSP;
+        const geo = { radius: [], size: [], font: [], label: [], hw: [], hh: [] };
+
+        ctx.save();
+        names.forEach((name, i) => {
+          const style = PLANET_STYLES[i % PLANET_STYLES.length];
+          const size = style.size * sizeScale;
+          let fs = fontBase;
+          let text = name;
+          ctx.font = labelFont(fs);
+          let w = ctx.measureText(text).width;
+          while (w > labelMax && fs > 10) {
+            fs -= 0.5;
+            ctx.font = labelFont(fs);
+            w = ctx.measureText(text).width;
+          }
+          if (w > labelMax) {
+            while (text.length > 1 && ctx.measureText(text + '…').width > labelMax) {
+              text = text.slice(0, -1);
+            }
+            text += '…';
+            w = ctx.measureText(text).width;
+          }
+          geo.radius.push(start + i * spacing);
+          geo.size.push(size);
+          geo.font.push(fs);
+          geo.label.push(text);
+          // Encombrement (planète au premier plan + anneau + prénom)
+          geo.hw.push(Math.max(size * maxScale * (style.ring ? 1.95 : 1.05), w / 2 + 4));
+          geo.hh.push(Math.max(size * maxScale * 1.05, fs * 0.6 + 3));
+        });
+        ctx.restore();
+
+        geoCache = geo;
+        return geo;
+      }
+
+      // Hors de l'axe du vaisseau : soit à gauche du soleil,
+      // soit assez haut ou assez bas pour ne pas être sur la ligne de visée
+      function clearsAxis(i, a, geo) {
+        const { x, y } = relXY(i, a, geo);
+        if (x < -12) return true;
+        return Math.abs(y) >= geo.hh[i] + AXIS_CLEAR;
+      }
+
+      function inBounds(i, a, geo) {
+        const { x, y } = relXY(i, a, geo);
+        return CX + x - geo.hw[i] >= 4 && CX + x + geo.hw[i] <= W - 4 &&
+               CY + y - geo.hh[i] >= 4 && CY + y + geo.hh[i] <= H - 4;
+      }
+
+      function countHits(i, a, placed, geo) {
+        const p1 = relXY(i, a, geo);
+        let hits = 0;
+        placed.forEach(p => {
+          const j = p.idx;
+          const p2 = relXY(j, p.angle, geo);
+          if (Math.abs(p1.x - p2.x) < geo.hw[i] + geo.hw[j] + 3 &&
+              Math.abs(p1.y - p2.y) < geo.hh[i] + geo.hh[j] + 3) {
+            hits++;
+          }
+        });
+        return hits;
+      }
+
+      function isSafe(i, a, placed, geo, axisExempt) {
+        if (!axisExempt && (!clearsAxis(i, a, geo) || !inBounds(i, a, geo))) return false;
+        return countHits(i, a, placed, geo) === 0;
+      }
+
+      // Choisit un angle d'arrêt loin de l'axe du vaisseau et sans chevauchement
+      function pickSafeAngle(i, placed, geo, allowNearMiss) {
+        const rv = geo.radius[i] * TILT;
+
+        // De temps en temps : la planète s'arrête juste après avoir frôlé le vaisseau
+        if (allowNearMiss && Math.random() < 0.35) {
+          const offset = geo.hh[i] + AXIS_CLEAR + 2 + Math.random() * 14;
+          if (offset < rv) {
+            const a = Math.asin(offset / rv);
+            if (isSafe(i, a, placed, geo, false)) return a;
+          }
+        }
+
+        let best = null;
+        let bestHits = Infinity;
+        for (let tries = 0; tries < 200; tries++) {
+          const a = Math.random() * TAU;
+          if (!clearsAxis(i, a, geo) || !inBounds(i, a, geo)) continue;
+          const hits = countHits(i, a, placed, geo);
+          if (hits === 0) return a;
+          if (hits < bestHits) {
+            bestHits = hits;
+            best = a;
+          }
+        }
+        if (best !== null) return best;
+        // Dernier recours : côté gauche, loin du vaisseau
+        return Math.PI + (Math.random() - 0.5) * 0.8;
+      }
+
+      // Place les planètes (garde les positions existantes si elles conviennent)
+      function ensureLayout() {
+        const geo = getGeometry();
+        const placed = [];
+        names.forEach((name, i) => {
+          let a = angleOf.get(name);
+          const exempt = name === lastWinnerName && a !== undefined &&
+                         Math.abs(Math.sin(a)) < 1e-3 && Math.cos(a) > 0;
+          if (a === undefined || !isSafe(i, a, placed, geo, exempt)) {
+            a = pickSafeAngle(i, placed, geo, false);
+          }
+          angleOf.set(name, a);
+          placed.push({ idx: i, angle: a });
+        });
+        [...angleOf.keys()].forEach(key => {
+          if (!names.includes(key)) angleOf.delete(key);
+        });
+      }
+
+      // ============================================
+      // ALGORITHME DU TIRAGE
+      // Le gagnant est connu dès le départ. On fixe l'angle d'arrêt de chaque
+      // planète (0 = face au vaisseau pour le gagnant, hors de l'axe pour les autres),
+      // puis on choisit le nombre de tours qui correspond à sa vitesse de croisière.
+      // Profil de vitesse : courte accélération, vitesse constante, freinage doux.
+      // La vitesse est constante dans le plan de l'orbite : vue en perspective,
+      // la planète semble filer sur les côtés et ralentir au fond et devant, comme en vrai.
+      // ============================================
+      const ACC = 0.12;
+      const DEC = 0.4;
+      const AREA = 1 - ACC / 2 - DEC / 2;
+
+      function motionProfile(u) {
+        if (u <= 0) return 0;
+        if (u >= 1) return 1;
+        let F;
+        if (u < ACC) {
+          F = (u * u) / (2 * ACC);
+        } else if (u <= 1 - DEC) {
+          F = ACC / 2 + (u - ACC);
+        } else {
+          const s = u - (1 - DEC);
+          F = ACC / 2 + (1 - DEC - ACC) + s - (s * s) / (2 * DEC);
+        }
+        return F / AREA;
+      }
+
+      // Plus une planète est proche du soleil, plus elle tourne vite
+      function cruiseSpeed(r) {
+        return TAU * 0.9 * Math.pow(R_MIN / r, 0.75);
+      }
+
+      function cancelOrbitFrame() {
+        if (orbitFrame) cancelAnimationFrame(orbitFrame);
+        orbitFrame = null;
+      }
+
+      function startOrbits(winnerIdx) {
+        cancelOrbitFrame();
+        const geo = getGeometry();
+
+        // 1. Positions d'arrêt
+        const targets = new Array(names.length);
+        targets[winnerIdx] = 0;
+        const placed = [{ idx: winnerIdx, angle: 0 }];
+        shuffle(names.map((_, i) => i).filter(i => i !== winnerIdx)).forEach(i => {
+          const a = pickSafeAngle(i, placed, geo, true);
+          targets[i] = a;
+          placed.push({ idx: i, angle: a });
+        });
+
+        // 2. Durée, vitesse et nombre de tours de chaque planète
+        spinPlan = new Map();
+        names.forEach((name, i) => {
+          const T = i === winnerIdx
+            ? WINNER_STOP
+            : OTHER_STOP_MIN + Math.random() * (OTHER_STOP_MAX - OTHER_STOP_MIN);
+          const speed = cruiseSpeed(geo.radius[i]) * (0.85 + Math.random() * 0.3);
+          const start = angleOf.has(name) ? angleOf.get(name) : Math.PI;
+          const offset = mod(targets[i] - start, TAU);
+          const turns = Math.max(1, Math.round((speed * T * AREA - offset) / TAU));
+          spinPlan.set(name, { start, delta: offset + turns * TAU, T, end: targets[i] });
+        });
+
+        // 3. Animation
+        const t0 = performance.now();
+        const step = (now) => {
+          const t = (now - t0) / 1000;
+          spinPlan.forEach((p, name) => {
+            if (!names.includes(name)) return;
+            angleOf.set(name, p.start + p.delta * motionProfile(t / p.T));
+          });
+          drawWheel();
+          orbitFrame = requestAnimationFrame(step);
+        };
+        orbitFrame = requestAnimationFrame(step);
+      }
+
+      function finishOrbits() {
+        cancelOrbitFrame();
+        if (spinPlan) {
+          spinPlan.forEach((p, name) => {
+            if (names.includes(name)) angleOf.set(name, p.end);
+          });
+          spinPlan = null;
+        }
+      }
+
+      // ============================================
+      // LIMITE DE 15 PRÉNOMS
+      // ============================================
+      function parseInputNames() {
+        return namesInput.value.split(';').map(n => n.trim()).filter(n => n);
+      }
+
+      function updateLimitHint() {
+        const count = parseInputNames().length;
+        limitHint.classList.toggle('over', count > MAX_PLANETS);
+        if (count === 0) {
+          limitHint.textContent = "Jusqu'à 15 prénoms, un par planète.";
+        } else if (count <= MAX_PLANETS) {
+          limitHint.textContent = `${count} planète${count > 1 ? 's' : ''} sur 15 possibles.`;
+        } else {
+          limitHint.textContent = `${count} prénoms : retirez-en ${count - MAX_PLANETS}, le système solaire compte 15 planètes au maximum.`;
+        }
+      }
+
+      // ============================================
+      // FONCTIONNALITÉS
+      // ============================================
+      createWheelBtn.addEventListener('click', () => {
+        const count = parseInputNames().length;
+        if (count > MAX_PLANETS) {
+          alert(`Le système solaire compte 15 planètes au maximum : retirez ${count - MAX_PLANETS} prénom(s).`);
+          return;
+        }
+        updateNamesFromInput();
+        if (names.length < 2) {
+          alert('Veuillez entrer au moins deux prénoms.');
+          return;
+        }
+        initialized = true;
+        lastWinnerName = null;
+        spaceship.classList.remove('beam-on');
+        ensureLayout();
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = false;
+        resetWheelBtn.disabled = false;
+        createWheelBtn.disabled = true;
+        exportStateBtn.disabled = false;
+        resultElem.textContent = '';
+      });
+
+      namesInput.addEventListener('input', () => {
+        updateLimitHint();
+        if (!initialized) return;
+        updateNamesFromInput();
+        ensureLayout();
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = selectedNames.length >= names.length;
+      });
+
+      function updateNamesFromInput() {
+        const inputNames = parseInputNames().slice(0, MAX_PLANETS);
+        const newSelected = selectedNames.filter(n => inputNames.includes(n));
+        names = inputNames;
+        selectedNames = newSelected;
+        geoCache = null;
+      }
+
+      spinWheelBtn.addEventListener('click', () => {
+        if (isSpinning || names.length === 0 || selectedNames.length === names.length) return;
+        isSpinning = true;
+        resultElem.textContent = '';
+        spinWheelBtn.disabled = true;
+
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * names.length);
+        } while (selectedNames.includes(names[randomIndex]));
+
+        const selectedName = names[randomIndex];
+
+        lastWinnerName = null;
+        spaceship.classList.remove('beam-on');
+        wheelContainer.classList.add('spinning');
+        startOrbits(randomIndex);
+
+        setTimeout(() => {
+          isSpinning = false;
+          finishOrbits();
+          wheelContainer.classList.remove('spinning');
+          selectedNames.push(selectedName);
+          lastWinnerName = selectedName;
+          spaceship.classList.add('beam-on');
+          resultElem.textContent = `🛸 Cap sur la planète ${selectedName} !`;
+          updateNamesList();
+          drawWheel();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          spinWheelBtn.textContent = spinWheelBtn.disabled
+            ? "🌌 Toutes les planètes sont visitées"
+            : `🛸 Mise en orbite ! (${names.length - selectedNames.length} à visiter)`;
+
+          showLandingCelebration(selectedName);
+        }, 8000);
+      });
+
+      // ============================================
+      // CÉLÉBRATION : popup + pluie d'étoiles
+      // ============================================
+      const confettiColors = ['#7cff8a', '#4fd1ff', '#a77bff', '#ffd43b', '#ff8fab', '#ffffff'];
+
+      function showLandingCelebration(name) {
+        goalNameElem.textContent = `L'alien atterrit sur la planète ${name}`;
+        goalOverlay.classList.add('active');
+        launchConfetti();
+      }
+
+      function hideLandingCelebration() {
+        goalOverlay.classList.remove('active');
+        stopConfetti();
+      }
+
+      goalOverlay.addEventListener('click', hideLandingCelebration);
+
+      function launchConfetti() {
+        stopConfetti();
+        for (let wave = 0; wave < 6; wave++) {
+          const timer = setTimeout(() => {
+            for (let i = 0; i < 22; i++) {
+              createConfettiPiece();
+            }
+          }, wave * 450);
+          confettiTimers.push(timer);
+        }
+      }
+
+      function stopConfetti() {
+        confettiTimers.forEach(t => clearTimeout(t));
+        confettiTimers = [];
+        document.querySelectorAll('.confetti').forEach(c => c.remove());
+      }
+
+      function createConfettiPiece() {
+        const piece = document.createElement('div');
+        const isStar = Math.random() > 0.35;
+        piece.className = 'confetti' + (isStar ? ' star-shape' : '');
+        const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        const size = isStar ? 12 + Math.random() * 12 : 5 + Math.random() * 6;
+        const startX = Math.random() * window.innerWidth;
+        const drift = (Math.random() - 0.5) * 250;
+        const duration = 2400 + Math.random() * 1800;
+        const rotations = 180 + Math.random() * 540;
+
+        piece.style.left = startX + 'px';
+        piece.style.width = size + 'px';
+        piece.style.height = size + 'px';
+        piece.style.background = color;
+        if (!isStar) {
+          piece.style.borderRadius = '50%';
+          piece.style.boxShadow = `0 0 8px ${color}`;
+        }
+
+        document.body.appendChild(piece);
+
+        const anim = piece.animate([
+          { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
+          { transform: `translate(${drift}px, ${window.innerHeight + 50}px) rotate(${rotations}deg)`, opacity: 0.6 }
+        ], {
+          duration: duration,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        });
+
+        anim.onfinish = () => piece.remove();
+      }
+
+      resetWheelBtn.addEventListener('click', () => {
+        selectedNames = [];
+        spinWheelBtn.disabled = false;
+        spinWheelBtn.textContent = "🛸 Mise en orbite !";
+        createWheelBtn.disabled = false;
+        exportStateBtn.disabled = false;
+        initialized = false;
+        finishOrbits();
+        wheelContainer.classList.remove('spinning');
+        lastWinnerName = null;
+        spaceship.classList.remove('beam-on');
+        angleOf.clear();
+        ensureLayout();
+        drawWheel();
+        updateNamesList();
+        resultElem.textContent = '';
+        hideLandingCelebration();
+      });
+
+      exportStateBtn.addEventListener('click', () => {
+        const data = `${names.join(';')}\nPASSED:${selectedNames.join(';')}`;
+        const blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'etat_roue.txt';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+
+      importStateBtn.addEventListener('click', () => importFileInput.click());
+
+      importFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const content = e.target.result.trim();
+          const lines = content.split('\n');
+          if (lines.length < 1) return;
+          let importedNames = lines[0].split(';').map(name => name.trim()).filter(name => name.length > 0);
+          let importedSelected = lines[1]?.startsWith('PASSED:') ? lines[1].substring(7).split(';').map(n => n.trim()) : [];
+          if (importedNames.length > MAX_PLANETS) {
+            alert(`Ce fichier contient ${importedNames.length} prénoms : seuls les 15 premiers sont mis en orbite.`);
+            importedNames = importedNames.slice(0, MAX_PLANETS);
+            importedSelected = importedSelected.filter(n => importedNames.includes(n));
+          }
+          names = importedNames;
+          selectedNames = importedSelected;
+          geoCache = null;
+          namesInput.value = names.join(';');
+          updateLimitHint();
+          initialized = true;
+          lastWinnerName = null;
+          spaceship.classList.remove('beam-on');
+          angleOf.clear();
+          ensureLayout();
+          drawWheel();
+          updateNamesList();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          resetWheelBtn.disabled = false;
+          createWheelBtn.disabled = true;
+          exportStateBtn.disabled = false;
+          resultElem.textContent = '';
+        };
+        reader.readAsText(file);
+      });
+
+      // ============================================
+      // DESSIN DU SYSTÈME SOLAIRE EN PERSPECTIVE
+      // Ordre de dessin : moitiés arrière des orbites, planètes du fond,
+      // soleil, moitiés avant des orbites, planètes du premier plan, prénoms.
+      // ============================================
+      function drawWheel() {
+        ctx.clearRect(0, 0, W, H);
+        const geo = getGeometry();
+        const pulse = isSpinning ? (Math.sin(performance.now() / 160) + 1) / 2 : 0;
+
+        const radii = names.length ? geo.radius : [120, 180, 240, 300];
+        const winnerIdx = lastWinnerName ? names.indexOf(lastWinnerName) : -1;
+
+        // Les planètes, triées de la plus lointaine à la plus proche
+        const bodies = names.map((name, i) => {
+          const a = angleOf.has(name) ? angleOf.get(name) : Math.PI;
+          return { name, i, a, depth: depthOf(a) };
+        }).sort((p, q) => q.depth - p.depth);
+
+        drawOrbits(radii, winnerIdx, false);
+        drawBelt(geo, false);
+        drawTractorBeam(geo);
+        bodies.filter(b => b.depth > 0).forEach(b => drawPlanet(b.name, b.i, b.a, geo));
+
+        drawSun(pulse);
+
+        drawOrbits(radii, winnerIdx, true);
+        drawBelt(geo, true);
+        bodies.filter(b => b.depth <= 0).forEach(b => drawPlanet(b.name, b.i, b.a, geo));
+
+        // Les prénoms par-dessus tout, dans le même ordre de profondeur
+        bodies.forEach(b => drawLabel(b.name, b.i, b.a, geo));
+      }
+
+      // Moitié arrière (haut de l'écran) ou avant (bas de l'écran) de chaque orbite
+      function drawOrbits(radii, winnerIdx, front) {
+        ctx.save();
+        ctx.lineWidth = 1.2;
+        const startA = front ? 0 : Math.PI;
+        const endA = front ? Math.PI : TAU;
+        radii.forEach((r, i) => {
+          const isWinnerOrbit = i === winnerIdx;
+          ctx.strokeStyle = isWinnerOrbit
+            ? (front ? 'rgba(124, 255, 138, 0.6)' : 'rgba(124, 255, 138, 0.4)')
+            : (front ? 'rgba(180, 200, 255, 0.34)' : 'rgba(180, 200, 255, 0.18)');
+          ctx.lineWidth = isWinnerOrbit ? 1.8 : 1.2;
+          ctx.beginPath();
+          ctx.ellipse(CX, CY, r, r * TILT, 0, startA, endA);
+          ctx.stroke();
+        });
+        ctx.restore();
+      }
+
+      // Ceinture d'astéroïdes entre deux orbites (comme entre Mars et Jupiter)
+      function drawBelt(geo, front) {
+        const n = names.length;
+        let rb;
+        let width;
+        if (n >= 2) {
+          const m = Math.min(n - 1, Math.max(1, Math.round(n * 0.4)));
+          rb = (geo.radius[m - 1] + geo.radius[m]) / 2;
+          width = Math.min(12, (geo.radius[m] - geo.radius[m - 1]) * 0.35);
+        } else {
+          rb = 210;
+          width = 12;
+        }
+        ctx.save();
+        for (let j = 0; j < 170; j++) {
+          const a = j * 2.39996 + prand(j) * 0.2;
+          if ((Math.sin(a) <= 0) !== front) continue;
+          const r = rb + (prand(j + 500) - 0.5) * 2 * width;
+          const s = scaleAt(a);
+          const x = CX + r * Math.cos(a);
+          const y = CY - r * TILT * Math.sin(a);
+          ctx.fillStyle = `rgba(200, 205, 225, ${0.18 + prand(j + 900) * 0.3})`;
+          ctx.beginPath();
+          ctx.arc(x, y, (0.7 + prand(j + 1300) * 1.3) * s, 0, TAU);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      function drawSun(pulse) {
+        const glowR = 72 + pulse * 10;
+        const glow = ctx.createRadialGradient(CX, CY, 20, CX, CY, glowR);
+        glow.addColorStop(0, 'rgba(255, 214, 102, 0.6)');
+        glow.addColorStop(0.5, 'rgba(255, 170, 60, 0.22)');
+        glow.addColorStop(1, 'rgba(255, 150, 40, 0)');
+        ctx.beginPath();
+        ctx.arc(CX, CY, glowR, 0, TAU);
+        ctx.fillStyle = glow;
+        ctx.fill();
+
+        const body = ctx.createRadialGradient(CX - 11, CY - 12, 4, CX, CY, SUN_R);
+        body.addColorStop(0, '#fffbe6');
+        body.addColorStop(0.35, '#ffe066');
+        body.addColorStop(0.8, '#ffb627');
+        body.addColorStop(1, '#ff8c1a');
+        ctx.beginPath();
+        ctx.arc(CX, CY, SUN_R, 0, TAU);
+        ctx.fillStyle = body;
+        ctx.fill();
+
+        // Granulation de la surface
+        ctx.fillStyle = 'rgba(255, 140, 26, 0.25)';
+        [[-14, 9, 4.5], [12, -7, 3.5], [7, 16, 4], [-7, -19, 3], [19, 7, 3]].forEach(([dx, dy, rr]) => {
+          ctx.beginPath();
+          ctx.arc(CX + dx, CY + dy, rr, 0, TAU);
+          ctx.fill();
+        });
+      }
+
+      // Anneau incliné comme le plan : moitié arrière puis moitié avant
+      function drawRingHalf(x, y, pr, base, back) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(-0.12);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, pr * 1.9, pr * 0.6, 0, back ? Math.PI : 0, back ? TAU : Math.PI);
+        ctx.strokeStyle = shadeColor(base, 35);
+        ctx.globalAlpha = back ? 0.55 : 0.9;
+        ctx.lineWidth = Math.max(2, pr * 0.22);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawPlanet(name, i, a, geo) {
+        const style = PLANET_STYLES[i % PLANET_STYLES.length];
+        const rel = relXY(i, a, geo);
+        const x = CX + rel.x;
+        const y = CY + rel.y;
+        const pr = geo.size[i] * scaleAt(a);
+        const isSelected = selectedNames.includes(name);
+        const base = isSelected ? GREY_PLANET : style.color;
+
+        // Direction de la lumière : vers le soleil
+        const dist = Math.hypot(rel.x, rel.y) || 1;
+        const ux = -rel.x / dist;
+        const uy = -rel.y / dist;
+
+        if (style.ring) drawRingHalf(x, y, pr, base, true);
+
+        const body = ctx.createRadialGradient(x + ux * pr * 0.35, y + uy * pr * 0.35, pr * 0.1, x, y, pr);
+        body.addColorStop(0, shadeColor(base, 40));
+        body.addColorStop(0.6, base);
+        body.addColorStop(1, shadeColor(base, -30));
+        ctx.beginPath();
+        ctx.arc(x, y, pr, 0, TAU);
+        ctx.fillStyle = body;
+        ctx.fill();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y, pr, 0, TAU);
+        ctx.clip();
+
+        if (style.bands) {
+          for (let k = -3; k <= 3; k++) {
+            ctx.fillStyle = k % 2 === 0 ? 'rgba(255, 255, 255, 0.16)' : 'rgba(0, 0, 0, 0.13)';
+            ctx.fillRect(x - pr, y + k * pr * 0.3 - pr * 0.1, pr * 2, pr * 0.2);
+          }
+        }
+        if (style.continents) {
+          ctx.fillStyle = isSelected ? 'rgba(255, 255, 255, 0.2)' : 'rgba(64, 160, 90, 0.85)';
+          [[-0.35, -0.2, 0.42, 0.28], [0.3, 0.25, 0.35, 0.22], [0.15, -0.5, 0.22, 0.14]].forEach(([ox, oy, rx, ry]) => {
+            ctx.beginPath();
+            ctx.ellipse(x + ox * pr, y + oy * pr, rx * pr, ry * pr, 0.4, 0, TAU);
+            ctx.fill();
+          });
+        }
+        if (style.craters) {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+          [[-0.3, -0.25, 0.22], [0.35, 0.1, 0.17], [-0.05, 0.42, 0.14]].forEach(([ox, oy, rr]) => {
+            ctx.beginPath();
+            ctx.arc(x + ox * pr, y + oy * pr, rr * pr, 0, TAU);
+            ctx.fill();
+          });
+        }
+        if (style.spot) {
+          ctx.fillStyle = isSelected ? 'rgba(0, 0, 0, 0.22)' : 'rgba(160, 40, 20, 0.45)';
+          ctx.beginPath();
+          ctx.ellipse(x + pr * 0.25, y + pr * 0.3, pr * 0.3, pr * 0.17, 0, 0, TAU);
+          ctx.fill();
+        }
+
+        // Côté nuit, à l'opposé du soleil
+        const shadow = ctx.createLinearGradient(x + ux * pr, y + uy * pr, x - ux * pr, y - uy * pr);
+        shadow.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        shadow.addColorStop(0.5, 'rgba(0, 0, 0, 0.05)');
+        shadow.addColorStop(1, 'rgba(4, 5, 20, 0.6)');
+        ctx.fillStyle = shadow;
+        ctx.fillRect(x - pr, y - pr, pr * 2, pr * 2);
+        ctx.restore();
+
+        if (style.ring) drawRingHalf(x, y, pr, base, false);
+
+        // Halo vert autour de la planète qui vient d'être tirée
+        if (name === lastWinnerName && isSelected) {
+          ctx.save();
+          ctx.shadowColor = 'rgba(124, 255, 138, 0.9)';
+          ctx.shadowBlur = 16;
+          ctx.strokeStyle = '#7cff8a';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.arc(x, y, pr + 6, 0, TAU);
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+
+      function drawLabel(name, i, a, geo) {
+        const rel = relXY(i, a, geo);
+        const x = CX + rel.x;
+        const y = CY + rel.y;
+        const isSelected = selectedNames.includes(name);
+
+        ctx.save();
+        ctx.font = labelFont(geo.font[i]);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.lineJoin = 'round';
+        ctx.lineWidth = 3.5;
+        ctx.strokeStyle = 'rgba(6, 8, 26, 0.9)';
+        ctx.strokeText(geo.label[i], x, y + 1);
+        ctx.fillStyle = isSelected ? '#b9bdc8' : '#ffffff';
+        ctx.fillText(geo.label[i], x, y + 1);
+        ctx.restore();
+      }
+
+      // Rayon tracteur du vaisseau jusqu'à la planète tirée au sort
+      function drawTractorBeam(geo) {
+        if (!lastWinnerName || !names.includes(lastWinnerName)) return;
+        const i = names.indexOf(lastWinnerName);
+        const a = angleOf.get(lastWinnerName);
+        if (a === undefined || Math.abs(Math.sin(a)) > 1e-3 || Math.cos(a) < 0) return;
+        const pr = geo.size[i];
+        const px = CX + geo.radius[i] + pr;
+        const shipX = SHIP_TIP_X;
+        if (shipX <= px) return;
+        const beam = ctx.createLinearGradient(px, 0, shipX, 0);
+        beam.addColorStop(0, 'rgba(157, 255, 176, 0.14)');
+        beam.addColorStop(1, 'rgba(157, 255, 176, 0.38)');
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(px, CY - pr - 7);
+        ctx.lineTo(shipX, CY - 19);
+        ctx.lineTo(shipX, CY + 19);
+        ctx.lineTo(px, CY + pr + 7);
+        ctx.closePath();
+        ctx.fillStyle = beam;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function updateNamesList() {
+        namesListElem.innerHTML = '';
+        names.forEach((name, index) => {
+          const div = document.createElement('div');
+          div.className = 'name-item';
+
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.checked = selectedNames.includes(name);
+          checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+              if (!selectedNames.includes(name)) selectedNames.push(name);
+            } else {
+              selectedNames = selectedNames.filter(n => n !== name);
+            }
+            drawWheel();
+            updateNamesList();
+            spinWheelBtn.disabled = selectedNames.length >= names.length;
+          });
+
+          const dot = document.createElement('span');
+          dot.className = 'planet-dot';
+          dot.style.background = PLANET_STYLES[index % PLANET_STYLES.length].color;
+
+          const label = document.createElement('label');
+          label.textContent = name;
+          if (checkbox.checked) label.classList.add('selected');
+
+          div.appendChild(checkbox);
+          div.appendChild(dot);
+          div.appendChild(label);
+          namesListElem.appendChild(div);
+        });
+      }
+
+      // Premier rendu : le soleil seul et ses orbites vides
+      updateLimitHint();
+      drawWheel();
+
+      // Redessiner une fois la police chargée (les largeurs de prénoms changent)
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          geoCache = null;
+          drawWheel();
+        });
+      }
+
+      // Taille d'écran modifiée : on recalcule la lisibilité des prénoms
+      window.addEventListener('resize', () => {
+        geoCache = null;
+        if (!isSpinning) drawWheel();
+      });
+    });
+  </script>
+</body>
+</html>

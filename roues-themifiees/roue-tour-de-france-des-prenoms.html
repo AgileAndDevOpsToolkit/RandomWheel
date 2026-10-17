@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🚴 Roue des Prénoms - Tour de France</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* === Maillots du Tour === */
+      --maillot-jaune: #fce300;
+      --maillot-jaune-dark: #d9c400;
+      --maillot-jaune-deep: #a89700;
+      --maillot-vert: #35a848;
+      --maillot-vert-dark: #248033;
+      --pois-rouge: #e4003a;
+      --pois-rouge-dark: #b00029;
+      --maillot-blanc: #f8f6f0;
+
+      /* === France & route === */
+      --bleu-france: #003da5;
+      --bleu-france-dark: #002a73;
+      --asphalt: #4a4d52;
+      --asphalt-dark: #34363a;
+      --asphalt-deep: #232427;
+      --line-road: #f0efe8;
+
+      --gold: #d4af37;
+      --gold-bright: #ffd700;
+      --text-dark: #232427;
+      --ivory: #fdfcf6;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: var(--text-dark);
+      background-color: var(--asphalt);
+      background-image:
+        /* Soleil d'été en haut */
+        radial-gradient(ellipse 600px 300px at 50% -8%, rgba(252, 227, 0, 0.22) 0%, transparent 60%),
+        /* Texture granuleuse d'asphalte */
+        radial-gradient(circle at 22% 35%, rgba(255, 255, 255, 0.03) 0%, transparent 6%),
+        radial-gradient(circle at 68% 60%, rgba(0, 0, 0, 0.12) 0%, transparent 8%),
+        radial-gradient(circle at 45% 82%, rgba(255, 255, 255, 0.025) 0%, transparent 5%),
+        radial-gradient(circle at 88% 25%, rgba(0, 0, 0, 0.1) 0%, transparent 7%),
+        /* Dégradé asphalte */
+        linear-gradient(180deg, var(--asphalt) 0%, var(--asphalt-dark) 55%, var(--asphalt-deep) 100%);
+      background-size: 100% 100%, 220px 220px, 260px 260px, 240px 240px, 280px 280px, 100% 100%;
+      background-attachment: fixed;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* === Ligne médiane de la route + bandes latérales === */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        /* Ligne médiane en pointillés au centre */
+        repeating-linear-gradient(
+          180deg,
+          rgba(240, 239, 232, 0.28) 0px,
+          rgba(240, 239, 232, 0.28) 45px,
+          transparent 45px,
+          transparent 90px
+        ),
+        /* Bandes blanches continues sur les côtés */
+        linear-gradient(90deg,
+          transparent 0%, transparent 3%,
+          rgba(240, 239, 232, 0.22) 3%, rgba(240, 239, 232, 0.22) calc(3% + 5px),
+          transparent calc(3% + 5px), transparent calc(97% - 5px),
+          rgba(240, 239, 232, 0.22) calc(97% - 5px), rgba(240, 239, 232, 0.22) 97%,
+          transparent 97%, transparent 100%);
+      background-size: 6px 100%, 100% 100%;
+      background-position: 50% 0, 0 0;
+      background-repeat: repeat-y, no-repeat;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* === Montagnes + vélos en filigrane === */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        /* Chaîne de montagnes en haut à gauche */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='120' viewBox='0 0 300 120'><g opacity='0.16' fill='none' stroke='%23f0efe8' stroke-width='2.5' stroke-linejoin='round'><path d='M0 110 L45 40 L70 70 L105 15 L140 75 L170 50 L210 105'/><path d='M95 30 L105 15 L117 33' stroke-width='2' opacity='0.8'/><path d='M180 110 L225 55 L255 85 L285 45 L300 70'/></g></svg>"),
+        /* Vélo en filigrane à droite */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='170' height='110' viewBox='0 0 170 110'><g opacity='0.18' fill='none' stroke='%23fce300' stroke-width='2.5' stroke-linecap='round'><circle cx='38' cy='78' r='26'/><circle cx='38' cy='78' r='4'/><circle cx='128' cy='78' r='26'/><circle cx='128' cy='78' r='4'/><path d='M38 78 L64 40 L108 40 L128 78 M64 40 L83 78 L38 78 M83 78 L108 40'/><path d='M108 40 L102 28 L116 24 M64 40 L58 30 L48 30'/></g></svg>"),
+        /* Vélo en filigrane en bas à gauche */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='92' viewBox='0 0 170 110'><g opacity='0.13' fill='none' stroke='%23f0efe8' stroke-width='2.5' stroke-linecap='round'><circle cx='38' cy='78' r='26'/><circle cx='38' cy='78' r='4'/><circle cx='128' cy='78' r='26'/><circle cx='128' cy='78' r='4'/><path d='M38 78 L64 40 L108 40 L128 78 M64 40 L83 78 L38 78 M83 78 L108 40'/><path d='M108 40 L102 28 L116 24 M64 40 L58 30 L48 30'/></g></svg>"),
+        /* Montagnes en bas à droite */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='100' viewBox='0 0 240 100'><g opacity='0.12' fill='none' stroke='%23f0efe8' stroke-width='2.5' stroke-linejoin='round'><path d='M0 92 L50 25 L80 60 L120 10 L165 70 L200 40 L240 90'/></g></svg>");
+      background-position: 2% 6%, 96% 40%, 3% 88%, 97% 92%;
+      background-repeat: no-repeat;
+      background-size: 300px 120px, 170px 110px, 140px 92px, 240px 100px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      color: var(--maillot-jaune);
+      text-align: center;
+      margin: 10px 0 5px 0;
+      font-size: 50px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      text-shadow:
+        2px 2px 0 var(--asphalt-deep),
+        4px 4px 15px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 1;
+    }
+
+    h1::before { content: "🚴 "; }
+    h1::after { content: " 🚴"; }
+
+    .subtitle {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 7px;
+      font-size: 16px;
+      margin-bottom: 8px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      text-transform: uppercase;
+      color: var(--line-road);
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+    }
+
+    /* Bandeau tricolore */
+    .tricolore {
+      display: flex;
+      gap: 0;
+      margin-bottom: 55px;
+      position: relative;
+      z-index: 1;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .tricolore span {
+      width: 38px;
+      height: 7px;
+      display: inline-block;
+    }
+
+    .tricolore span:nth-child(1) { background: var(--bleu-france); }
+    .tricolore span:nth-child(2) { background: #ffffff; }
+    .tricolore span:nth-child(3) { background: var(--pois-rouge); }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 800px;
+      background: rgba(253, 252, 246, 0.97);
+      border-radius: 14px;
+      padding: 45px 25px 30px;
+      box-shadow:
+        0 0 0 3px var(--maillot-jaune),
+        0 0 0 6px var(--asphalt-deep),
+        0 20px 50px rgba(0, 0, 0, 0.55);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Médaillon maillot jaune */
+    .container::before {
+      content: "🏆";
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, var(--maillot-jaune) 0%, var(--maillot-jaune-dark) 70%, var(--maillot-jaune-deep) 100%);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow:
+        0 0 0 3px var(--ivory),
+        0 0 0 5px var(--asphalt-deep),
+        0 6px 18px rgba(0,0,0,0.45);
+      z-index: 2;
+    }
+
+    .input-section {
+      width: 100%;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+      position: relative;
+      z-index: 2;
+    }
+
+    #namesInput {
+      width: 90%;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-family: 'Montserrat', sans-serif;
+      border: 2px solid var(--asphalt);
+      border-radius: 8px;
+      margin-bottom: 18px;
+      background: white;
+      color: var(--text-dark);
+      transition: all 0.3s;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+    }
+
+    #namesInput::placeholder {
+      color: rgba(35, 36, 39, 0.45);
+    }
+
+    #namesInput:focus {
+      outline: none;
+      border-color: var(--maillot-jaune-dark);
+      box-shadow:
+        inset 0 2px 4px rgba(0,0,0,0.06),
+        0 0 0 3px rgba(252, 227, 0, 0.35);
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 12px 22px;
+      font-size: 14px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2px;
+      background: linear-gradient(180deg, var(--bleu-france) 0%, var(--bleu-france-dark) 100%);
+      color: var(--line-road);
+      border: 2px solid var(--bleu-france-dark);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      box-shadow: 0 3px 0 #001d52, 0 5px 12px rgba(0,0,0,0.3);
+      position: relative;
+      top: 0;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: linear-gradient(180deg, #1355c9 0%, var(--bleu-france) 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn:active:not(:disabled) {
+      top: 3px;
+      box-shadow: 0 0 0 #001d52, 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .btn:disabled {
+      background: linear-gradient(180deg, #9aa0a8 0%, #7d838c 100%);
+      border-color: #656b74;
+      color: #d5d8dc;
+      box-shadow: 0 3px 0 #656b74;
+      cursor: not-allowed;
+      opacity: 0.75;
+    }
+
+    /* Bouton départ en maillot jaune */
+    #spinWheel {
+      background: linear-gradient(180deg, var(--maillot-jaune) 0%, var(--maillot-jaune-dark) 100%);
+      color: var(--asphalt-deep);
+      border-color: var(--maillot-jaune-deep);
+      box-shadow: 0 3px 0 var(--maillot-jaune-deep), 0 5px 15px rgba(252, 227, 0, 0.35);
+      font-weight: bold;
+    }
+
+    #spinWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #fff04d 0%, var(--maillot-jaune) 100%);
+    }
+
+    /* Bouton créer en maillot vert */
+    #createWheel {
+      background: linear-gradient(180deg, var(--maillot-vert) 0%, var(--maillot-vert-dark) 100%);
+      color: var(--ivory);
+      border-color: var(--maillot-vert-dark);
+      box-shadow: 0 3px 0 #1a5c25, 0 5px 12px rgba(0,0,0,0.3);
+    }
+
+    #createWheel:hover:not(:disabled) {
+      background: linear-gradient(180deg, #43c257 0%, var(--maillot-vert) 100%);
+    }
+
+    /* Bouton reset en rouge à pois */
+    #resetWheel:not(:disabled) {
+      background:
+        radial-gradient(circle 4px at 20% 30%, var(--pois-rouge) 3px, transparent 4px),
+        radial-gradient(circle 4px at 65% 65%, var(--pois-rouge) 3px, transparent 4px),
+        radial-gradient(circle 4px at 85% 25%, var(--pois-rouge) 3px, transparent 4px),
+        radial-gradient(circle 4px at 40% 80%, var(--pois-rouge) 3px, transparent 4px),
+        linear-gradient(180deg, #ffffff 0%, #ece9e0 100%);
+      background-size: 60px 40px, 60px 40px, 60px 40px, 60px 40px, 100% 100%;
+      color: var(--pois-rouge);
+      border-color: var(--pois-rouge);
+      box-shadow: 0 3px 0 var(--pois-rouge-dark), 0 5px 12px rgba(0,0,0,0.3);
+    }
+
+    #resetWheel:hover:not(:disabled) {
+      transform: translateY(-1px);
+      color: var(--pois-rouge-dark);
+    }
+
+    .wheel-container {
+      position: relative;
+      width: 440px;
+      height: 440px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0 30px 0;
+    }
+
+    /* Pneu de vélo autour de la roue */
+    .wheel-container::before {
+      content: "";
+      position: absolute;
+      width: 464px;
+      height: 464px;
+      border-radius: 50%;
+      background:
+        /* Crampons du pneu */
+        repeating-conic-gradient(
+          from 0deg,
+          #2a2b2e 0deg 3deg,
+          #1a1b1d 3deg 6deg
+        );
+      box-shadow:
+        inset 0 0 25px rgba(0,0,0,0.7),
+        0 12px 40px rgba(0,0,0,0.55);
+      z-index: 0;
+    }
+
+    /* Jante jaune */
+    .wheel-container::after {
+      content: "";
+      position: absolute;
+      width: 424px;
+      height: 424px;
+      border-radius: 50%;
+      border: 6px solid var(--maillot-jaune);
+      box-shadow:
+        0 0 0 2px var(--maillot-jaune-deep),
+        inset 0 0 0 2px var(--maillot-jaune-deep),
+        inset 0 0 12px rgba(0,0,0,0.3);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    #wheelCanvas {
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.4));
+    }
+
+    /* Pointeur maillot jaune */
+    .pointer {
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 24px solid transparent;
+      border-bottom: 24px solid transparent;
+      border-right: 48px solid var(--maillot-jaune);
+      z-index: 10;
+      filter: drop-shadow(-3px 2px 6px rgba(0,0,0,0.5));
+    }
+
+    .pointer::after {
+      content: "";
+      position: absolute;
+      top: -18px;
+      right: -45px;
+      width: 0;
+      height: 0;
+      border-top: 18px solid transparent;
+      border-bottom: 18px solid transparent;
+      border-right: 36px solid var(--asphalt-deep);
+    }
+
+    .result {
+      text-align: center;
+      font-size: 27px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2.5px;
+      margin-top: 15px;
+      min-height: 55px;
+      color: var(--asphalt-deep);
+      padding: 12px 25px;
+      transition: all 0.4s;
+      position: relative;
+      z-index: 2;
+      text-transform: uppercase;
+    }
+
+    .result:not(:empty) {
+      background: linear-gradient(135deg, var(--maillot-jaune) 0%, #fff04d 100%);
+      border-radius: 10px;
+      box-shadow:
+        0 0 0 3px var(--ivory),
+        0 0 0 6px var(--asphalt-deep),
+        0 8px 25px rgba(0,0,0,0.35);
+      animation: victoryPulse 0.7s ease-out;
+      color: var(--asphalt-deep);
+    }
+
+    @keyframes victoryPulse {
+      0% { transform: scale(0.85) rotate(-2deg); opacity: 0; }
+      40% { transform: scale(1.08) rotate(1deg); }
+      70% { transform: scale(0.98); }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* ============================================
+       LE PELOTON (liste des coureurs)
+       ============================================ */
+    .name-list {
+      width: 100%;
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(180deg, var(--asphalt-dark) 0%, var(--asphalt-deep) 100%);
+      border-radius: 10px;
+      padding: 25px 20px 20px;
+      box-shadow:
+        inset 0 0 0 2px var(--maillot-jaune),
+        inset 0 2px 15px rgba(0,0,0,0.45);
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    /* Ligne médiane de route dans le fond du peloton */
+    .name-list::before {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      width: 5px;
+      transform: translateX(-50%);
+      background: repeating-linear-gradient(
+        180deg,
+        rgba(240, 239, 232, 0.12) 0px,
+        rgba(240, 239, 232, 0.12) 26px,
+        transparent 26px,
+        transparent 52px
+      );
+      pointer-events: none;
+    }
+
+    .name-list h3 {
+      margin: 0 0 18px 0;
+      color: var(--maillot-jaune);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 5px;
+      font-size: 20px;
+      padding-bottom: 12px;
+      width: 100%;
+      text-align: center;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .name-list h3::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--maillot-jaune) 50%, transparent 100%);
+    }
+
+    #namesList {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .name-item {
+      margin: 0;
+      font-size: 15px;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(253, 252, 246, 0.96);
+      padding: 9px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
+      border-left: 5px solid var(--maillot-vert);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+    }
+
+    /* Alternance des maillots : vert / pois / bleu / jaune clair */
+    .name-item:nth-child(4n+1) { border-left-color: var(--maillot-vert); }
+    .name-item:nth-child(4n+2) {
+      border-left-color: #ffffff;
+      border-image: repeating-linear-gradient(
+        180deg,
+        #ffffff 0px, #ffffff 4px,
+        var(--pois-rouge) 4px, var(--pois-rouge) 7px
+      ) 1 100%;
+    }
+    .name-item:nth-child(4n+3) { border-left-color: var(--bleu-france); }
+    .name-item:nth-child(4n+4) { border-left-color: var(--maillot-jaune-dark); }
+
+    /* Le premier coureur porte le maillot jaune */
+    .name-item:first-child {
+      background: linear-gradient(135deg, var(--maillot-jaune) 0%, #fff04d 100%);
+      border-left-color: var(--maillot-jaune-deep) !important;
+      border-image: none;
+      box-shadow:
+        0 0 0 1px var(--maillot-jaune-deep),
+        0 2px 8px rgba(252, 227, 0, 0.35);
+    }
+
+    /* Dossard numéroté */
+    .dossard {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 13px;
+      background: var(--asphalt-deep);
+      color: var(--line-road);
+      min-width: 24px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      flex-shrink: 0;
+      letter-spacing: 0.5px;
+      padding: 0 4px;
+    }
+
+    .name-item:first-child .dossard {
+      background: var(--asphalt-deep);
+      color: var(--maillot-jaune);
+    }
+
+    .name-item:hover {
+      transform: translateX(3px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.45);
+    }
+
+    .name-item input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--pois-rouge);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .name-item label {
+      cursor: pointer;
+      color: var(--text-dark);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .selected {
+      text-decoration: line-through;
+      color: #999 !important;
+      opacity: 0.65;
+    }
+
+    .name-item:has(.selected) {
+      border-left-color: #9aa0a8 !important;
+      border-image: none !important;
+      background: rgba(200, 202, 198, 0.75) !important;
+      filter: grayscale(0.5);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.25) !important;
+    }
+
+    /* ============================================
+       POPUP DE VICTOIRE D'ÉTAPE
+       ============================================ */
+    .goal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(35, 36, 39, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .goal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .goal-popup {
+      background:
+        linear-gradient(135deg, var(--maillot-jaune) 0%, var(--maillot-vert) 40%, var(--bleu-france) 75%, var(--pois-rouge) 100%);
+      border-radius: 20px;
+      padding: 8px;
+      box-shadow:
+        0 0 0 4px var(--maillot-jaune),
+        0 0 60px rgba(252, 227, 0, 0.5),
+        0 25px 70px rgba(0,0,0,0.65);
+      transform: scale(0.3) rotate(-8deg);
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 90vw;
+    }
+
+    .goal-overlay.active .goal-popup {
+      transform: scale(1) rotate(0deg);
+    }
+
+    .goal-popup-inner {
+      background: var(--ivory);
+      border-radius: 14px;
+      padding: 40px 50px 35px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Bande à pois en haut de la popup */
+    .goal-popup-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 14px;
+      background:
+        radial-gradient(circle 5px at 12px 7px, var(--pois-rouge) 4px, transparent 5px),
+        #ffffff;
+      background-size: 32px 14px;
+      background-repeat: repeat-x;
+      border-bottom: 2px solid var(--pois-rouge);
+    }
+
+    .goal-word {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 68px;
+      letter-spacing: 5px;
+      margin: 10px 0 0 0;
+      background: linear-gradient(90deg, var(--maillot-jaune-deep), var(--maillot-vert), var(--bleu-france), var(--pois-rouge), var(--maillot-jaune-deep));
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowShift 2s linear infinite, victoryShake 0.5s ease-in-out 3;
+      text-transform: uppercase;
+    }
+
+    @keyframes rainbowShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    @keyframes victoryShake {
+      0%, 100% { transform: translateX(0) scale(1); }
+      20% { transform: translateX(-6px) scale(1.04); }
+      40% { transform: translateX(6px) scale(1.06); }
+      60% { transform: translateX(-4px) scale(1.04); }
+      80% { transform: translateX(4px) scale(1.02); }
+    }
+
+    .goal-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 3px;
+      margin: 12px 0 0 0;
+      color: var(--asphalt-deep);
+      text-transform: uppercase;
+      animation: namePopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+    }
+
+    @keyframes namePopIn {
+      0% { transform: scale(0) rotate(10deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .goal-jersey {
+      display: inline-block;
+      margin-top: 14px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 2px;
+      color: var(--asphalt-deep);
+      background: linear-gradient(180deg, var(--maillot-jaune) 0%, var(--maillot-jaune-dark) 100%);
+      padding: 8px 18px;
+      border-radius: 6px;
+      box-shadow: 0 3px 0 var(--maillot-jaune-deep), 0 4px 10px rgba(0,0,0,0.2);
+      text-transform: uppercase;
+      animation: namePopIn 0.5s ease 0.6s both;
+    }
+
+    .goal-ball {
+      font-size: 44px;
+      display: inline-block;
+      animation: rideAcross 1.6s ease-in-out infinite;
+      margin-top: 12px;
+    }
+
+    @keyframes rideAcross {
+      0%, 100% { transform: translateX(-30px) rotate(-4deg); }
+      50% { transform: translateX(30px) rotate(4deg); }
+    }
+
+    .goal-close-hint {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      color: #7d838c;
+      margin-top: 18px;
+      animation: namePopIn 0.5s ease 1.2s both;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      top: -20px;
+      z-index: 1001;
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 30px; letter-spacing: 3px; }
+      .subtitle { font-size: 12px; letter-spacing: 4px; }
+      .tricolore { margin-bottom: 48px; }
+      .tricolore span { width: 30px; height: 6px; }
+      .wheel-container {
+        width: 320px;
+        height: 320px;
+      }
+      .wheel-container::before {
+        width: 342px;
+        height: 342px;
+      }
+      .wheel-container::after {
+        width: 312px;
+        height: 312px;
+        border-width: 5px;
+      }
+      #wheelCanvas {
+        width: 320px;
+        height: 320px;
+      }
+      .container { padding: 38px 12px 25px; }
+      .btn { padding: 10px 16px; font-size: 12px; letter-spacing: 1px; }
+      #namesList { grid-template-columns: 1fr; }
+      .result { font-size: 20px; letter-spacing: 1.5px; }
+      .goal-word { font-size: 42px; letter-spacing: 3px; }
+      .goal-name { font-size: 26px; }
+      .goal-popup-inner { padding: 34px 25px 25px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Roue des Prénoms</h1>
+  <div class="subtitle">Le Tour de France</div>
+  <div class="tricolore"><span></span><span></span><span></span></div>
+
+  <div class="container">
+    <div class="input-section">
+      <input type="text" id="namesInput" placeholder="Entrez les coureurs séparés par des point-virgules (ex: Julian;Thibaut;Romain)">
+      <div class="button-group">
+        <button id="createWheel" class="btn">Former le peloton</button>
+        <button id="spinWheel" class="btn" disabled>🚴 Départ de l'étape !</button>
+        <button id="resetWheel" class="btn" disabled>Nouveau Tour</button>
+        <button id="exportState" class="btn" disabled>Exporter</button>
+        <input type="file" id="importFile" style="display:none;">
+        <button id="importState" class="btn">Importer</button>
+      </div>
+    </div>
+
+    <div class="wheel-container" id="wheelContainer">
+      <div class="pointer"></div>
+      <canvas id="wheelCanvas" width="400" height="400"></canvas>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <div class="name-list">
+      <h3>🚴 Le Peloton</h3>
+      <div id="namesList"></div>
+    </div>
+  </div>
+
+  <!-- Popup de victoire d'étape -->
+  <div class="goal-overlay" id="goalOverlay">
+    <div class="goal-popup">
+      <div class="goal-popup-inner">
+        <p class="goal-word">Victoire !</p>
+        <p class="goal-name" id="goalName"></p>
+        <div><span class="goal-jersey">🏆 Maillot Jaune</span></div>
+        <span class="goal-ball">🚴</span>
+        <p class="goal-close-hint">Cliquez n'importe où pour fermer</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const canvas = document.getElementById('wheelCanvas');
+      const ctx = canvas.getContext('2d');
+      const wheelContainer = document.getElementById('wheelContainer');
+      const createWheelBtn = document.getElementById('createWheel');
+      const spinWheelBtn = document.getElementById('spinWheel');
+      const resetWheelBtn = document.getElementById('resetWheel');
+      const exportStateBtn = document.getElementById('exportState');
+      const importStateBtn = document.getElementById('importState');
+      const importFileInput = document.getElementById('importFile');
+      const namesInput = document.getElementById('namesInput');
+      const resultElem = document.getElementById('result');
+      const namesListElem = document.getElementById('namesList');
+      const goalOverlay = document.getElementById('goalOverlay');
+      const goalNameElem = document.getElementById('goalName');
+
+      let names = [];
+      let selectedNames = [];
+      let isSpinning = false;
+      let initialized = false;
+      let confettiTimers = [];
+
+      // === Palette Tour de France : les maillots + France ===
+      // '#POIS#' est un marqueur spécial : segment blanc à pois rouges
+      let colors = [
+        '#fce300', // maillot jaune
+        '#35a848', // maillot vert
+        '#POIS#',  // maillot à pois (blanc + pois rouges)
+        '#003da5', // bleu France
+        '#e4003a', // rouge
+        '#f8f6f0', // maillot blanc
+        '#d9c400', // jaune foncé
+        '#248033', // vert foncé
+        '#4a4d52', // asphalte
+        '#ffd700', // or
+        '#6ea8d8', // bleu ciel (caravane)
+        '#232427'  // noir carbone
+      ];
+
+      const lightBackgrounds = ['#fce300', '#POIS#', '#f8f6f0', '#d9c400', '#ffd700', '#6ea8d8'];
+      function getTextColor(bgColor) {
+        return lightBackgrounds.includes(bgColor) ? '#232427' : '#fdfcf6';
+      }
+
+      createWheelBtn.addEventListener('click', () => {
+        updateNamesFromInput();
+        if (names.length < 2) {
+          alert('Veuillez entrer au moins deux coureurs.');
+          return;
+        }
+        initialized = true;
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = false;
+        resetWheelBtn.disabled = false;
+        createWheelBtn.disabled = true;
+        exportStateBtn.disabled = false;
+        resultElem.textContent = '';
+      });
+
+      namesInput.addEventListener('input', () => {
+        if (!initialized) return;
+        updateNamesFromInput();
+        drawWheel();
+        updateNamesList();
+        spinWheelBtn.disabled = selectedNames.length >= names.length;
+      });
+
+      function updateNamesFromInput() {
+        const inputNames = namesInput.value.split(';').map(n => n.trim()).filter(n => n);
+        const newSelected = selectedNames.filter(n => inputNames.includes(n));
+        names = inputNames;
+        selectedNames = newSelected;
+      }
+
+      spinWheelBtn.addEventListener('click', () => {
+        if (isSpinning || names.length === 0 || selectedNames.length === names.length) return;
+        isSpinning = true;
+        resultElem.textContent = '';
+        spinWheelBtn.disabled = true;
+        wheelContainer.classList.add('spinning');
+
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * names.length);
+        } while (selectedNames.includes(names[randomIndex]));
+
+        const selectedName = names[randomIndex];
+        const segmentAngle = (2 * Math.PI) / names.length;
+        const targetAngle = -(segmentAngle * randomIndex + segmentAngle / 2) - Math.PI / 2;
+        const fullSpins = 20 + Math.floor(Math.random() * 11);
+        const finalRotation = (fullSpins * 2 * Math.PI) + targetAngle;
+
+        canvas.style.transition = 'transform 8s cubic-bezier(0.17, 0.67, 0.15, 1)';
+        canvas.style.transform = `rotate(${finalRotation}rad)`;
+
+        setTimeout(() => {
+          isSpinning = false;
+          wheelContainer.classList.remove('spinning');
+          selectedNames.push(selectedName);
+          resultElem.textContent = `🏆 Victoire d'étape : ${selectedName} !`;
+          updateNamesList();
+          drawWheel();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          spinWheelBtn.textContent = spinWheelBtn.disabled
+            ? "🏁 Arrivée à Paris"
+            : `🚴 Départ de l'étape ! (${names.length - selectedNames.length} en course)`;
+
+          showVictoryCelebration(selectedName);
+        }, 8000);
+      });
+
+      // ============================================
+      // CÉLÉBRATION DE VICTOIRE : popup + confettis
+      // ============================================
+      const confettiColors = ['#fce300', '#35a848', '#003da5', '#e4003a', '#ffffff', '#ffd700', '#6ea8d8'];
+
+      function showVictoryCelebration(name) {
+        goalNameElem.textContent = `Étape pour ${name}`;
+        goalOverlay.classList.add('active');
+        launchConfetti();
+      }
+
+      function hideVictoryCelebration() {
+        goalOverlay.classList.remove('active');
+        stopConfetti();
+      }
+
+      goalOverlay.addEventListener('click', hideVictoryCelebration);
+
+      function launchConfetti() {
+        stopConfetti();
+        for (let wave = 0; wave < 6; wave++) {
+          const timer = setTimeout(() => {
+            for (let i = 0; i < 25; i++) {
+              createConfettiPiece();
+            }
+          }, wave * 450);
+          confettiTimers.push(timer);
+        }
+      }
+
+      function stopConfetti() {
+        confettiTimers.forEach(t => clearTimeout(t));
+        confettiTimers = [];
+        document.querySelectorAll('.confetti').forEach(c => c.remove());
+      }
+
+      function createConfettiPiece() {
+        const piece = document.createElement('div');
+        piece.className = 'confetti';
+        const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        const isCircle = Math.random() > 0.5;
+        const size = 7 + Math.random() * 9;
+        const startX = Math.random() * window.innerWidth;
+        const drift = (Math.random() - 0.5) * 250;
+        const duration = 2200 + Math.random() * 1800;
+        const rotations = 360 + Math.random() * 720;
+
+        piece.style.left = startX + 'px';
+        piece.style.width = size + 'px';
+        piece.style.height = (isCircle ? size : size * 0.55) + 'px';
+        piece.style.background = color;
+        piece.style.borderRadius = isCircle ? '50%' : '2px';
+
+        document.body.appendChild(piece);
+
+        const anim = piece.animate([
+          {
+            transform: `translate(0, 0) rotate(0deg)`,
+            opacity: 1
+          },
+          {
+            transform: `translate(${drift}px, ${window.innerHeight + 50}px) rotate(${rotations}deg)`,
+            opacity: 0.7
+          }
+        ], {
+          duration: duration,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        });
+
+        anim.onfinish = () => piece.remove();
+      }
+
+      resetWheelBtn.addEventListener('click', () => {
+        selectedNames = [];
+        spinWheelBtn.disabled = false;
+        spinWheelBtn.textContent = "🚴 Départ de l'étape !";
+        createWheelBtn.disabled = false;
+        exportStateBtn.disabled = false;
+        initialized = false;
+        canvas.style.transition = 'none';
+        canvas.style.transform = 'rotate(0rad)';
+        drawWheel();
+        updateNamesList();
+        resultElem.textContent = '';
+        hideVictoryCelebration();
+      });
+
+      exportStateBtn.addEventListener('click', () => {
+        const data = `${names.join(';')}\nPASSED:${selectedNames.join(';')}`;
+        const blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'etat_roue.txt';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+
+      importStateBtn.addEventListener('click', () => importFileInput.click());
+
+      importFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const content = e.target.result.trim();
+          const lines = content.split('\n');
+          if (lines.length < 1) return;
+          names = lines[0].split(';').map(name => name.trim()).filter(name => name.length > 0);
+          selectedNames = lines[1]?.startsWith('PASSED:') ? lines[1].substring(7).split(';').map(n => n.trim()) : [];
+          namesInput.value = names.join(';');
+          initialized = true;
+          drawWheel();
+          updateNamesList();
+          spinWheelBtn.disabled = selectedNames.length >= names.length;
+          resetWheelBtn.disabled = false;
+          createWheelBtn.disabled = true;
+          exportStateBtn.disabled = false;
+          resultElem.textContent = '';
+        };
+        reader.readAsText(file);
+      });
+
+      function drawWheel() {
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) - 10;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (names.length === 0) {
+          // Roue de vélo vide : jante + rayons
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+          ctx.fillStyle = '#f8f6f0';
+          ctx.fill();
+          ctx.strokeStyle = '#232427';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+          // Rayons
+          ctx.strokeStyle = '#9aa0a8';
+          ctx.lineWidth = 2;
+          for (let s = 0; s < 12; s++) {
+            const ang = s * Math.PI / 6;
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + Math.cos(ang) * radius * 0.95, centerY + Math.sin(ang) * radius * 0.95);
+            ctx.stroke();
+          }
+          drawHub(centerX, centerY);
+          return;
+        }
+
+        const segmentAngle = (2 * Math.PI) / names.length;
+        const angleOffset = Math.PI / 2;
+
+        for (let i = 0; i < names.length; i++) {
+          const startAngle = i * segmentAngle + angleOffset;
+          const endAngle = (i + 1) * segmentAngle + angleOffset;
+          const colorKey = colors[i % colors.length];
+          const isPois = colorKey === '#POIS#';
+          const segmentColor = isPois ? '#f8f6f0' : colorKey;
+          const isSelected = selectedNames.includes(names[i]);
+
+          const gradient = ctx.createRadialGradient(centerX, centerY, radius * 0.15, centerX, centerY, radius);
+          if (isSelected) {
+            gradient.addColorStop(0, '#a8aaa5');
+            gradient.addColorStop(1, '#7d807a');
+          } else {
+            gradient.addColorStop(0, shadeColor(segmentColor, 15));
+            gradient.addColorStop(0.6, segmentColor);
+            gradient.addColorStop(1, shadeColor(segmentColor, -18));
+          }
+
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+          ctx.closePath();
+          ctx.fillStyle = gradient;
+          ctx.fill();
+
+          // Pois rouges sur les segments "maillot à pois"
+          if (isPois && !isSelected) {
+            ctx.save();
+            ctx.clip();
+            ctx.fillStyle = '#e4003a';
+            const midAngle = startAngle + segmentAngle / 2;
+            for (let ring = 0.35; ring <= 0.85; ring += 0.18) {
+              const dotCount = Math.max(1, Math.floor(segmentAngle * ring * radius / 26));
+              for (let d = 0; d < dotCount; d++) {
+                const a = startAngle + segmentAngle * (d + 0.5) / dotCount;
+                const dx = centerX + Math.cos(a) * radius * ring;
+                const dy = centerY + Math.sin(a) * radius * ring;
+                ctx.beginPath();
+                ctx.arc(dx, dy, 5, 0, 2 * Math.PI);
+                ctx.fill();
+              }
+            }
+            ctx.restore();
+            // re-trace le contour du segment après le clip
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+            ctx.closePath();
+          }
+
+          // Bordure blanche
+          ctx.strokeStyle = '#fdfcf6';
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+
+          // Texte du prénom
+          ctx.save();
+          ctx.translate(centerX, centerY);
+          ctx.rotate(startAngle + segmentAngle / 2);
+          ctx.textAlign = 'right';
+          ctx.fillStyle = isSelected ? '#555' : getTextColor(colorKey);
+          ctx.font = 'bold 15px Montserrat, Arial';
+
+          if (!isSelected && getTextColor(colorKey) === '#fdfcf6') {
+            ctx.shadowColor = 'rgba(0,0,0,0.6)';
+            ctx.shadowBlur = 3;
+          }
+          // Halo blanc pour la lisibilité sur le segment à pois
+          if (!isSelected && isPois) {
+            ctx.shadowColor = 'rgba(248, 246, 240, 0.95)';
+            ctx.shadowBlur = 5;
+          }
+
+          const textMaxLength = radius * 0.75;
+          let fontSize = 15;
+          if (ctx.measureText(names[i]).width > textMaxLength) {
+            fontSize = Math.floor(fontSize * (textMaxLength / ctx.measureText(names[i]).width));
+            ctx.font = `bold ${fontSize}px Montserrat, Arial`;
+          }
+          ctx.fillText(names[i], radius - 20, 5);
+          ctx.shadowBlur = 0;
+          ctx.restore();
+        }
+
+        drawHub(centerX, centerY);
+      }
+
+      // Moyeu de roue de vélo avec rayons
+      function drawHub(centerX, centerY) {
+        const hubRadius = 30;
+
+        // Rayons courts autour du moyeu
+        ctx.strokeStyle = '#c8cacd';
+        ctx.lineWidth = 2.5;
+        for (let s = 0; s < 10; s++) {
+          const ang = s * Math.PI / 5 + Math.PI / 10;
+          ctx.beginPath();
+          ctx.moveTo(centerX + Math.cos(ang) * hubRadius * 0.5, centerY + Math.sin(ang) * hubRadius * 0.5);
+          ctx.lineTo(centerX + Math.cos(ang) * (hubRadius + 12), centerY + Math.sin(ang) * (hubRadius + 12));
+          ctx.stroke();
+        }
+
+        // Corps du moyeu (métal)
+        const hubGradient = ctx.createRadialGradient(centerX - 7, centerY - 7, 3, centerX, centerY, hubRadius);
+        hubGradient.addColorStop(0, '#e8eaec');
+        hubGradient.addColorStop(0.5, '#b8bcc0');
+        hubGradient.addColorStop(1, '#7d8288');
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, hubRadius, 0, 2 * Math.PI);
+        ctx.fillStyle = hubGradient;
+        ctx.fill();
+        ctx.strokeStyle = '#4a4d52';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // Écrou central hexagonal
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const angle = i * Math.PI / 3;
+          const x = centerX + Math.cos(angle) * 11;
+          const y = centerY + Math.sin(angle) * 11;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.fillStyle = '#4a4d52';
+        ctx.fill();
+        ctx.strokeStyle = '#232427';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Reflet
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 4, 0, 2 * Math.PI);
+        ctx.fillStyle = '#fce300';
+        ctx.fill();
+
+        // Anneau jaune autour du moyeu
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, hubRadius + 3, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#fce300';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+      }
+
+      function shadeColor(color, percent) {
+        const f = parseInt(color.slice(1), 16);
+        const t = percent < 0 ? 0 : 255;
+        const p = Math.abs(percent) / 100;
+        const R = f >> 16;
+        const G = (f >> 8) & 0x00FF;
+        const B = f & 0x0000FF;
+        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
+          (Math.round((t - G) * p) + G) * 0x100 +
+          (Math.round((t - B) * p) + B)).toString(16).slice(1);
+      }
+
+      function updateNamesList() {
+        namesListElem.innerHTML = '';
+        names.forEach((name, index) => {
+          const div = document.createElement('div');
+          div.className = 'name-item';
+
+          // Dossard numéroté (purement décoratif)
+          const dossard = document.createElement('span');
+          dossard.className = 'dossard';
+          dossard.textContent = index + 1;
+
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.checked = selectedNames.includes(name);
+          checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+              if (!selectedNames.includes(name)) selectedNames.push(name);
+            } else {
+              selectedNames = selectedNames.filter(n => n !== name);
+            }
+            drawWheel();
+            updateNamesList();
+            spinWheelBtn.disabled = selectedNames.length >= names.length;
+          });
+
+          const label = document.createElement('label');
+          label.textContent = name;
+          if (checkbox.checked) label.classList.add('selected');
+
+          div.appendChild(dossard);
+          div.appendChild(checkbox);
+          div.appendChild(label);
+          namesListElem.appendChild(div);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
